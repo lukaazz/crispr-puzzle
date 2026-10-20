@@ -42,6 +42,11 @@ func configurar_fase(numero: int, liberada: bool, concluida: bool) -> void:
 	_atualizar_visual()
 
 
+func definir_desabilitado(valor: bool) -> void:
+	disabled = valor
+	_atualizar_visual()
+
+
 func _atualizar_visual() -> void:
 	if disabled:
 		visual.cor_placeholder = COR_BLOQUEADO

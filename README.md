@@ -31,13 +31,13 @@ Cas9 é guiada por um RNA guia e corta o DNA no local-alvo; a célula realiza
 o reparo. O pareamento é uma atividade educativa sobre complementaridade;
 não representa literalmente o mecanismo celular de reparo.
 
-Este marco permite explorar e reparar o caminho com um puzzle de pareamento.
+Este marco permite explorar e reparar o caminho com pareamento ou pergunta.
 Depois de reparar todos os trechos, tocar o marcador **FIM** conclui a fase,
 salva o progresso, libera a seguinte e retorna automaticamente ao seletor.
 Não é necessário pressionar E no marcador. Na fase 10, a conclusão é salva
 sem criar uma fase 11. Rejogar uma fase concluída preserva os desbloqueios.
 O JSON contém as dez configurações: número, dificuldade, tipos de puzzle
-(`pareamento_bases` neste marco), quantidade de trechos danificados (um por fase), quantidade
+(`pareamento_bases` e `pergunta`), quantidade de trechos danificados (um por fase), quantidade
 de pares e sequência repetida na fita superior. A fita inferior é gerada
 por complementaridade.
 
@@ -47,7 +47,9 @@ O trecho danificado é um StaticBody2D que bloqueia Cas9 nos dois sentidos.
 Perto dele, use **E**, ação `interagir` do Input Map, para abrir o puzzle.
 A dica mostra o mapeamento atual da ação. Longe do dano, a ação não faz nada.
 
-A fase instancia o puzzle sobre a tela atual e suspende o movimento.
+A fase sorteia um dos tipos permitidos em `tipos_puzzle`, instancia o puzzle
+sobre a tela atual e suspende o movimento. As instruções abaixo descrevem o
+pareamento; o tipo pergunta está explicado na próxima seção.
 Escolha uma base de cada lado, usando o mouse ou Tab/setas e a ação padrão
 de confirmação. A combina com T e G combina com C, também na ordem inversa.
 Qualquer cópia da base complementar é válida: não há pares ocultos por índice.
@@ -79,7 +81,8 @@ Os reparos duram durante essa visita à fase; sair e entrar novamente recria
 os danos. Sair antes de alcançar FIM não marca a fase como concluída.
 Conclusões e desbloqueios já salvos continuam preservados.
 
-Teste com **F5 → Jogar → Fase 1**:
+Teste com **F5 → Jogar → Fase 1**. Para testar apenas pareamento, configure
+`"tipos_puzzle": ["pareamento_bases"]` na fase desejada:
 
 1. Caminhe para a direita até o trecho vermelho, aproximadamente no meio
    da fita, e confira que ele impede a passagem.
@@ -99,6 +102,48 @@ O marcador verifica todos os trechos, inclusive quando o JSON configura mais
 de um dano. Chegar a ele com algum dano pendente não conclui a fase.
 Uma fase configurada sem danos pode ser concluída diretamente em FIM.
 
+### Perguntas de múltipla escolha
+
+`scenes/puzzles/pergunta.tscn` usa a mesma interface
+`setup(dificuldade: int)` e `puzzle_concluido(sucesso: bool)`.
+O conteúdo vem exclusivamente de `data/perguntas.json`, com 15 exemplos
+de biologia molecular e genética, em linguagem de ensino médio.
+
+Cada entrada tem:
+
+| Campo | Formato |
+| --- | --- |
+| `enunciado` | Texto da pergunta |
+| `alternativas` | Lista de textos; os exemplos têm quatro opções |
+| `indice_correto` | Índice começando em **0**: 0 é a primeira alternativa |
+| `dificuldade` | Inteiro entre 1 e 10 |
+| `explicacao` | Texto apresentado após qualquer resposta |
+
+O sorteio usa o maior nível disponível que não ultrapasse a dificuldade
+recebida. Por exemplo, dificuldade 3 sorteia entre as perguntas de nível 3;
+se esse nível não existir, procura o nível inferior mais próximo.
+As alternativas mantêm a ordem do JSON. Entradas inválidas são ignoradas;
+se não houver pergunta elegível, aparece um aviso e o jogador pode sair.
+
+Clique numa alternativa ou confirme pelo teclado. A resposta fica bloqueada
+e a tela mostra se houve acerto, a alternativa correta e a explicação.
+O botão **Continuar** só aparece depois de responder: ele devolve o controle
+à fase e emite sucesso apenas se a resposta estava correta. Uma resposta
+errada mantém o trecho bloqueado, permitindo nova tentativa ao interagir.
+**Sair do puzzle**, antes de responder, também mantém o dano.
+O texto possui rolagem para permitir ler explicações maiores.
+
+Para testar:
+
+1. Configure temporariamente `"tipos_puzzle": ["pergunta"]` na fase 1, ou
+   abra `scenes/puzzles/pergunta.tscn` no editor e pressione F6 para inspecionar
+   a tela isolada (sem a fase para consumir o sinal e fechá-la).
+2. Com F5, entre na fase e interaja no dano. Responda errado: leia a explicação,
+   clique em Continuar e confirme que a passagem continua bloqueada.
+3. Tente novamente e acerte: a explicação deve permanecer até Continuar;
+   só então o trecho é reparado.
+4. Restaure os dois tipos no JSON para voltar ao sorteio entre puzzles.
+
 ### Assets da fase
 
 Todos são opcionais e usam VisualSlot. Arquivos em `assets/sprites/<id>.png`.
@@ -111,7 +156,7 @@ Todos são opcionais e usam VisualSlot. Arquivos em `assets/sprites/<id>.png`.
 | `dna/trecho_saudavel` | Segmentos que formam o caminho | 80 × 224 |
 | `dna/trecho_danificado` | Bloqueio; placeholder vermelho/DANO | 80 × 224 |
 | `dna/trecho_reparado` | Passagem liberada; placeholder verde/OK | 80 × 224 |
-| `fundos/fundo_puzzle` | Fundo do pareamento | 1280 × 720 |
+| `fundos/fundo_puzzle` | Fundo do pareamento e da pergunta | 1280 × 720 |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo da fase atual | 1280 × 720 |
 | `ui/marcador_fim` | Marcador de chegada; placeholder azul com FIM | 80 × 96 |
 

@@ -26,8 +26,8 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | `dna/base_c` | Citosina na fita e no puzzle, azul, letra C | 64 × 64 | Sim |
 | `dna/trecho_saudavel` | Segmentos contíguos do caminho de DNA | 80 × 224 | Sim |
 | `dna/trecho_danificado` | Trecho que bloqueia Cas9; placeholder vermelho/DANO | 80 × 224 | Sim |
-| `dna/trecho_reparado` | Trecho após completar os pares, sem colisão; placeholder verde/OK | 80 × 224 | Sim |
-| `fundos/fundo_puzzle` | Fundo do pareamento de bases | 1280 × 720 | Sim |
+| `dna/trecho_reparado` | Trecho após sucesso no puzzle, sem colisão; placeholder verde/OK | 80 × 224 | Sim |
+| `fundos/fundo_puzzle` | Fundo do pareamento e da pergunta | 1280 × 720 | Sim |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo correspondente à fase selecionada | 1280 × 720 | Sim |
 
 Os botões do menu usam Assets e StyleBoxTexture, com repetição ajustada ao retângulo.
@@ -41,6 +41,9 @@ Na fase, as letras A/T/G/C permanecem sobre as imagens para facilitar a
 leitura dos pares. A animação de Cas9 pausa ao parar, inclusive nas extremidades.
 O botão Voltar ao seletor usa os ids de botão existentes em 260 × 56.
 O botão Sair do puzzle reutiliza `ui/botao_normal` e `ui/botao_hover` em 280 × 56.
+O puzzle de pergunta reutiliza esses ids nas alternativas (mínimo 1000 × 64)
+e em Continuar (280 × 56). Após responder, as alternativas usam
+`ui/botao_bloqueado`. Todos esses botões mantêm o placeholder via VisualSlot.
 As bases do pareamento usam os mesmos ids da fita em VisualSlots de 64 × 64,
 dentro de botões de 96 × 72. Colchetes indicam seleção, `>` indica foco/mouse
 e OK identifica uma base pareada. As letras continuam visíveis sobre a arte.

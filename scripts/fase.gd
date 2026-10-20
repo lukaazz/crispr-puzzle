@@ -3,9 +3,11 @@ extends Node2D
 const TipoVisualSlot = preload("res://scripts/componentes/visual_slot.gd")
 const TipoCas9 = preload("res://scripts/cas9.gd")
 const TipoTrecho = preload("res://scripts/trecho_danificado.gd")
-const TipoPuzzle = preload("res://scripts/puzzles/pareamento_bases.gd")
 const CENA_TRECHO: PackedScene = preload("res://scenes/trecho_danificado.tscn")
-const CENA_PUZZLE: PackedScene = preload("res://scenes/puzzles/pareamento_bases.tscn")
+const CENAS_PUZZLE: Dictionary = {
+	"pareamento_bases": preload("res://scenes/puzzles/pareamento_bases.tscn"),
+	"pergunta": preload("res://scenes/puzzles/pergunta.tscn"),
+}
 const CENA_VISUAL: PackedScene = preload("res://scenes/componentes/visual_slot.tscn")
 const CENA_MARCADOR: PackedScene = preload("res://scenes/marcador_fim.tscn")
 const ARQUIVO_FASES: String = "res://data/fases.json"
@@ -25,7 +27,8 @@ const DISTANCIA_INTERACAO: float = 120.0
 
 var _trechos: Array[TipoTrecho] = []
 var _trecho_em_reparo: TipoTrecho = null
-var _puzzle: TipoPuzzle = null
+var _puzzle: CanvasLayer = null
+var _tipos_puzzle: Array[String] = []
 var _dificuldade: int = 1
 var _conclusao_iniciada: bool = false
 var _marcador: Area2D = null
@@ -48,6 +51,11 @@ func _ready() -> void:
 	var sequencia: String = str(configuracao["sequencia"])
 	var quantidade: int = int(configuracao["quantidade_pares"])
 	_dificuldade = int(configuracao.get("dificuldade", 1))
+	for tipo: String in configuracao.get("tipos_puzzle", []):
+		if CENAS_PUZZLE.has(tipo):
+			_tipos_puzzle.append(tipo)
+	if _tipos_puzzle.is_empty():
+		_tipos_puzzle.append("pareamento_bases")
 	var quantidade_danos: int = clampi(int(configuracao.get("trechos_danificados", 0)), 0, quantidade - 2)
 	var indices_danos: Array[int] = []
 	for dano: int in range(quantidade_danos):
@@ -83,7 +91,7 @@ func _process(_delta: float) -> void:
 	if _trecho_proximo() != null:
 		var eventos: Array[InputEvent] = InputMap.action_get_events("interagir")
 		var tecla: String = eventos[0].as_text() if not eventos.is_empty() else "interagir"
-		aviso.text = "Trecho danificado. Use %s para parear as bases." % tecla
+		aviso.text = "Trecho danificado. Use %s para abrir um puzzle." % tecla
 	elif _marcador != null:
 		aviso.text = "Caminho liberado! Alcance o marcador FIM para concluir a fase." if _todos_trechos_reparados() else "Repare todos os trechos antes de alcancar o marcador FIM."
 
@@ -128,9 +136,11 @@ func _unhandled_input(evento: InputEvent) -> void:
 		return
 	get_viewport().set_input_as_handled()
 	_trecho_em_reparo = trecho
-	_puzzle = CENA_PUZZLE.instantiate() as TipoPuzzle
-	_puzzle.setup(_dificuldade)
-	_puzzle.puzzle_concluido.connect(_ao_puzzle_concluido)
+	var tipo: String = _tipos_puzzle[randi_range(0, _tipos_puzzle.size() - 1)]
+	var cena: PackedScene = CENAS_PUZZLE[tipo]
+	_puzzle = cena.instantiate() as CanvasLayer
+	_puzzle.call("setup", _dificuldade)
+	_puzzle.connect("puzzle_concluido", _ao_puzzle_concluido)
 	jogador.definir_movimento_ativo(false)
 	$interface/conteudo.hide()
 	add_child(_puzzle)
