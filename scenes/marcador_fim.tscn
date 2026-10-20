@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="1"]
+
+[sub_resource type="RectangleShape2D" id="chegada"]
+size = Vector2(64, 96)
+
+[node name="marcador_fim" type="Area2D"]
+collision_layer = 0
+collision_mask = 1
+monitorable = false
+
+[node name="colisao" type="CollisionShape2D" parent="."]
+shape = SubResource("chegada")
+
+[node name="visual" parent="." instance=ExtResource("1")]
+offset_left = -40.0
+offset_top = -48.0
+offset_right = 40.0
+offset_bottom = 48.0
+id_visual = "ui/marcador_fim"
+tamanho_padrao = Vector2(80, 96)
+cor_placeholder = Color(0.15, 0.5, 0.65, 1)
+texto_placeholder = "FIM"

@@ -7,6 +7,7 @@ const TipoPuzzle = preload("res://scripts/puzzles/puzzle_teste.gd")
 const CENA_TRECHO: PackedScene = preload("res://scenes/trecho_danificado.tscn")
 const CENA_PUZZLE: PackedScene = preload("res://scenes/puzzles/puzzle_teste.tscn")
 const CENA_VISUAL: PackedScene = preload("res://scenes/componentes/visual_slot.tscn")
+const CENA_MARCADOR: PackedScene = preload("res://scenes/marcador_fim.tscn")
 const ARQUIVO_FASES: String = "res://data/fases.json"
 const COMPLEMENTOS: Dictionary = {"A": "T", "T": "A", "G": "C", "C": "G"}
 const CORES: Dictionary = {
@@ -26,6 +27,8 @@ var _trechos: Array[TipoTrecho] = []
 var _trecho_em_reparo: TipoTrecho = null
 var _puzzle: TipoPuzzle = null
 var _dificuldade: int = 1
+var _conclusao_iniciada: bool = false
+var _marcador: Area2D = null
 
 @onready var fita: Node2D = $fita
 @onready var jogador: TipoCas9 = $cas9
@@ -64,6 +67,10 @@ func _ready() -> void:
 		_criar_base(base, Vector2(x, ALTURA_CAMINHO - DESLOCAMENTO_BASE))
 		_criar_base(COMPLEMENTOS[base], Vector2(x, ALTURA_CAMINHO + DESLOCAMENTO_BASE))
 	var fim: float = MARGEM + (quantidade - 1) * PASSO_PAR
+	_marcador = CENA_MARCADOR.instantiate() as Area2D
+	_marcador.position = Vector2(fim, ALTURA_CAMINHO)
+	_marcador.body_entered.connect(_ao_entrar_no_fim)
+	add_child(_marcador)
 	jogador.configurar_caminho(MARGEM, fim, ALTURA_CAMINHO)
 	camera.limit_left = 0
 	camera.limit_right = maxi(LARGURA_TELA, int(fim + MARGEM))
@@ -71,18 +78,39 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	if _puzzle != null:
+	if _puzzle != null or _conclusao_iniciada:
 		return
 	if _trecho_proximo() != null:
 		var eventos: Array[InputEvent] = InputMap.action_get_events("interagir")
 		var tecla: String = eventos[0].as_text() if not eventos.is_empty() else "interagir"
 		aviso.text = "Trecho danificado. Use %s para abrir o puzzle de teste." % tecla
-	elif not _trechos.is_empty():
-		var restantes: int = 0
-		for trecho: TipoTrecho in _trechos:
-			if not trecho.reparado:
-				restantes += 1
-		aviso.text = "Caminho liberado! Continue explorando a fita." if restantes == 0 else "Encontre e repare os trechos danificados para liberar a passagem."
+	elif _marcador != null:
+		aviso.text = "Caminho liberado! Alcance o marcador FIM para concluir a fase." if _todos_trechos_reparados() else "Repare todos os trechos antes de alcancar o marcador FIM."
+
+
+func _todos_trechos_reparados() -> bool:
+	for trecho: TipoTrecho in _trechos:
+		if not trecho.reparado:
+			return false
+	return true
+
+
+func _ao_entrar_no_fim(corpo: Node2D) -> void:
+	if corpo != jogador or _puzzle != null or _conclusao_iniciada:
+		return
+	if not _todos_trechos_reparados():
+		return
+	_conclusao_iniciada = true
+	jogador.definir_movimento_ativo(false)
+	# A troca de cena ocorre fora do callback de fisica da Area2D.
+	_concluir_fase.call_deferred()
+
+
+func _concluir_fase() -> void:
+	GameState.concluir_fase(GameState.fase_atual)
+	if SceneRouter.ir_para_seletor_fases() != OK:
+		aviso.text = "Fase concluida. Use Voltar ao seletor para tentar retornar."
+		jogador.definir_movimento_ativo(true)
 
 
 func _trecho_proximo() -> TipoTrecho:
@@ -93,7 +121,7 @@ func _trecho_proximo() -> TipoTrecho:
 
 
 func _unhandled_input(evento: InputEvent) -> void:
-	if _puzzle != null or not evento.is_action_pressed("interagir") or evento.is_echo():
+	if _puzzle != null or _conclusao_iniciada or not evento.is_action_pressed("interagir") or evento.is_echo():
 		return
 	var trecho: TipoTrecho = _trecho_proximo()
 	if trecho == null:
@@ -118,6 +146,8 @@ func _ao_puzzle_concluido(sucesso: bool) -> void:
 	_trecho_em_reparo = null
 	$interface/conteudo.show()
 	jogador.definir_movimento_ativo(true)
+	if _marcador != null and _marcador.overlaps_body(jogador):
+		_ao_entrar_no_fim(jogador)
 
 
 func _criar_visual(id: String, centro: Vector2, tamanho: Vector2, cor: Color) -> TipoVisualSlot:

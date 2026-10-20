@@ -17,6 +17,7 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | `ui/botao_bloqueado` | Fases bloqueadas no seletor | 180 × 130 | Sim |
 | `ui/icone_cadeado` | Fases bloqueadas; placeholder X e texto Bloqueada | 36 × 36 | Sim |
 | `ui/icone_fase_concluida` | Fases concluídas; placeholder OK e texto Concluida | 36 × 36 | Sim |
+| `ui/marcador_fim` | Chegada na extremidade direita da fita; placeholder azul/FIM | 80 × 96 | Sim |
 | `player/cas9` | Personagem na fita; placeholder Cas9 | 96 × 96 | Sim |
 | `player/cas9_andando_1` … `player/cas9_andando_N` | Animação durante o movimento | 96 × 96 por quadro | Sim |
 | `dna/base_a` | Adenina, verde, letra A | 64 × 64 | Sim |

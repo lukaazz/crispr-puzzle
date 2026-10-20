@@ -31,7 +31,10 @@ Cas9 é guiada por um RNA guia e corta o DNA no local-alvo; a célula realiza
 o reparo. O botão do puzzle de teste representa apenas a conclusão desse desafio.
 
 Este marco permite explorar e reparar o caminho com um puzzle de teste.
-Chegar ao fim ainda não conclui a fase nem libera a próxima.
+Depois de reparar todos os trechos, tocar o marcador **FIM** conclui a fase,
+salva o progresso, libera a seguinte e retorna automaticamente ao seletor.
+Não é necessário pressionar E no marcador. Na fase 10, a conclusão é salva
+sem criar uma fase 11. Rejogar uma fase concluída preserva os desbloqueios.
 O JSON contém as dez configurações: número, dificuldade, tipos de puzzle
 (`teste` neste marco), quantidade de trechos danificados (um por fase), quantidade
 de pares e sequência repetida na fita superior. A fita inferior é gerada
@@ -51,7 +54,8 @@ devolve o controle a Cas9 na mesma posição. Repetir a interação em um trecho
 reparado não reabre o puzzle.
 
 Os reparos duram durante essa visita à fase; sair e entrar novamente recria
-os danos. O save de progresso continua preservado, sem marcar conclusão.
+os danos. Sair antes de alcançar FIM não marca a fase como concluída.
+Conclusões e desbloqueios já salvos continuam preservados.
 
 Teste com **F5 → Jogar → Fase 1**:
 
@@ -61,7 +65,14 @@ Teste com **F5 → Jogar → Fase 1**:
 3. Clique em Consertar: o trecho fica verde/OK, o puzzle fecha e o personagem
    pode atravessar nos dois sentidos.
 4. Pressione E novamente perto do trecho reparado: nada deve abrir.
-5. Volte ao seletor e entre novamente para repetir o teste.
+5. Continue até FIM: o seletor deve abrir com a fase 1 concluída e a fase 2
+   liberada. Reinicie o jogo e confira que esses estados persistem.
+6. Reentre na fase 1: o dano reaparece para a nova tentativa, mas o progresso
+   salvo permanece. Voltar ao seletor antes de FIM não conclui uma fase nova.
+
+O marcador verifica todos os trechos, inclusive quando o JSON configura mais
+de um dano. Chegar a ele com algum dano pendente não conclui a fase.
+Uma fase configurada sem danos pode ser concluída diretamente em FIM.
 
 ### Assets da fase
 
@@ -77,6 +88,7 @@ Todos são opcionais e usam VisualSlot. Arquivos em `assets/sprites/<id>.png`.
 | `dna/trecho_reparado` | Passagem liberada; placeholder verde/OK | 80 × 224 |
 | `fundos/fundo_puzzle` | Fundo do puzzle de teste | 1280 × 720 |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo da fase atual | 1280 × 720 |
+| `ui/marcador_fim` | Marcador de chegada; placeholder azul com FIM | 80 × 96 |
 
 Teste percorrendo a fita nos dois sentidos: a câmera acompanha Cas9,
 o personagem não ultrapassa as extremidades e a interface permanece fixa.
@@ -105,10 +117,8 @@ de importação e recarga.
 2. Use Tab/setas e a ação padrão de confirmação; fases bloqueadas não ativam.
 3. Clique na fase 1, volte ao seletor, depois ao menu e abra Jogar novamente:
    a seleção persiste.
-4. Para testar progressão antes da implementação de conclusão da fase, chame
-   `GameState.concluir_fase(1)` pelo código de teste: fase 1 ganha OK e fase 2
-   fica disponível. Reinicie e confira que os estados persistem.
-   Esse passo altera o save de teste.
+4. Repare o trecho da fase 1 e alcance FIM: fase 1 ganha OK e fase 2 fica
+   disponível. Reinicie e confira que os estados persistem.
 5. Adicione as imagens, aguarde a importação e execute: os placeholders são
    substituídos, mantendo os rótulos dos botões.
 
