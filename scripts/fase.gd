@@ -3,9 +3,9 @@ extends Node2D
 const TipoVisualSlot = preload("res://scripts/componentes/visual_slot.gd")
 const TipoCas9 = preload("res://scripts/cas9.gd")
 const TipoTrecho = preload("res://scripts/trecho_danificado.gd")
-const TipoPuzzle = preload("res://scripts/puzzles/puzzle_teste.gd")
+const TipoPuzzle = preload("res://scripts/puzzles/pareamento_bases.gd")
 const CENA_TRECHO: PackedScene = preload("res://scenes/trecho_danificado.tscn")
-const CENA_PUZZLE: PackedScene = preload("res://scenes/puzzles/puzzle_teste.tscn")
+const CENA_PUZZLE: PackedScene = preload("res://scenes/puzzles/pareamento_bases.tscn")
 const CENA_VISUAL: PackedScene = preload("res://scenes/componentes/visual_slot.tscn")
 const CENA_MARCADOR: PackedScene = preload("res://scenes/marcador_fim.tscn")
 const ARQUIVO_FASES: String = "res://data/fases.json"
@@ -83,7 +83,7 @@ func _process(_delta: float) -> void:
 	if _trecho_proximo() != null:
 		var eventos: Array[InputEvent] = InputMap.action_get_events("interagir")
 		var tecla: String = eventos[0].as_text() if not eventos.is_empty() else "interagir"
-		aviso.text = "Trecho danificado. Use %s para abrir o puzzle de teste." % tecla
+		aviso.text = "Trecho danificado. Use %s para parear as bases." % tecla
 	elif _marcador != null:
 		aviso.text = "Caminho liberado! Alcance o marcador FIM para concluir a fase." if _todos_trechos_reparados() else "Repare todos os trechos antes de alcancar o marcador FIM."
 

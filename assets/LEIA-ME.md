@@ -20,14 +20,14 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | `ui/marcador_fim` | Chegada na extremidade direita da fita; placeholder azul/FIM | 80 × 96 | Sim |
 | `player/cas9` | Personagem na fita; placeholder Cas9 | 96 × 96 | Sim |
 | `player/cas9_andando_1` … `player/cas9_andando_N` | Animação durante o movimento | 96 × 96 por quadro | Sim |
-| `dna/base_a` | Adenina, verde, letra A | 64 × 64 | Sim |
-| `dna/base_t` | Timina, laranja, letra T | 64 × 64 | Sim |
-| `dna/base_g` | Guanina, amarela, letra G | 64 × 64 | Sim |
-| `dna/base_c` | Citosina, azul, letra C | 64 × 64 | Sim |
+| `dna/base_a` | Adenina na fita e no puzzle, verde, letra A | 64 × 64 | Sim |
+| `dna/base_t` | Timina na fita e no puzzle, laranja, letra T | 64 × 64 | Sim |
+| `dna/base_g` | Guanina na fita e no puzzle, amarela, letra G | 64 × 64 | Sim |
+| `dna/base_c` | Citosina na fita e no puzzle, azul, letra C | 64 × 64 | Sim |
 | `dna/trecho_saudavel` | Segmentos contíguos do caminho de DNA | 80 × 224 | Sim |
 | `dna/trecho_danificado` | Trecho que bloqueia Cas9; placeholder vermelho/DANO | 80 × 224 | Sim |
-| `dna/trecho_reparado` | Trecho após Consertar, sem colisão; placeholder verde/OK | 80 × 224 | Sim |
-| `fundos/fundo_puzzle` | Fundo do puzzle de teste | 1280 × 720 | Sim |
+| `dna/trecho_reparado` | Trecho após completar os pares, sem colisão; placeholder verde/OK | 80 × 224 | Sim |
+| `fundos/fundo_puzzle` | Fundo do pareamento de bases | 1280 × 720 | Sim |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo correspondente à fase selecionada | 1280 × 720 | Sim |
 
 Os botões do menu usam Assets e StyleBoxTexture, com repetição ajustada ao retângulo.
@@ -40,7 +40,10 @@ foco por teclado mesmo quando há imagens personalizadas.
 Na fase, as letras A/T/G/C permanecem sobre as imagens para facilitar a
 leitura dos pares. A animação de Cas9 pausa ao parar, inclusive nas extremidades.
 O botão Voltar ao seletor usa os ids de botão existentes em 260 × 56.
-O botão Consertar reutiliza `ui/botao_normal` e `ui/botao_hover` em 280 × 64.
+O botão Sair do puzzle reutiliza `ui/botao_normal` e `ui/botao_hover` em 280 × 56.
+As bases do pareamento usam os mesmos ids da fita em VisualSlots de 64 × 64,
+dentro de botões de 96 × 72. Colchetes indicam seleção, `>` indica foco/mouse
+e OK identifica uma base pareada. As letras continuam visíveis sobre a arte.
 Trechos danificados/reparados e o fundo do puzzle usam VisualSlot; os ids
 podem receber overrides em `data/visuais.json`. A colisão do dano permanece
 80 × 224 independentemente da imagem ou de seus ajustes visuais.

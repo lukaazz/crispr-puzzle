@@ -1,0 +1,93 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/puzzles/pareamento_bases.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/componentes/botao_visual.tscn" id="3"]
+
+[node name="pareamento_bases" type="CanvasLayer"]
+layer = 10
+script = ExtResource("1")
+
+[node name="tela" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="fundo" parent="tela" instance=ExtResource("2")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+tamanho_padrao = Vector2(1280, 720)
+id_visual = "fundos/fundo_puzzle"
+cor_placeholder = Color(0.025, 0.055, 0.1, 1)
+
+[node name="centralizador" type="CenterContainer" parent="tela"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="conteudo" type="VBoxContainer" parent="tela/centralizador"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="titulo" type="Label" parent="tela/centralizador/conteudo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Pareamento de bases"
+horizontal_alignment = 1
+
+[node name="instrucoes" type="Label" parent="tela/centralizador/conteudo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Escolha uma base de cada lado: A com T, G com C.\nUse o mouse ou Tab/setas e a acao de confirmar."
+horizontal_alignment = 1
+
+[node name="listas" type="HBoxContainer" parent="tela/centralizador/conteudo"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 64
+
+[node name="esquerda" type="VBoxContainer" parent="tela/centralizador/conteudo/listas"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="titulo" type="Label" parent="tela/centralizador/conteudo/listas/esquerda"]
+layout_mode = 2
+text = "Bases"
+horizontal_alignment = 1
+
+[node name="grade" type="GridContainer" parent="tela/centralizador/conteudo/listas/esquerda"]
+layout_mode = 2
+columns = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+
+[node name="direita" type="VBoxContainer" parent="tela/centralizador/conteudo/listas"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="titulo" type="Label" parent="tela/centralizador/conteudo/listas/direita"]
+layout_mode = 2
+text = "Complementos"
+horizontal_alignment = 1
+
+[node name="grade" type="GridContainer" parent="tela/centralizador/conteudo/listas/direita"]
+layout_mode = 2
+columns = 3
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 12
+
+[node name="progresso" type="Label" parent="tela/centralizador/conteudo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="sair" parent="tela/centralizador/conteudo" instance=ExtResource("3")]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(280, 56)
+rotulo = "Sair do puzzle"

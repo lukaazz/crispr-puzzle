@@ -28,27 +28,49 @@ Cas9 é um CharacterBody2D com movimento horizontal limitado à fita.
 Cada par mostra bases complementares A–T ou G–C, com cores distintas e
 letras visíveis mesmo quando há imagens. A representação é esquemática:
 Cas9 é guiada por um RNA guia e corta o DNA no local-alvo; a célula realiza
-o reparo. O botão do puzzle de teste representa apenas a conclusão desse desafio.
+o reparo. O pareamento é uma atividade educativa sobre complementaridade;
+não representa literalmente o mecanismo celular de reparo.
 
-Este marco permite explorar e reparar o caminho com um puzzle de teste.
+Este marco permite explorar e reparar o caminho com um puzzle de pareamento.
 Depois de reparar todos os trechos, tocar o marcador **FIM** conclui a fase,
 salva o progresso, libera a seguinte e retorna automaticamente ao seletor.
 Não é necessário pressionar E no marcador. Na fase 10, a conclusão é salva
 sem criar uma fase 11. Rejogar uma fase concluída preserva os desbloqueios.
 O JSON contém as dez configurações: número, dificuldade, tipos de puzzle
-(`teste` neste marco), quantidade de trechos danificados (um por fase), quantidade
+(`pareamento_bases` neste marco), quantidade de trechos danificados (um por fase), quantidade
 de pares e sequência repetida na fita superior. A fita inferior é gerada
 por complementaridade.
 
-### Trecho danificado e puzzle de teste
+### Trecho danificado e pareamento de bases
 
 O trecho danificado é um StaticBody2D que bloqueia Cas9 nos dois sentidos.
 Perto dele, use **E**, ação `interagir` do Input Map, para abrir o puzzle.
 A dica mostra o mapeamento atual da ação. Longe do dano, a ação não faz nada.
 
-A fase instancia o puzzle sobre a tela atual e suspende o movimento. Clique
-em **Consertar** (ou confirme o botão em foco pelo teclado). O puzzle recebe
-`setup(dificuldade: int)` e emite `puzzle_concluido(sucesso: bool)`.
+A fase instancia o puzzle sobre a tela atual e suspende o movimento.
+Escolha uma base de cada lado, usando o mouse ou Tab/setas e a ação padrão
+de confirmação. A combina com T e G combina com C, também na ordem inversa.
+Qualquer cópia da base complementar é válida: não há pares ocultos por índice.
+Clique novamente na base selecionada para desfazer a seleção, ou escolha
+outra do mesmo lado para substituí-la.
+
+Os pares são sorteados a cada abertura. Uma lista recebe bases aleatórias e
+a outra recebe seus complementos; ambas são embaralhadas, garantindo solução.
+Bases repetidas são permitidas. Um erro mostra a regra e libera nova tentativa,
+sem limite de erros neste marco. Pares corretos ficam desabilitados com OK,
+e o contador mostra quantos faltam. As letras permanecem visíveis sobre os
+VisualSlots, inclusive com imagens personalizadas.
+
+O puzzle recebe `setup(dificuldade: int)` e emite
+`puzzle_concluido(sucesso: bool)` uma única vez por tentativa: `true` ao completar
+todos os pares, ou `false` ao usar **Sair do puzzle**. Sair não repara o dano;
+abrir novamente inicia um novo sorteio.
+
+A dificuldade controla somente a quantidade de pares: `dificuldade + 2`,
+limitando a entrada entre 1 e 10 (3 a 12 pares). A dificuldade vem de
+`data/fases.json`; o campo `quantidade_pares` desse JSON continua sendo o
+comprimento da fita da fase, não o tamanho do puzzle.
+
 A fase recebe o sucesso, remove a colisão, troca o visual para reparado e
 devolve o controle a Cas9 na mesma posição. Repetir a interação em um trecho
 reparado não reabre o puzzle.
@@ -62,13 +84,16 @@ Teste com **F5 → Jogar → Fase 1**:
 1. Caminhe para a direita até o trecho vermelho, aproximadamente no meio
    da fita, e confira que ele impede a passagem.
 2. Pressione E: o puzzle abre uma única vez e Cas9 não se move com A/D.
-3. Clique em Consertar: o trecho fica verde/OK, o puzzle fecha e o personagem
-   pode atravessar nos dois sentidos.
+3. Experimente uma combinação incorreta, quando houver, e confirme que ela
+   não conta como acerto. Complete os pares: o trecho fica verde/OK, o puzzle
+   fecha e o personagem pode atravessar nos dois sentidos.
 4. Pressione E novamente perto do trecho reparado: nada deve abrir.
 5. Continue até FIM: o seletor deve abrir com a fase 1 concluída e a fase 2
    liberada. Reinicie o jogo e confira que esses estados persistem.
 6. Reentre na fase 1: o dano reaparece para a nova tentativa, mas o progresso
    salvo permanece. Voltar ao seletor antes de FIM não conclui uma fase nova.
+7. Use Sair do puzzle durante uma tentativa: o dano deve continuar bloqueado.
+   Reabra e confira o novo sorteio. Na fase 1 são 3 pares; na fase 10 são 12.
 
 O marcador verifica todos os trechos, inclusive quando o JSON configura mais
 de um dano. Chegar a ele com algum dano pendente não conclui a fase.
@@ -86,7 +111,7 @@ Todos são opcionais e usam VisualSlot. Arquivos em `assets/sprites/<id>.png`.
 | `dna/trecho_saudavel` | Segmentos que formam o caminho | 80 × 224 |
 | `dna/trecho_danificado` | Bloqueio; placeholder vermelho/DANO | 80 × 224 |
 | `dna/trecho_reparado` | Passagem liberada; placeholder verde/OK | 80 × 224 |
-| `fundos/fundo_puzzle` | Fundo do puzzle de teste | 1280 × 720 |
+| `fundos/fundo_puzzle` | Fundo do pareamento | 1280 × 720 |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo da fase atual | 1280 × 720 |
 | `ui/marcador_fim` | Marcador de chegada; placeholder azul com FIM | 80 × 96 |
 
