@@ -1,0 +1,76 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/menu.gd" id="1_menu"]
+
+[ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="2_visual"]
+
+[node name="menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu")
+
+[node name="fundo" parent="." instance=ExtResource("2_visual")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 0.0
+offset_bottom = 0.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+id_visual = "fundos/fundo_menu"
+tamanho_padrao = Vector2(1280, 720)
+cor_placeholder = Color(0.035, 0.075, 0.12, 1)
+
+[node name="centralizador" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="conteudo" type="VBoxContainer" parent="centralizador"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="titulo" type="Label" parent="centralizador/conteudo"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.35, 0.9, 0.75, 1)
+theme_override_font_sizes/font_size = 48
+text = "CRISPR Puzzle"
+horizontal_alignment = 1
+
+[node name="subtitulo" type="Label" parent="centralizador/conteudo"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Explore o DNA e resolva desafios de genetica"
+horizontal_alignment = 1
+
+[node name="jogar" type="Button" parent="centralizador/conteudo"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Jogar"
+
+[node name="sair" type="Button" parent="centralizador/conteudo"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Sair"
+
+[node name="aviso" type="Label" parent="centralizador/conteudo"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[connection signal="pressed" from="centralizador/conteudo/jogar" to="." method="_ao_jogar_pressed"]
+[connection signal="pressed" from="centralizador/conteudo/sair" to="." method="_ao_sair_pressed"]

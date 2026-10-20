@@ -11,8 +11,21 @@ config_version=5
 [application]
 
 config/name="Crispr-Puzzzle"
+run/main_scene="res://scenes/menu.tscn"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://scripts/autoload/estado_jogo.gd"
+SceneRouter="*res://scripts/autoload/roteador_cenas.gd"
+Assets="*res://scripts/autoload/assets.gd"
+
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="canvas_items"
 
 [physics]
 
@@ -20,4 +33,5 @@ config/icon="res://icon.svg"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
