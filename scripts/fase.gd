@@ -2,6 +2,10 @@ extends Node2D
 
 const TipoVisualSlot = preload("res://scripts/componentes/visual_slot.gd")
 const TipoCas9 = preload("res://scripts/cas9.gd")
+const TipoTrecho = preload("res://scripts/trecho_danificado.gd")
+const TipoPuzzle = preload("res://scripts/puzzles/puzzle_teste.gd")
+const CENA_TRECHO: PackedScene = preload("res://scenes/trecho_danificado.tscn")
+const CENA_PUZZLE: PackedScene = preload("res://scenes/puzzles/puzzle_teste.tscn")
 const CENA_VISUAL: PackedScene = preload("res://scenes/componentes/visual_slot.tscn")
 const ARQUIVO_FASES: String = "res://data/fases.json"
 const COMPLEMENTOS: Dictionary = {"A": "T", "T": "A", "G": "C", "C": "G"}
@@ -16,6 +20,12 @@ const TAMANHO_BASE: Vector2 = Vector2(64, 64)
 const DESLOCAMENTO_BASE: float = 80.0
 const TAMANHO_TRECHO: Vector2 = Vector2(80, 224)
 const LARGURA_TELA: int = 1280
+const DISTANCIA_INTERACAO: float = 120.0
+
+var _trechos: Array[TipoTrecho] = []
+var _trecho_em_reparo: TipoTrecho = null
+var _puzzle: TipoPuzzle = null
+var _dificuldade: int = 1
 
 @onready var fita: Node2D = $fita
 @onready var jogador: TipoCas9 = $cas9
@@ -34,12 +44,23 @@ func _ready() -> void:
 		return
 	var sequencia: String = str(configuracao["sequencia"])
 	var quantidade: int = int(configuracao["quantidade_pares"])
+	_dificuldade = int(configuracao.get("dificuldade", 1))
+	var quantidade_danos: int = clampi(int(configuracao.get("trechos_danificados", 0)), 0, quantidade - 2)
+	var indices_danos: Array[int] = []
+	for dano: int in range(quantidade_danos):
+		indices_danos.append(roundi(float((dano + 1) * (quantidade - 1)) / (quantidade_danos + 1)))
 	titulo.text = "Fase %d — Explore a fita de DNA" % GameState.fase_atual
 	fundo.id_visual = "fundos/fundo_fase_%02d" % GameState.fase_atual
 	for indice: int in range(quantidade):
 		var x: float = MARGEM + indice * PASSO_PAR
 		var base: String = sequencia.substr(indice % sequencia.length(), 1)
-		_criar_visual("dna/trecho_saudavel", Vector2(x, ALTURA_CAMINHO), TAMANHO_TRECHO, Color(0.07, 0.19, 0.24))
+		if indices_danos.has(indice):
+			var trecho: TipoTrecho = CENA_TRECHO.instantiate() as TipoTrecho
+			trecho.position = Vector2(x, ALTURA_CAMINHO)
+			fita.add_child(trecho)
+			_trechos.append(trecho)
+		else:
+			_criar_visual("dna/trecho_saudavel", Vector2(x, ALTURA_CAMINHO), TAMANHO_TRECHO, Color(0.07, 0.19, 0.24))
 		_criar_base(base, Vector2(x, ALTURA_CAMINHO - DESLOCAMENTO_BASE))
 		_criar_base(COMPLEMENTOS[base], Vector2(x, ALTURA_CAMINHO + DESLOCAMENTO_BASE))
 	var fim: float = MARGEM + (quantidade - 1) * PASSO_PAR
@@ -47,6 +68,56 @@ func _ready() -> void:
 	camera.limit_left = 0
 	camera.limit_right = maxi(LARGURA_TELA, int(fim + MARGEM))
 	camera.reset_smoothing()
+
+
+func _process(_delta: float) -> void:
+	if _puzzle != null:
+		return
+	if _trecho_proximo() != null:
+		var eventos: Array[InputEvent] = InputMap.action_get_events("interagir")
+		var tecla: String = eventos[0].as_text() if not eventos.is_empty() else "interagir"
+		aviso.text = "Trecho danificado. Use %s para abrir o puzzle de teste." % tecla
+	elif not _trechos.is_empty():
+		var restantes: int = 0
+		for trecho: TipoTrecho in _trechos:
+			if not trecho.reparado:
+				restantes += 1
+		aviso.text = "Caminho liberado! Continue explorando a fita." if restantes == 0 else "Encontre e repare os trechos danificados para liberar a passagem."
+
+
+func _trecho_proximo() -> TipoTrecho:
+	for trecho: TipoTrecho in _trechos:
+		if not trecho.reparado and absf(jogador.position.x - trecho.position.x) <= DISTANCIA_INTERACAO:
+			return trecho
+	return null
+
+
+func _unhandled_input(evento: InputEvent) -> void:
+	if _puzzle != null or not evento.is_action_pressed("interagir") or evento.is_echo():
+		return
+	var trecho: TipoTrecho = _trecho_proximo()
+	if trecho == null:
+		return
+	get_viewport().set_input_as_handled()
+	_trecho_em_reparo = trecho
+	_puzzle = CENA_PUZZLE.instantiate() as TipoPuzzle
+	_puzzle.setup(_dificuldade)
+	_puzzle.puzzle_concluido.connect(_ao_puzzle_concluido)
+	jogador.definir_movimento_ativo(false)
+	$interface/conteudo.hide()
+	add_child(_puzzle)
+
+
+func _ao_puzzle_concluido(sucesso: bool) -> void:
+	if _puzzle == null:
+		return
+	if sucesso and is_instance_valid(_trecho_em_reparo):
+		_trecho_em_reparo.reparar()
+	_puzzle.queue_free()
+	_puzzle = null
+	_trecho_em_reparo = null
+	$interface/conteudo.show()
+	jogador.definir_movimento_ativo(true)
 
 
 func _criar_visual(id: String, centro: Vector2, tamanho: Vector2, cor: Color) -> TipoVisualSlot:

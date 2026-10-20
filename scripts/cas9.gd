@@ -18,6 +18,12 @@ func configurar_caminho(inicio: float, fim: float, altura: float) -> void:
 	position = Vector2(inicio, altura)
 
 
+func definir_movimento_ativo(ativo: bool) -> void:
+	set_physics_process(ativo)
+	velocity = Vector2.ZERO
+	visual.definir_animacao_ativa(false)
+
+
 func _physics_process(_delta: float) -> void:
 	var x_anterior: float = position.x
 	var direcao: float = Input.get_axis("mover_esq", "mover_dir")

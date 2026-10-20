@@ -38,6 +38,11 @@ mover_dir={
 "events": [Object(InputEventKey,"physical_keycode":68), Object(InputEventKey,"physical_keycode":4194323)]
 }
 
+interagir={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":69)]
+}
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

@@ -27,15 +27,41 @@ O botão **Voltar ao seletor** retorna sem alterar os desbloqueios.
 Cas9 é um CharacterBody2D com movimento horizontal limitado à fita.
 Cada par mostra bases complementares A–T ou G–C, com cores distintas e
 letras visíveis mesmo quando há imagens. A representação é esquemática:
-Cas9 é guiada por um RNA guia; o corte e o reparo celular serão abordados
-nos próximos marcos.
+Cas9 é guiada por um RNA guia e corta o DNA no local-alvo; a célula realiza
+o reparo. O botão do puzzle de teste representa apenas a conclusão desse desafio.
 
-Este marco permite explorar o caminho, sem puzzles, danos ou conclusão
-automática. Chegar ao fim não libera a próxima fase.
+Este marco permite explorar e reparar o caminho com um puzzle de teste.
+Chegar ao fim ainda não conclui a fase nem libera a próxima.
 O JSON contém as dez configurações: número, dificuldade, tipos de puzzle
-(vazios neste marco), quantidade de trechos danificados (zero), quantidade
+(`teste` neste marco), quantidade de trechos danificados (um por fase), quantidade
 de pares e sequência repetida na fita superior. A fita inferior é gerada
 por complementaridade.
+
+### Trecho danificado e puzzle de teste
+
+O trecho danificado é um StaticBody2D que bloqueia Cas9 nos dois sentidos.
+Perto dele, use **E**, ação `interagir` do Input Map, para abrir o puzzle.
+A dica mostra o mapeamento atual da ação. Longe do dano, a ação não faz nada.
+
+A fase instancia o puzzle sobre a tela atual e suspende o movimento. Clique
+em **Consertar** (ou confirme o botão em foco pelo teclado). O puzzle recebe
+`setup(dificuldade: int)` e emite `puzzle_concluido(sucesso: bool)`.
+A fase recebe o sucesso, remove a colisão, troca o visual para reparado e
+devolve o controle a Cas9 na mesma posição. Repetir a interação em um trecho
+reparado não reabre o puzzle.
+
+Os reparos duram durante essa visita à fase; sair e entrar novamente recria
+os danos. O save de progresso continua preservado, sem marcar conclusão.
+
+Teste com **F5 → Jogar → Fase 1**:
+
+1. Caminhe para a direita até o trecho vermelho, aproximadamente no meio
+   da fita, e confira que ele impede a passagem.
+2. Pressione E: o puzzle abre uma única vez e Cas9 não se move com A/D.
+3. Clique em Consertar: o trecho fica verde/OK, o puzzle fecha e o personagem
+   pode atravessar nos dois sentidos.
+4. Pressione E novamente perto do trecho reparado: nada deve abrir.
+5. Volte ao seletor e entre novamente para repetir o teste.
 
 ### Assets da fase
 
@@ -47,6 +73,9 @@ Todos são opcionais e usam VisualSlot. Arquivos em `assets/sprites/<id>.png`.
 | `player/cas9_andando_1` … `_N` | Animação opcional, pausada quando para | 96 × 96 por quadro |
 | `dna/base_a`, `dna/base_t`, `dna/base_g`, `dna/base_c` | Pares complementares | 64 × 64 |
 | `dna/trecho_saudavel` | Segmentos que formam o caminho | 80 × 224 |
+| `dna/trecho_danificado` | Bloqueio; placeholder vermelho/DANO | 80 × 224 |
+| `dna/trecho_reparado` | Passagem liberada; placeholder verde/OK | 80 × 224 |
+| `fundos/fundo_puzzle` | Fundo do puzzle de teste | 1280 × 720 |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo da fase atual | 1280 × 720 |
 
 Teste percorrendo a fita nos dois sentidos: a câmera acompanha Cas9,
@@ -76,7 +105,7 @@ de importação e recarga.
 2. Use Tab/setas e a ação padrão de confirmação; fases bloqueadas não ativam.
 3. Clique na fase 1, volte ao seletor, depois ao menu e abra Jogar novamente:
    a seleção persiste.
-4. Para testar progressão antes dos puzzles, chame
+4. Para testar progressão antes da implementação de conclusão da fase, chame
    `GameState.concluir_fase(1)` pelo código de teste: fase 1 ganha OK e fase 2
    fica disponível. Reinicie e confira que os estados persistem.
    Esse passo altera o save de teste.

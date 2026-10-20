@@ -24,6 +24,9 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | `dna/base_g` | Guanina, amarela, letra G | 64 × 64 | Sim |
 | `dna/base_c` | Citosina, azul, letra C | 64 × 64 | Sim |
 | `dna/trecho_saudavel` | Segmentos contíguos do caminho de DNA | 80 × 224 | Sim |
+| `dna/trecho_danificado` | Trecho que bloqueia Cas9; placeholder vermelho/DANO | 80 × 224 | Sim |
+| `dna/trecho_reparado` | Trecho após Consertar, sem colisão; placeholder verde/OK | 80 × 224 | Sim |
+| `fundos/fundo_puzzle` | Fundo do puzzle de teste | 1280 × 720 | Sim |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo correspondente à fase selecionada | 1280 × 720 | Sim |
 
 Os botões do menu usam Assets e StyleBoxTexture, com repetição ajustada ao retângulo.
@@ -36,6 +39,10 @@ foco por teclado mesmo quando há imagens personalizadas.
 Na fase, as letras A/T/G/C permanecem sobre as imagens para facilitar a
 leitura dos pares. A animação de Cas9 pausa ao parar, inclusive nas extremidades.
 O botão Voltar ao seletor usa os ids de botão existentes em 260 × 56.
+O botão Consertar reutiliza `ui/botao_normal` e `ui/botao_hover` em 280 × 64.
+Trechos danificados/reparados e o fundo do puzzle usam VisualSlot; os ids
+podem receber overrides em `data/visuais.json`. A colisão do dano permanece
+80 × 224 independentemente da imagem ou de seus ajustes visuais.
 
 ## Convenções para os próximos marcos
 
@@ -43,10 +50,8 @@ Estes arquivos ainda não aparecem no jogo. Todos são opcionais.
 
 | Id / nomes esperados | Uso previsto | Tamanho recomendado |
 | --- | --- | --- |
-| `dna/trecho_danificado`, `dna/trecho_reparado` | Caminho | 80 × 224 |
 | `heredograma/homem`, `heredograma/mulher`, `heredograma/afetado` | Peças | 64 × 64 |
 | `heredograma/linha_uniao`, `heredograma/linha_filiacao` | Ligações | 64 × 64 |
-| `fundos/fundo_puzzle` | Puzzles | 1280 × 720 |
 
 ## Áudio
 
