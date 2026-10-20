@@ -17,6 +17,14 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | `ui/botao_bloqueado` | Fases bloqueadas no seletor | 180 × 130 | Sim |
 | `ui/icone_cadeado` | Fases bloqueadas; placeholder X e texto Bloqueada | 36 × 36 | Sim |
 | `ui/icone_fase_concluida` | Fases concluídas; placeholder OK e texto Concluida | 36 × 36 | Sim |
+| `player/cas9` | Personagem na fita; placeholder Cas9 | 96 × 96 | Sim |
+| `player/cas9_andando_1` … `player/cas9_andando_N` | Animação durante o movimento | 96 × 96 por quadro | Sim |
+| `dna/base_a` | Adenina, verde, letra A | 64 × 64 | Sim |
+| `dna/base_t` | Timina, laranja, letra T | 64 × 64 | Sim |
+| `dna/base_g` | Guanina, amarela, letra G | 64 × 64 | Sim |
+| `dna/base_c` | Citosina, azul, letra C | 64 × 64 | Sim |
+| `dna/trecho_saudavel` | Segmentos contíguos do caminho de DNA | 80 × 224 | Sim |
+| `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fundo fixo correspondente à fase selecionada | 1280 × 720 | Sim |
 
 Os botões do menu usam Assets e StyleBoxTexture, com repetição ajustada ao retângulo.
 Na ausência de cada imagem, usam o tema do Godot como placeholder.
@@ -25,6 +33,9 @@ Os botões e ícones do seletor usam VisualSlot, mantendo proporção e os ajust
 de escala/offset do JSON. Os mesmos ids de botão são compartilhados; prefira
 arte simples que funcione nos diferentes formatos. O marcador `>` indica
 foco por teclado mesmo quando há imagens personalizadas.
+Na fase, as letras A/T/G/C permanecem sobre as imagens para facilitar a
+leitura dos pares. A animação de Cas9 pausa ao parar, inclusive nas extremidades.
+O botão Voltar ao seletor usa os ids de botão existentes em 260 × 56.
 
 ## Convenções para os próximos marcos
 
@@ -32,13 +43,9 @@ Estes arquivos ainda não aparecem no jogo. Todos são opcionais.
 
 | Id / nomes esperados | Uso previsto | Tamanho recomendado |
 | --- | --- | --- |
-| `player/cas9` | Personagem | 96 × 96 |
-| `player/cas9_andando_1` … `player/cas9_andando_N` | Animação | 96 × 96 por quadro |
-| `dna/base_a`, `dna/base_t`, `dna/base_g`, `dna/base_c` | Bases nitrogenadas | 64 × 64 |
-| `dna/trecho_saudavel`, `dna/trecho_danificado`, `dna/trecho_reparado` | Caminho | 256 × 96 |
+| `dna/trecho_danificado`, `dna/trecho_reparado` | Caminho | 80 × 224 |
 | `heredograma/homem`, `heredograma/mulher`, `heredograma/afetado` | Peças | 64 × 64 |
 | `heredograma/linha_uniao`, `heredograma/linha_filiacao` | Ligações | 64 × 64 |
-| `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fases 1 a 10 | 1280 × 720 |
 | `fundos/fundo_puzzle` | Puzzles | 1280 × 720 |
 
 ## Áudio

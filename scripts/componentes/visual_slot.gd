@@ -14,6 +14,8 @@ const QUADROS_POR_SEGUNDO: float = 8.0
 ## Vazio procura <id_visual>_1, _2...; Cas9 tambem procura cas9_andando_1...
 @export var id_animacao: String = ""
 
+var _animacao_ativa: bool = true
+
 @onready var placeholder: ColorRect = $placeholder
 @onready var legenda: Label = $legenda
 @onready var imagem: Sprite2D = $imagem
@@ -49,13 +51,28 @@ func _atualizar_visual() -> void:
 	animacao.visible = quadros.get_frame_count(ANIMACAO) > 0
 	if animacao.visible:
 		animacao.sprite_frames = quadros
-		animacao.play(ANIMACAO)
+		if _animacao_ativa:
+			animacao.play(ANIMACAO)
+		else:
+			animacao.animation = ANIMACAO
 	imagem.visible = not animacao.visible and imagem.texture != null
 	placeholder.color = cor_placeholder
 	placeholder.visible = not imagem.visible and not animacao.visible
 	legenda.text = texto_placeholder
 	legenda.visible = placeholder.visible and not texto_placeholder.is_empty()
 	_ajustar_imagem()
+
+
+func definir_animacao_ativa(ativa: bool) -> void:
+	if _animacao_ativa == ativa:
+		return
+	_animacao_ativa = ativa
+	if animacao.sprite_frames == null:
+		return
+	if ativa:
+		animacao.play(ANIMACAO)
+	else:
+		animacao.pause()
 
 
 func _ajustar_imagem() -> void:
