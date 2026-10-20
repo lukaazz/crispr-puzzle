@@ -2,6 +2,7 @@ extends Node
 
 const CENA_MENU: String = "res://scenes/menu.tscn"
 const CENA_SELETOR_FASES: String = "res://scenes/seletor_fases.tscn"
+const CENA_FASE: String = "res://scenes/fase.tscn"
 
 
 func ir_para_menu() -> Error:
@@ -10,6 +11,10 @@ func ir_para_menu() -> Error:
 
 func ir_para_seletor_fases() -> Error:
 	return trocar_cena(CENA_SELETOR_FASES)
+
+
+func ir_para_fase() -> Error:
+	return trocar_cena(CENA_FASE)
 
 
 func trocar_cena(caminho: String) -> Error:

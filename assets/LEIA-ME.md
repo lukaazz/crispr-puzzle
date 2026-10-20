@@ -11,13 +11,20 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | Id | Onde aparece | Tamanho recomendado | Opcional |
 | --- | --- | --- | --- |
 | `fundos/fundo_menu` | Fundo do menu, via VisualSlot | 1280 × 720 | Sim |
-| `ui/botao_normal` | Jogar e Sair, estado normal | 520 × 60 | Sim |
-| `ui/botao_hover` | Jogar e Sair, mouse sobre ou pressionado | 520 × 60 | Sim |
-| `ui/botao_bloqueado` | Estado desabilitado dos botões (reservado) | 520 × 60 | Sim |
+| `fundos/fundo_seletor` | Fundo do seletor, via VisualSlot | 1280 × 720 | Sim |
+| `ui/botao_normal` | Menu e seletor, estado normal | 520 × 60 no menu; 180 × 130 nas fases; 220 × 56 em Voltar | Sim |
+| `ui/botao_hover` | Destaque dos botões; também foco por teclado no seletor | Mesmos tamanhos de `botao_normal` | Sim |
+| `ui/botao_bloqueado` | Fases bloqueadas no seletor | 180 × 130 | Sim |
+| `ui/icone_cadeado` | Fases bloqueadas; placeholder X e texto Bloqueada | 36 × 36 | Sim |
+| `ui/icone_fase_concluida` | Fases concluídas; placeholder OK e texto Concluida | 36 × 36 | Sim |
 
-Os botões usam Assets e StyleBoxTexture, com repetição ajustada ao retângulo.
+Os botões do menu usam Assets e StyleBoxTexture, com repetição ajustada ao retângulo.
 Na ausência de cada imagem, usam o tema do Godot como placeholder.
 O contorno de foco e os textos continuam visíveis.
+Os botões e ícones do seletor usam VisualSlot, mantendo proporção e os ajustes
+de escala/offset do JSON. Os mesmos ids de botão são compartilhados; prefira
+arte simples que funcione nos diferentes formatos. O marcador `>` indica
+foco por teclado mesmo quando há imagens personalizadas.
 
 ## Convenções para os próximos marcos
 
@@ -31,10 +38,8 @@ Estes arquivos ainda não aparecem no jogo. Todos são opcionais.
 | `dna/trecho_saudavel`, `dna/trecho_danificado`, `dna/trecho_reparado` | Caminho | 256 × 96 |
 | `heredograma/homem`, `heredograma/mulher`, `heredograma/afetado` | Peças | 64 × 64 |
 | `heredograma/linha_uniao`, `heredograma/linha_filiacao` | Ligações | 64 × 64 |
-| `fundos/fundo_seletor` | Seletor de fases | 1280 × 720 |
 | `fundos/fundo_fase_01` … `fundos/fundo_fase_10` | Fases 1 a 10 | 1280 × 720 |
 | `fundos/fundo_puzzle` | Puzzles | 1280 × 720 |
-| `ui/icone_fase_concluida`, `ui/icone_cadeado` | Indicadores | 48 × 48 |
 
 ## Áudio
 
