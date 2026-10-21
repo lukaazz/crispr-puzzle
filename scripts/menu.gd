@@ -14,7 +14,7 @@ const VISUAIS_BOTOES: Dictionary = {
 
 func _ready() -> void:
 	botao_jogar.grab_focus()
-	Assets.assets_recarregados.connect(_atualizar_botoes)
+	get_node("/root/Assets").AssetsRecarregados.connect(_atualizar_botoes)
 	_atualizar_botoes()
 
 
@@ -23,7 +23,7 @@ func _atualizar_botoes() -> void:
 	for botao: Button in [botao_jogar, botao_sair]:
 		for estado: String in VISUAIS_BOTOES:
 			botao.remove_theme_stylebox_override(estado)
-			var textura: Texture2D = Assets.textura(VISUAIS_BOTOES[estado])
+			var textura: Texture2D = get_node("/root/Assets").Textura(VISUAIS_BOTOES[estado])
 			if textura != null:
 				var estilo: StyleBoxTexture = StyleBoxTexture.new()
 				estilo.texture = textura
@@ -33,7 +33,7 @@ func _atualizar_botoes() -> void:
 
 
 func _ao_jogar_pressed() -> void:
-	var erro: Error = SceneRouter.ir_para_seletor_fases()
+	var erro: Error = get_node("/root/SceneRouter").IrParaSeletorFases()
 	if erro == ERR_FILE_NOT_FOUND:
 		aviso.text = "O seletor de fases ainda nao esta disponivel."
 	elif erro != OK:
@@ -41,4 +41,4 @@ func _ao_jogar_pressed() -> void:
 
 
 func _ao_sair_pressed() -> void:
-	SceneRouter.sair()
+	get_node("/root/SceneRouter").Sair()

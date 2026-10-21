@@ -17,9 +17,9 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-GameState="*res://scripts/autoload/estado_jogo.gd"
-SceneRouter="*res://scripts/autoload/roteador_cenas.gd"
-Assets="*res://scripts/autoload/assets.gd"
+GameState="*res://scripts/autoload/GameState.cs"
+SceneRouter="*res://scripts/autoload/SceneRouter.cs"
+Assets="*res://scripts/autoload/Assets.cs"
 
 [display]
 

@@ -60,8 +60,8 @@ func _ready() -> void:
 	var indices_danos: Array[int] = []
 	for dano: int in range(quantidade_danos):
 		indices_danos.append(roundi(float((dano + 1) * (quantidade - 1)) / (quantidade_danos + 1)))
-	titulo.text = "Fase %d — Explore a fita de DNA" % GameState.fase_atual
-	fundo.id_visual = "fundos/fundo_fase_%02d" % GameState.fase_atual
+	titulo.text = "Fase %d — Explore a fita de DNA" % get_node("/root/GameState").FaseAtual
+	fundo.id_visual = "fundos/fundo_fase_%02d" % get_node("/root/GameState").FaseAtual
 	for indice: int in range(quantidade):
 		var x: float = MARGEM + indice * PASSO_PAR
 		var base: String = sequencia.substr(indice % sequencia.length(), 1)
@@ -115,8 +115,8 @@ func _ao_entrar_no_fim(corpo: Node2D) -> void:
 
 
 func _concluir_fase() -> void:
-	GameState.concluir_fase(GameState.fase_atual)
-	if SceneRouter.ir_para_seletor_fases() != OK:
+	get_node("/root/GameState").ConcluirFase(get_node("/root/GameState").FaseAtual)
+	if get_node("/root/SceneRouter").IrParaSeletorFases() != OK:
 		aviso.text = "Fase concluida. Use Voltar ao seletor para tentar retornar."
 		jogador.definir_movimento_ativo(true)
 
@@ -197,7 +197,7 @@ func _carregar_configuracao() -> Dictionary:
 	if not dados is Array:
 		return {}
 	for entrada: Variant in dados:
-		if not entrada is Dictionary or int(entrada.get("numero", 0)) != GameState.fase_atual:
+		if not entrada is Dictionary or int(entrada.get("numero", 0)) != get_node("/root/GameState").FaseAtual:
 			continue
 		var sequencia: String = str(entrada.get("sequencia", ""))
 		if sequencia.is_empty() or int(entrada.get("quantidade_pares", 0)) < 2:
@@ -210,5 +210,5 @@ func _carregar_configuracao() -> Dictionary:
 
 
 func _voltar_ao_seletor() -> void:
-	if SceneRouter.ir_para_seletor_fases() != OK:
+	if get_node("/root/SceneRouter").IrParaSeletorFases() != OK:
 		aviso.text = "Nao foi possivel abrir o seletor."

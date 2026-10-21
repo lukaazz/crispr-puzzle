@@ -1,5 +1,47 @@
 # crispr-puzzle
 
+Jogo 2D educativo sobre CRISPR-Cas9: explore o DNA, resolva puzzles e repare
+os trechos para concluir dez fases progressivas. Plataforma alvo: desktop Windows.
+
+## Como executar e estado da migracao
+
+Abra `project.godot` na **Godot 4.x edicao .NET**, com o **SDK .NET 8**
+instalado (o projeto usa Godot.NET.Sdk 4.6.1 e net8.0). Execute `dotnet build`
+na raiz e depois **F5** no editor.
+
+Etapa 1: `GameState.cs`, `SceneRouter.cs` e `Assets.cs` sao os autoloads ativos.
+Os tres autoloads `.gd` antigos foram preservados, sem alteracoes, para revisao.
+As demais cenas continuam em GDScript; apenas suas chamadas aos autoloads
+foram adaptadas aos membros C# em PascalCase. Nenhuma funcionalidade nova.
+
+O padrao unico de acesso e `GetNode<GameState>("/root/GameState")` em C#
+(analogamente para SceneRouter e Assets), e `get_node("/root/GameState")`
+em GDScript. Nao usamos propriedades estaticas `Instance`.
+Os sinais agora sao `ProgressoAlterado` e `AssetsRecarregados`.
+A API de assets usa `Textura`, `Som`, `ConfiguracaoVisual`, `EscalaVisual`,
+`DeslocamentoVisual` e `Recarregar`. O formato do save continua inalterado.
+
+Validacao desta etapa: `dotnet build` foi tentado, mas o comando nao existe
+no PATH do ambiente de trabalho. Compilacao e execucao no Godot permanecem
+pendentes de verificacao local. O `.csproj`, `.sln` e TargetFramework nao mudaram.
+
+Para conferir a migracao com F5: abra menu e seletor, entre numa fase,
+resolva o puzzle, alcance FIM e reinicie para verificar o progresso salvo.
+Confira tambem os placeholders sem imagens e os visuais com imagens existentes;
+`get_node("/root/Assets").Recarregar()` limpa os caches e atualiza os consumidores.
+
+## Estrutura e funcionalidades prontas
+
+- `scenes/`: menu, seletor, fase compartilhada, Cas9, componentes e puzzles.
+- `scripts/`: scripts GDScript ainda nao migrados; `scripts/autoload/`: os tres autoloads C# e suas versoes antigas.
+- `data/`: configuracao das dez fases, perguntas e ajustes opcionais de visuais.
+- `assets/sprites/` e `assets/audio/`: imagens e sons opcionais; `assets/LEIA-ME.md`: catalogo dos ids.
+- Raiz: `project.godot`, `Crispr-Puzzzle.csproj` e `Crispr-Puzzzle.sln`.
+
+Prontos: menu, seletor com progresso persistente, exploracao do DNA, reparos,
+puzzles de pareamento e perguntas, conclusao e desbloqueio da fase seguinte.
+O puzzle de heredograma ainda nao esta implementado.
+
 ## Seletor de fases
 
 Execute com **F5 no Godot** e clique em **Jogar**. O seletor mostra dez fases
@@ -8,9 +50,9 @@ ficam desabilitadas e exibem um cadeado (placeholder X).
 O botão **Voltar ao menu** retorna pelo SceneRouter.
 
 O GameState salva a fase selecionada e o progresso em `user://save.cfg`.
-Saves existentes são preservados. `GameState.concluir_fase(numero)` marca
+Saves existentes são preservados. `get_node("/root/GameState").ConcluirFase(numero)` marca
 a fase como concluída, libera a seguinte e salva; o seletor acompanha o signal
-`progresso_alterado` e mostra o ícone de conclusão (placeholder OK).
+`ProgressoAlterado` e mostra o ícone de conclusão (placeholder OK).
 A fase 10 não libera uma fase 11.
 
 Clicar numa fase liberada salva a seleção e abre a cena compartilhada
