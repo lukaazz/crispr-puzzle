@@ -178,6 +178,32 @@ Uma fase configurada sem danos pode ser concluída diretamente em FIM.
 
 ### Perguntas de múltipla escolha
 
+O script [`Pergunta.cs`](scripts/puzzles/Pergunta.cs) lê o arquivo por
+`Godot.FileAccess` e o interpreta com `System.Text.Json`. As 15 questões
+cobrem DNA/RNA, expressão gênica, herança mendeliana, mutações e CRISPR-Cas9,
+distribuídas entre as dificuldades 1 e 10. O JSON está formatado com um campo
+por linha para facilitar a edição.
+
+Exemplo de abertura a partir de um nó C# (já integrado em `Fase.cs`):
+
+```csharp
+PackedScene cena = GD.Load<PackedScene>("res://scenes/puzzles/pergunta.tscn");
+Pergunta puzzle = cena.Instantiate<Pergunta>();
+puzzle.Setup(3);
+puzzle.PuzzleConcluido += AoPuzzleConcluido;
+AddChild(puzzle);
+```
+
+O receptor tem assinatura `void AoPuzzleConcluido(bool sucesso)`.
+O sinal é declarado com `[Signal]` e emitido uma única vez por tentativa.
+`Setup` também pode reiniciar a cena aberta, sorteando uma questão e limpando
+a resposta anterior. Responder exibe o resultado e a explicação; o sinal
+aguarda **Continuar**, permitindo a leitura antes de voltar à fase.
+
+Validação do banco: 15 enunciados distintos, quatro alternativas por questão,
+índices corretos dentro dos limites, explicações preenchidas e todos os níveis
+1–10 representados. Build conferido com zero erros e zero avisos.
+
 `scenes/puzzles/pergunta.tscn` usa a mesma interface
 `Setup(int dificuldade)` e `PuzzleConcluido(bool sucesso)`.
 O conteúdo vem exclusivamente de `data/perguntas.json`, com 15 exemplos
