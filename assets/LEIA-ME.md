@@ -117,7 +117,7 @@ Os ajustes geométricos da animação vêm do id principal do slot.
 
 1. Abra o projeto no Godot e pressione F5: o menu funciona sem imagens.
 2. Adicione `assets/sprites/fundos/fundo_menu.png` e deixe o editor importar.
-3. Execute novamente ou chame `get_node("/root/Assets").Recarregar()` em código durante a
+3. Execute novamente ou chame `GetNode<Assets>("/root/Assets").Recarregar()` em código durante a
    execução. O método limpa os caches, relê o JSON e emite
    `AssetsRecarregados`; slots e botões atualizam automaticamente.
 4. Experimente um `arquivo` alternativo, escala e offset no JSON.

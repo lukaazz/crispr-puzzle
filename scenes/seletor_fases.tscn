@@ -67,4 +67,4 @@ autowrap_mode = 2
 custom_minimum_size = Vector2(220, 56)
 layout_mode = 2
 size_flags_horizontal = 4
-rotulo = "Voltar ao menu"
+Rotulo = "Voltar ao menu"

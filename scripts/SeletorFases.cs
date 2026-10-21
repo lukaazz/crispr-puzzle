@@ -5,8 +5,7 @@ using System.Collections.Generic;
 public partial class SeletorFases : Control
 {
     private const string CenaBotao = "res://scenes/componentes/botao_visual.tscn";
-    private static readonly StringName ConfigurarFase = "configurar_fase";
-    private readonly List<Button> _botoes = new();
+    private readonly List<BotaoVisual> _botoes = new();
     private Label _aviso = null!;
 
     public override void _Ready()
@@ -18,7 +17,7 @@ public partial class SeletorFases : Control
         PackedScene cenaBotao = GD.Load<PackedScene>(CenaBotao);
         for (int numero = estado.PrimeiraFase; numero <= estado.TotalFases; numero++)
         {
-            Button botao = cenaBotao.Instantiate<Button>();
+            BotaoVisual botao = cenaBotao.Instantiate<BotaoVisual>();
             botao.Name = $"fase_{numero:00}";
             grade.AddChild(botao);
             int fase = numero;
@@ -43,8 +42,7 @@ public partial class SeletorFases : Control
         for (int indice = 0; indice < _botoes.Count; indice++)
         {
             int numero = indice + estado.PrimeiraFase;
-            // BotaoVisual continua em GDScript nesta etapa.
-            _botoes[indice].Call(ConfigurarFase, numero,
+            _botoes[indice].ConfigurarFase(numero,
                 estado.FasesLiberadas.Contains(numero), estado.FasesConcluidas.Contains(numero));
         }
     }

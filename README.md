@@ -3,83 +3,76 @@
 Jogo 2D educativo sobre CRISPR-Cas9: explore o DNA, resolva puzzles e repare
 os trechos para concluir dez fases progressivas. Plataforma alvo: desktop Windows.
 
-## Como executar e estado da migracao
+## Como executar
 
-Abra `project.godot` na **Godot 4.x edicao .NET**, com o **SDK .NET 8**
-instalado (o projeto usa Godot.NET.Sdk 4.6.1 e net8.0). Execute `dotnet build`
-na raiz e depois **F5** no editor.
+O projeto usa **Godot 4.6.1 edicao .NET** e **SDK .NET 8** (`net8.0`).
+Instale o SDK, nao apenas o runtime. A edicao comum do Godot nao executa C#.
 
-Etapa 1: `GameState.cs`, `SceneRouter.cs` e `Assets.cs` sao os autoloads ativos.
-Os tres autoloads `.gd` antigos foram preservados, sem alteracoes, para revisao.
-Etapa 2: `scripts/componentes/VisualSlot.cs`, `scripts/Menu.cs` e
-`scripts/SeletorFases.cs` substituem os scripts GDScript dessas cenas.
-Os tres `.gd` desta etapa e seus `.uid` foram removidos depois do build aprovado.
-Os botoes auxiliares e puzzles continuam em GDScript, com chamadas ao VisualSlot
-em PascalCase e referencias ao tipo nativo Control para interoperabilidade.
-As propriedades exportadas nas instancias `.tscn` tambem foram atualizadas.
+1. Confira `dotnet --list-sdks` no terminal.
+2. Na raiz do repositorio, execute `dotnet build`.
+3. Abra `project.godot` no Godot .NET e pressione **F5**.
 
-Etapa 3: `Fase.cs`, `Cas9.cs`, `FitaDna.cs`, `TrechoDanificado.cs` e
-`MarcadorFim.cs` controlam a fase, o personagem, a geracao da fita, os danos
-e a chegada. A fita continua sendo o no `fita` da cena compartilhada; nao ha
-uma cena duplicada por fase. Os scripts `fase.gd`, `cas9.gd` e
-`trecho_danificado.gd` e seus `.uid` foram removidos depois do build aprovado.
-A fase le `data/fases.json` com Godot.FileAccess e System.Text.Json e mantem
-as chamadas `setup`/`puzzle_concluido` dos puzzles GDScript existentes.
-Nao foram adicionadas funcionalidades.
+Se o SDK estiver instalado fora do PATH, no PowerShell use, por exemplo:
+`& 'C:/Program Files/dotnet/dotnet.exe' build`.
+O alvo e desktop Windows; nao ha exportacao web.
 
-`Acoes.cs` centraliza `mover_esq`, `mover_dir`, `interagir` e `pausar` como
-`static readonly StringName` (C# nao aceita StringName como const).
-Movimento e interacao usam esses identificadores, sem teclas fixas no codigo.
-`Pausar` apenas declara o identificador; esta etapa nao adiciona pausa nem
-altera o Input Map. O marcador emite `CorpoChegou`; a fase verifica os reparos,
-salva o progresso e troca de tela fora do callback de fisica.
+## Implementacao e validacao
 
-VisualSlot preserva placeholders, imagens proporcionais, animacao opcional,
-pausa ao parar Cas9 e os ajustes de arquivo, escala e offset em `data/visuais.json`.
-Menu preserva o tema nativo quando faltam imagens. Seletor preserva dez botoes,
-foco na fase atual, bloqueios, conclusoes e navegacao pelo SceneRouter.
-Os sinais dos autoloads sao desconectados quando as cenas saem da arvore.
+A migracao para C# esta concluida: autoloads, menu, seletor, componentes,
+fase, personagem, fita de DNA, danos, marcador e os dois puzzles usam C#.
+Os scripts GDScript antigos e seus arquivos UID foram removidos; as cenas
+apontam para os scripts C# correspondentes. Nenhuma funcionalidade nova
+foi adicionada durante a migracao. Heredograma ainda nao esta implementado.
 
-O padrao unico de acesso e `GetNode<GameState>("/root/GameState")` em C#
-(analogamente para SceneRouter e Assets), e `get_node("/root/GameState")`
-em GDScript. Nao usamos propriedades estaticas `Instance`.
-Os sinais agora sao `ProgressoAlterado` e `AssetsRecarregados`.
-A API de assets usa `Textura`, `Som`, `ConfiguracaoVisual`, `EscalaVisual`,
-`DeslocamentoVisual` e `Recarregar`. O formato do save continua inalterado.
+`PareamentoBases` e `Pergunta` oferecem `Setup(int dificuldade)` e o sinal
+`PuzzleConcluido(bool sucesso)`, declarado com `[Signal]`. A fase abre o
+puzzle, pausa o personagem e recebe o resultado; so o sucesso repara o dano.
+O pareamento sorteia bases e seus complementos, embaralha os lados e aceita
+qualquer copia complementar. A pergunta continua lendo `data/perguntas.json`
+com Godot.FileAccess e System.Text.Json.
 
-Validacao da etapa 3: build aprovado com zero erros e zero avisos, usando
-`& 'C:/Program Files/dotnet/dotnet.exe' build` no PowerShell (SDK fora do PATH).
-Testes automatizados no Godot .NET 4.6.1 headless, com save isolado, confirmaram
-movimento, limites da fita e camera, pares complementares, posicoes dos danos,
-colisao, pausa durante puzzle, cancelamento sem reparo, sucesso com reparo,
-passagem liberada, FIM condicionado aos reparos, retorno ao seletor, persistencia,
-reentrada com danos novos e conclusao da fase 10 sem liberar fase 11.
-Tambem foram verificados fita sem danos, multiplos danos e arredondamento das
-posicoes igual ao GDScript. Os resultados dos puzzles foram emitidos pelo teste
-para conferir a integracao; os puzzles em si permanecem inalterados.
-A aparencia visual com imagens personalizadas deve ser conferida com F5.
-O `.csproj`, `.sln`, TargetFramework e `project.godot` nao mudaram nesta etapa.
+O acesso aos autoloads usa `GetNode<GameState>("/root/GameState")`, com o
+mesmo padrao para Assets e SceneRouter. Acoes centraliza os identificadores
+do Input Map como `static readonly StringName` (StringName nao pode ser
+const em C#). `Pausar` declara apenas o identificador, sem adicionar pausa.
+O progresso continua em `user://save.cfg`, com formato preservado.
 
-Para conferir a migracao com F5: abra menu e seletor, entre numa fase,
-resolva o puzzle, alcance FIM e reinicie para verificar o progresso salvo.
-Confira tambem os placeholders sem imagens e os visuais com imagens existentes;
-`get_node("/root/Assets").Recarregar()` limpa os caches e atualiza os consumidores.
+VisualSlot e os botoes mantem placeholders sem imagens, proporcao das
+texturas, animacao opcional e ajustes de `data/visuais.json`.
+`GetNode<Assets>("/root/Assets").Recarregar()` limpa os caches e atualiza os
+consumidores. As trocas de tela passam exclusivamente pelo SceneRouter.
+
+Validacao final: `dotnet build` aprovado com **zero erros e zero avisos**.
+Testes headless no Godot .NET 4.6.1, com save isolado, verificaram:
+
+- Limites de dificuldade (3 a 12 pares), selecao, desmarcacao e troca de base.
+- Erros sem acerto, resolucao completa, conclusao unica e cancelamento unico.
+- Reinicio por Setup depois de a cena estar pronta.
+- Perguntas corretas/incorretas, explicacao e resultado somente ao Continuar.
+- Abertura dos dois puzzles pela fase, pausa, reparo e retomada do personagem.
+- Retorno ao seletor, desbloqueio e recarga de assets com os botoes C#.
+
+As etapas anteriores tambem verificaram movimento, colisoes, camera, pares
+complementares, multiplos danos, persistencia e conclusao da fase 10.
+Para conferir a aparencia, use F5, abra uma fase, resolva o puzzle e alcance
+FIM; teste com placeholders e com suas imagens personalizadas.
+O `.csproj`, `.sln`, TargetFramework e `project.godot` foram preservados
+nesta etapa.
 
 ## Estrutura e funcionalidades prontas
 
-- `scenes/`: menu, seletor, fase compartilhada, Cas9, componentes e puzzles.
-- `scripts/`: Menu.cs, SeletorFases.cs, Fase.cs, Cas9.cs, FitaDna.cs,
-  TrechoDanificado.cs, MarcadorFim.cs e Acoes.cs;
-  `scripts/puzzles/`: puzzles GDScript ainda nao migrados;
-  `scripts/componentes/`: VisualSlot.cs e botoes GDScript;
-  `scripts/autoload/`: os tres autoloads C# e suas versoes antigas.
-- `data/`: configuracao das dez fases, perguntas e ajustes opcionais de visuais.
+- `scenes/`: menu, seletor, fase compartilhada, Cas9, marcador, trechos e componentes.
+- `scenes/puzzles/`: pareamento de bases e pergunta.
+- `scripts/`: Menu, SeletorFases, Fase, Cas9, FitaDna, TrechoDanificado, MarcadorFim e Acoes.
+- `scripts/componentes/`: VisualSlot, BotaoVisual e BotaoBase.
+- `scripts/puzzles/`: PareamentoBases e Pergunta.
+- `scripts/autoload/`: GameState, SceneRouter e Assets.
+- `data/`: configuracao das dez fases, perguntas e ajustes opcionais dos visuais.
 - `assets/sprites/` e `assets/audio/`: imagens e sons opcionais; `assets/LEIA-ME.md`: catalogo dos ids.
 - Raiz: `project.godot`, `Crispr-Puzzzle.csproj` e `Crispr-Puzzzle.sln`.
 
 Prontos: menu, seletor com progresso persistente, exploracao do DNA, reparos,
 puzzles de pareamento e perguntas, conclusao e desbloqueio da fase seguinte.
-O puzzle de heredograma ainda nao esta implementado.
 
 ## Seletor de fases
 
@@ -89,7 +82,7 @@ ficam desabilitadas e exibem um cadeado (placeholder X).
 O botão **Voltar ao menu** retorna pelo SceneRouter.
 
 O GameState salva a fase selecionada e o progresso em `user://save.cfg`.
-Saves existentes são preservados. `get_node("/root/GameState").ConcluirFase(numero)` marca
+Saves existentes são preservados. `GetNode<GameState>("/root/GameState").ConcluirFase(numero)` marca
 a fase como concluída, libera a seguinte e salva; o seletor acompanha o signal
 `ProgressoAlterado` e mostra o ícone de conclusão (placeholder OK).
 A fase 10 não libera uma fase 11.
@@ -144,8 +137,8 @@ sem limite de erros neste marco. Pares corretos ficam desabilitados com OK,
 e o contador mostra quantos faltam. As letras permanecem visíveis sobre os
 VisualSlots, inclusive com imagens personalizadas.
 
-O puzzle recebe `setup(dificuldade: int)` e emite
-`puzzle_concluido(sucesso: bool)` uma única vez por tentativa: `true` ao completar
+O puzzle recebe `Setup(int dificuldade)` e emite
+`PuzzleConcluido(bool sucesso)` uma única vez por tentativa: `true` ao completar
 todos os pares, ou `false` ao usar **Sair do puzzle**. Sair não repara o dano;
 abrir novamente inicia um novo sorteio.
 
@@ -186,7 +179,7 @@ Uma fase configurada sem danos pode ser concluída diretamente em FIM.
 ### Perguntas de múltipla escolha
 
 `scenes/puzzles/pergunta.tscn` usa a mesma interface
-`setup(dificuldade: int)` e `puzzle_concluido(sucesso: bool)`.
+`Setup(int dificuldade)` e `PuzzleConcluido(bool sucesso)`.
 O conteúdo vem exclusivamente de `data/perguntas.json`, com 15 exemplos
 de biologia molecular e genética, em linguagem de ensino médio.
 

@@ -14,9 +14,6 @@ public partial class Fase : Node2D
         ["pareamento_bases"] = "res://scenes/puzzles/pareamento_bases.tscn",
         ["pergunta"] = "res://scenes/puzzles/pergunta.tscn"
     };
-    // Puzzles continuam em GDScript nesta etapa.
-    private static readonly StringName SetupPuzzle = "setup";
-    private static readonly StringName PuzzleConcluido = "puzzle_concluido";
     private readonly List<string> _tiposPuzzle = new();
     private TrechoDanificado? _trechoEmReparo;
     private CanvasLayer? _puzzle;
@@ -112,8 +109,16 @@ public partial class Fase : Node2D
         _trechoEmReparo = trecho;
         string tipo = _tiposPuzzle[GD.RandRange(0, _tiposPuzzle.Count - 1)];
         _puzzle = GD.Load<PackedScene>(CenasPuzzle[tipo]).Instantiate<CanvasLayer>();
-        _puzzle.Call(SetupPuzzle, _dificuldade);
-        _puzzle.Connect(PuzzleConcluido, Callable.From<bool>(AoPuzzleConcluido));
+        if (_puzzle is PareamentoBases pareamento)
+        {
+            pareamento.Setup(_dificuldade);
+            pareamento.PuzzleConcluido += AoPuzzleConcluido;
+        }
+        else if (_puzzle is Pergunta pergunta)
+        {
+            pergunta.Setup(_dificuldade);
+            pergunta.PuzzleConcluido += AoPuzzleConcluido;
+        }
         _jogador.DefinirMovimentoAtivo(false);
         _conteudo.Hide();
         AddChild(_puzzle);

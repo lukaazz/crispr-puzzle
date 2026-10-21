@@ -143,13 +143,6 @@
     avise e me peça para rodar o build uma vez no meu terminal.
     Se "dotnet" não existir no PATH, avise e pule este passo.
 
-    ## Migração de GDScript para C# (seção temporária)
-    Se ainda existirem arquivos .gd no projeto:
-    - Converta por etapas, mantendo o comportamento idêntico.
-    - Mantenha cada .gd antigo até o .cs equivalente funcionar e eu confirmar;
-    só então remova o .gd e atualize as referências nos .tscn e no project.godot.
-    - Não adicione funcionalidades novas durante a conversão.
-
     ## Controle de versão (Git e GitHub)
     - Cada alteração concluída vira um commit próprio, seguido de push.
     - Antes de começar uma tarefa: git status. Se houver alterações minhas

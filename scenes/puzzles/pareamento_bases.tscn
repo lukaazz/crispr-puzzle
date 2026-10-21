@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scripts/puzzles/pareamento_bases.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/puzzles/PareamentoBases.cs" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://scenes/componentes/botao_visual.tscn" id="3"]
 
@@ -90,4 +90,4 @@ horizontal_alignment = 1
 layout_mode = 2
 size_flags_horizontal = 4
 custom_minimum_size = Vector2(280, 56)
-rotulo = "Sair do puzzle"
+Rotulo = "Sair do puzzle"

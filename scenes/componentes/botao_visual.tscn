@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scripts/componentes/botao_visual.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/componentes/BotaoVisual.cs" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="2"]
 
 [node name="botao_visual" type="Button"]
