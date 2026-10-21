@@ -14,9 +14,25 @@ Os tres autoloads `.gd` antigos foram preservados, sem alteracoes, para revisao.
 Etapa 2: `scripts/componentes/VisualSlot.cs`, `scripts/Menu.cs` e
 `scripts/SeletorFases.cs` substituem os scripts GDScript dessas cenas.
 Os tres `.gd` desta etapa e seus `.uid` foram removidos depois do build aprovado.
-As demais cenas continuam em GDScript, com chamadas ao VisualSlot em PascalCase
-e referencias ao tipo nativo Control para interoperabilidade. Nenhuma funcionalidade nova.
+Os botoes auxiliares e puzzles continuam em GDScript, com chamadas ao VisualSlot
+em PascalCase e referencias ao tipo nativo Control para interoperabilidade.
 As propriedades exportadas nas instancias `.tscn` tambem foram atualizadas.
+
+Etapa 3: `Fase.cs`, `Cas9.cs`, `FitaDna.cs`, `TrechoDanificado.cs` e
+`MarcadorFim.cs` controlam a fase, o personagem, a geracao da fita, os danos
+e a chegada. A fita continua sendo o no `fita` da cena compartilhada; nao ha
+uma cena duplicada por fase. Os scripts `fase.gd`, `cas9.gd` e
+`trecho_danificado.gd` e seus `.uid` foram removidos depois do build aprovado.
+A fase le `data/fases.json` com Godot.FileAccess e System.Text.Json e mantem
+as chamadas `setup`/`puzzle_concluido` dos puzzles GDScript existentes.
+Nao foram adicionadas funcionalidades.
+
+`Acoes.cs` centraliza `mover_esq`, `mover_dir`, `interagir` e `pausar` como
+`static readonly StringName` (C# nao aceita StringName como const).
+Movimento e interacao usam esses identificadores, sem teclas fixas no codigo.
+`Pausar` apenas declara o identificador; esta etapa nao adiciona pausa nem
+altera o Input Map. O marcador emite `CorpoChegou`; a fase verifica os reparos,
+salva o progresso e troca de tela fora do callback de fisica.
 
 VisualSlot preserva placeholders, imagens proporcionais, animacao opcional,
 pausa ao parar Cas9 e os ajustes de arquivo, escala e offset em `data/visuais.json`.
@@ -31,11 +47,16 @@ Os sinais agora sao `ProgressoAlterado` e `AssetsRecarregados`.
 A API de assets usa `Textura`, `Som`, `ConfiguracaoVisual`, `EscalaVisual`,
 `DeslocamentoVisual` e `Recarregar`. O formato do save continua inalterado.
 
-Validacao da etapa 2: build aprovado com zero erros e zero avisos, usando
+Validacao da etapa 3: build aprovado com zero erros e zero avisos, usando
 `& 'C:/Program Files/dotnet/dotnet.exe' build` no PowerShell (SDK fora do PATH).
-Godot .NET 4.6.1 em modo headless: menu, seletor, fase e ambos os puzzles
-inicializaram; verificacao automatizada confirmou navegacao menu/seletor/menu,
-foco, dez fases, bloqueios, placeholders e recarga repetida sem erros.
+Testes automatizados no Godot .NET 4.6.1 headless, com save isolado, confirmaram
+movimento, limites da fita e camera, pares complementares, posicoes dos danos,
+colisao, pausa durante puzzle, cancelamento sem reparo, sucesso com reparo,
+passagem liberada, FIM condicionado aos reparos, retorno ao seletor, persistencia,
+reentrada com danos novos e conclusao da fase 10 sem liberar fase 11.
+Tambem foram verificados fita sem danos, multiplos danos e arredondamento das
+posicoes igual ao GDScript. Os resultados dos puzzles foram emitidos pelo teste
+para conferir a integracao; os puzzles em si permanecem inalterados.
 A aparencia visual com imagens personalizadas deve ser conferida com F5.
 O `.csproj`, `.sln`, TargetFramework e `project.godot` nao mudaram nesta etapa.
 
@@ -47,7 +68,9 @@ Confira tambem os placeholders sem imagens e os visuais com imagens existentes;
 ## Estrutura e funcionalidades prontas
 
 - `scenes/`: menu, seletor, fase compartilhada, Cas9, componentes e puzzles.
-- `scripts/`: Menu.cs, SeletorFases.cs e scripts GDScript ainda nao migrados;
+- `scripts/`: Menu.cs, SeletorFases.cs, Fase.cs, Cas9.cs, FitaDna.cs,
+  TrechoDanificado.cs, MarcadorFim.cs e Acoes.cs;
+  `scripts/puzzles/`: puzzles GDScript ainda nao migrados;
   `scripts/componentes/`: VisualSlot.cs e botoes GDScript;
   `scripts/autoload/`: os tres autoloads C# e suas versoes antigas.
 - `data/`: configuracao das dez fases, perguntas e ajustes opcionais de visuais.

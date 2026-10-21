@@ -1,11 +1,14 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="1"]
+
+[ext_resource type="Script" path="res://scripts/MarcadorFim.cs" id="2"]
 
 [sub_resource type="RectangleShape2D" id="chegada"]
 size = Vector2(64, 96)
 
 [node name="marcador_fim" type="Area2D"]
+script = ExtResource("2")
 collision_layer = 0
 collision_mask = 1
 monitorable = false
