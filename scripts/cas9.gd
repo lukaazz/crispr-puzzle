@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-const TipoVisualSlot = preload("res://scripts/componentes/visual_slot.gd")
 
 @export var velocidade: float = 280.0
 
@@ -8,7 +7,7 @@ var limite_esquerdo: float = 0.0
 var limite_direito: float = 0.0
 var altura_caminho: float = 0.0
 
-@onready var visual: TipoVisualSlot = $visual
+@onready var visual: Control = $visual
 
 
 func configurar_caminho(inicio: float, fim: float, altura: float) -> void:
@@ -21,7 +20,7 @@ func configurar_caminho(inicio: float, fim: float, altura: float) -> void:
 func definir_movimento_ativo(ativo: bool) -> void:
 	set_physics_process(ativo)
 	velocity = Vector2.ZERO
-	visual.definir_animacao_ativa(false)
+	visual.DefinirAnimacaoAtiva(false)
 
 
 func _physics_process(_delta: float) -> void:
@@ -32,4 +31,4 @@ func _physics_process(_delta: float) -> void:
 	position.x = clampf(position.x, limite_esquerdo, limite_direito)
 	position.y = altura_caminho
 	var andando: bool = not is_equal_approx(position.x, x_anterior)
-	visual.definir_animacao_ativa(andando)
+	visual.DefinirAnimacaoAtiva(andando)

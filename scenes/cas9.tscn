@@ -18,10 +18,10 @@ offset_left = -48.0
 offset_top = -48.0
 offset_right = 48.0
 offset_bottom = 48.0
-id_visual = "player/cas9"
-tamanho_padrao = Vector2(96, 96)
-cor_placeholder = Color(0.65, 0.32, 0.85, 1)
-texto_placeholder = "Cas9"
+IdVisual = "player/cas9"
+TamanhoPadrao = Vector2(96, 96)
+CorPlaceholder = Color(0.65, 0.32, 0.85, 1)
+TextoPlaceholder = "Cas9"
 
 [node name="camera" type="Camera2D" parent="."]
 position_smoothing_enabled = true

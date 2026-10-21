@@ -11,8 +11,18 @@ na raiz e depois **F5** no editor.
 
 Etapa 1: `GameState.cs`, `SceneRouter.cs` e `Assets.cs` sao os autoloads ativos.
 Os tres autoloads `.gd` antigos foram preservados, sem alteracoes, para revisao.
-As demais cenas continuam em GDScript; apenas suas chamadas aos autoloads
-foram adaptadas aos membros C# em PascalCase. Nenhuma funcionalidade nova.
+Etapa 2: `scripts/componentes/VisualSlot.cs`, `scripts/Menu.cs` e
+`scripts/SeletorFases.cs` substituem os scripts GDScript dessas cenas.
+Os tres `.gd` desta etapa e seus `.uid` foram removidos depois do build aprovado.
+As demais cenas continuam em GDScript, com chamadas ao VisualSlot em PascalCase
+e referencias ao tipo nativo Control para interoperabilidade. Nenhuma funcionalidade nova.
+As propriedades exportadas nas instancias `.tscn` tambem foram atualizadas.
+
+VisualSlot preserva placeholders, imagens proporcionais, animacao opcional,
+pausa ao parar Cas9 e os ajustes de arquivo, escala e offset em `data/visuais.json`.
+Menu preserva o tema nativo quando faltam imagens. Seletor preserva dez botoes,
+foco na fase atual, bloqueios, conclusoes e navegacao pelo SceneRouter.
+Os sinais dos autoloads sao desconectados quando as cenas saem da arvore.
 
 O padrao unico de acesso e `GetNode<GameState>("/root/GameState")` em C#
 (analogamente para SceneRouter e Assets), e `get_node("/root/GameState")`
@@ -21,9 +31,13 @@ Os sinais agora sao `ProgressoAlterado` e `AssetsRecarregados`.
 A API de assets usa `Textura`, `Som`, `ConfiguracaoVisual`, `EscalaVisual`,
 `DeslocamentoVisual` e `Recarregar`. O formato do save continua inalterado.
 
-Validacao desta etapa: `dotnet build` foi tentado, mas o comando nao existe
-no PATH do ambiente de trabalho. Compilacao e execucao no Godot permanecem
-pendentes de verificacao local. O `.csproj`, `.sln` e TargetFramework nao mudaram.
+Validacao da etapa 2: build aprovado com zero erros e zero avisos, usando
+`& 'C:/Program Files/dotnet/dotnet.exe' build` no PowerShell (SDK fora do PATH).
+Godot .NET 4.6.1 em modo headless: menu, seletor, fase e ambos os puzzles
+inicializaram; verificacao automatizada confirmou navegacao menu/seletor/menu,
+foco, dez fases, bloqueios, placeholders e recarga repetida sem erros.
+A aparencia visual com imagens personalizadas deve ser conferida com F5.
+O `.csproj`, `.sln`, TargetFramework e `project.godot` nao mudaram nesta etapa.
 
 Para conferir a migracao com F5: abra menu e seletor, entre numa fase,
 resolva o puzzle, alcance FIM e reinicie para verificar o progresso salvo.
@@ -33,7 +47,9 @@ Confira tambem os placeholders sem imagens e os visuais com imagens existentes;
 ## Estrutura e funcionalidades prontas
 
 - `scenes/`: menu, seletor, fase compartilhada, Cas9, componentes e puzzles.
-- `scripts/`: scripts GDScript ainda nao migrados; `scripts/autoload/`: os tres autoloads C# e suas versoes antigas.
+- `scripts/`: Menu.cs, SeletorFases.cs e scripts GDScript ainda nao migrados;
+  `scripts/componentes/`: VisualSlot.cs e botoes GDScript;
+  `scripts/autoload/`: os tres autoloads C# e suas versoes antigas.
 - `data/`: configuracao das dez fases, perguntas e ajustes opcionais de visuais.
 - `assets/sprites/` e `assets/audio/`: imagens e sons opcionais; `assets/LEIA-ME.md`: catalogo dos ids.
 - Raiz: `project.godot`, `Crispr-Puzzzle.csproj` e `Crispr-Puzzzle.sln`.

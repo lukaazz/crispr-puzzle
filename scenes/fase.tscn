@@ -17,8 +17,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 0.0
 offset_bottom = 0.0
-tamanho_padrao = Vector2(1280, 720)
-cor_placeholder = Color(0.025, 0.055, 0.1, 1)
+TamanhoPadrao = Vector2(1280, 720)
+CorPlaceholder = Color(0.025, 0.055, 0.1, 1)
 
 [node name="fita" type="Node2D" parent="."]
 

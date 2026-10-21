@@ -92,7 +92,7 @@ depois `.wav` e `.mp3`, nessa ordem. Nenhum som é reproduzido neste marco.
 
 `arquivo` é relativo a `assets/sprites/`. Sem override, o caminho é
 `assets/sprites/<id>.png`. VisualSlot centraliza a imagem e preserva a
-proporção no espaço disponível, usando `tamanho_padrao` como tamanho mínimo.
+proporção no espaço disponível, usando `TamanhoPadrao` como tamanho mínimo.
 `escala` multiplica esse ajuste; `offset` desloca a imagem em pixels.
 Escala maior que 1 pode ultrapassar o slot. Esses ajustes geométricos são
 aplicados por VisualSlot; estilos de botão usam apenas `arquivo`.
@@ -100,14 +100,14 @@ JSON inválido ou ajustes inválidos voltam aos valores padrão.
 
 ## VisualSlot e animações
 
-Instancie `scenes/componentes/visual_slot.tscn` e configure `id_visual`,
-`tamanho_padrao` e `cor_placeholder`. `texto_placeholder` permite exibir
+Instancie `scenes/componentes/visual_slot.tscn` e configure `IdVisual`,
+`TamanhoPadrao` e `CorPlaceholder`. `TextoPlaceholder` permite exibir
 uma letra, como A, T, G ou C, quando a imagem não existe.
 O filtro padrão é Nearest, apropriado para pixel art.
 
-O componente procura `<id_visual>_1.png`, `_2.png`, etc. Para `player/cas9`,
+O componente procura `<IdVisual>_1.png`, `_2.png`, etc. Para `player/cas9`,
 procura automaticamente `player/cas9_andando_1.png`, `_2.png`, etc.
-O campo opcional `id_animacao` permite escolher outro prefixo.
+O campo opcional `IdAnimacao` permite escolher outro prefixo.
 A sequência começa em 1 e termina no primeiro quadro ausente, sem lacunas.
 Os quadros usam AnimatedSprite2D a 8 FPS, em loop; um único quadro fica
 estático. Sem sequência, usa a imagem estática; sem imagem, o placeholder.

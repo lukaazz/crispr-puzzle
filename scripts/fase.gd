@@ -1,6 +1,5 @@
 extends Node2D
 
-const TipoVisualSlot = preload("res://scripts/componentes/visual_slot.gd")
 const TipoCas9 = preload("res://scripts/cas9.gd")
 const TipoTrecho = preload("res://scripts/trecho_danificado.gd")
 const CENA_TRECHO: PackedScene = preload("res://scenes/trecho_danificado.tscn")
@@ -36,7 +35,7 @@ var _marcador: Area2D = null
 @onready var fita: Node2D = $fita
 @onready var jogador: TipoCas9 = $cas9
 @onready var camera: Camera2D = $cas9/camera
-@onready var fundo: TipoVisualSlot = $fundo/tela
+@onready var fundo: Control = $fundo/tela
 @onready var titulo: Label = $interface/conteudo/titulo
 @onready var aviso: Label = $interface/conteudo/aviso
 
@@ -61,7 +60,7 @@ func _ready() -> void:
 	for dano: int in range(quantidade_danos):
 		indices_danos.append(roundi(float((dano + 1) * (quantidade - 1)) / (quantidade_danos + 1)))
 	titulo.text = "Fase %d — Explore a fita de DNA" % get_node("/root/GameState").FaseAtual
-	fundo.id_visual = "fundos/fundo_fase_%02d" % get_node("/root/GameState").FaseAtual
+	fundo.IdVisual = "fundos/fundo_fase_%02d" % get_node("/root/GameState").FaseAtual
 	for indice: int in range(quantidade):
 		var x: float = MARGEM + indice * PASSO_PAR
 		var base: String = sequencia.substr(indice % sequencia.length(), 1)
@@ -160,19 +159,19 @@ func _ao_puzzle_concluido(sucesso: bool) -> void:
 		_ao_entrar_no_fim(jogador)
 
 
-func _criar_visual(id: String, centro: Vector2, tamanho: Vector2, cor: Color) -> TipoVisualSlot:
-	var slot: TipoVisualSlot = CENA_VISUAL.instantiate() as TipoVisualSlot
-	slot.id_visual = id
-	slot.tamanho_padrao = tamanho
+func _criar_visual(id: String, centro: Vector2, tamanho: Vector2, cor: Color) -> Control:
+	var slot: Control = CENA_VISUAL.instantiate() as Control
+	slot.IdVisual = id
+	slot.TamanhoPadrao = tamanho
 	slot.size = tamanho
 	slot.position = centro - tamanho / 2.0
-	slot.cor_placeholder = cor
+	slot.CorPlaceholder = cor
 	fita.add_child(slot)
 	return slot
 
 
 func _criar_base(base: String, centro: Vector2) -> void:
-	var slot: TipoVisualSlot = _criar_visual("dna/base_" + base.to_lower(), centro, TAMANHO_BASE, CORES[base])
+	var slot: Control = _criar_visual("dna/base_" + base.to_lower(), centro, TAMANHO_BASE, CORES[base])
 	# A letra permanece legivel mesmo com uma imagem personalizada.
 	var letra: Label = Label.new()
 	letra.name = "letra"

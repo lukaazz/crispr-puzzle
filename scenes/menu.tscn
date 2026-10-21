@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scripts/menu.gd" id="1_menu"]
+[ext_resource type="Script" path="res://scripts/Menu.cs" id="1_menu"]
 
 [ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="2_visual"]
 
@@ -23,9 +23,9 @@ offset_bottom = 0.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-id_visual = "fundos/fundo_menu"
-tamanho_padrao = Vector2(1280, 720)
-cor_placeholder = Color(0.035, 0.075, 0.12, 1)
+IdVisual = "fundos/fundo_menu"
+TamanhoPadrao = Vector2(1280, 720)
+CorPlaceholder = Color(0.035, 0.075, 0.12, 1)
 
 [node name="centralizador" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -72,5 +72,5 @@ theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[connection signal="pressed" from="centralizador/conteudo/jogar" to="." method="_ao_jogar_pressed"]
-[connection signal="pressed" from="centralizador/conteudo/sair" to="." method="_ao_sair_pressed"]
+[connection signal="pressed" from="centralizador/conteudo/jogar" to="." method="AoJogarPressed"]
+[connection signal="pressed" from="centralizador/conteudo/sair" to="." method="AoSairPressed"]

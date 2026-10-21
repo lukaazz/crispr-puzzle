@@ -1,10 +1,9 @@
 extends StaticBody2D
 
-const TipoVisualSlot = preload("res://scripts/componentes/visual_slot.gd")
 
 var reparado: bool = false
 
-@onready var visual: TipoVisualSlot = $visual
+@onready var visual: Control = $visual
 @onready var colisao: CollisionShape2D = $colisao
 
 
@@ -13,6 +12,6 @@ func reparar() -> void:
 		return
 	reparado = true
 	colisao.set_deferred("disabled", true)
-	visual.cor_placeholder = Color(0.12, 0.45, 0.3)
-	visual.texto_placeholder = "OK"
-	visual.id_visual = "dna/trecho_reparado"
+	visual.CorPlaceholder = Color(0.12, 0.45, 0.3)
+	visual.TextoPlaceholder = "OK"
+	visual.IdVisual = "dna/trecho_reparado"
