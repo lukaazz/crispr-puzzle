@@ -1,12 +1,12 @@
 [
-  {"numero": 1, "dificuldade": 1, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 40, "sequencia": "ATGC"},
-  {"numero": 2, "dificuldade": 2, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 44, "sequencia": "GCTA"},
-  {"numero": 3, "dificuldade": 3, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 48, "sequencia": "TAGC"},
-  {"numero": 4, "dificuldade": 4, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 52, "sequencia": "CGAT"},
-  {"numero": 5, "dificuldade": 5, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 56, "sequencia": "AGTC"},
-  {"numero": 6, "dificuldade": 6, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 60, "sequencia": "TCGA"},
-  {"numero": 7, "dificuldade": 7, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 64, "sequencia": "GATC"},
-  {"numero": 8, "dificuldade": 8, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 68, "sequencia": "CTAG"},
-  {"numero": 9, "dificuldade": 9, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 72, "sequencia": "ACGT"},
-  {"numero": 10, "dificuldade": 10, "tipos_puzzle": ["pareamento_bases", "pergunta"], "trechos_danificados": 1, "quantidade_pares": 76, "sequencia": "TGCA"}
+  {"numero": 1, "dificuldade": 1, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 40, "sequencia": "ATGC"},
+  {"numero": 2, "dificuldade": 2, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 44, "sequencia": "GCTA"},
+  {"numero": 3, "dificuldade": 3, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 48, "sequencia": "TAGC"},
+  {"numero": 4, "dificuldade": 4, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 52, "sequencia": "CGAT"},
+  {"numero": 5, "dificuldade": 5, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 56, "sequencia": "AGTC"},
+  {"numero": 6, "dificuldade": 6, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 60, "sequencia": "TCGA"},
+  {"numero": 7, "dificuldade": 7, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 64, "sequencia": "GATC"},
+  {"numero": 8, "dificuldade": 8, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 68, "sequencia": "CTAG"},
+  {"numero": 9, "dificuldade": 9, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 72, "sequencia": "ACGT"},
+  {"numero": 10, "dificuldade": 10, "tipos_puzzle": ["pareamento_bases", "pergunta", "heredograma"], "trechos_danificados": 1, "quantidade_pares": 76, "sequencia": "TGCA"}
 ]

@@ -12,7 +12,8 @@ public partial class Fase : Node2D
     private static readonly Dictionary<string, string> CenasPuzzle = new()
     {
         ["pareamento_bases"] = "res://scenes/puzzles/pareamento_bases.tscn",
-        ["pergunta"] = "res://scenes/puzzles/pergunta.tscn"
+        ["pergunta"] = "res://scenes/puzzles/pergunta.tscn",
+        ["heredograma"] = "res://scenes/puzzles/heredograma.tscn"
     };
     private readonly List<string> _tiposPuzzle = new();
     private TrechoDanificado? _trechoEmReparo;
@@ -118,6 +119,11 @@ public partial class Fase : Node2D
         {
             pergunta.Setup(_dificuldade);
             pergunta.PuzzleConcluido += AoPuzzleConcluido;
+        }
+        else if (_puzzle is Heredograma heredograma)
+        {
+            heredograma.Setup(_dificuldade);
+            heredograma.PuzzleConcluido += AoPuzzleConcluido;
         }
         _jogador.DefinirMovimentoAtivo(false);
         _conteudo.Hide();

@@ -19,12 +19,12 @@ O alvo e desktop Windows; nao ha exportacao web.
 ## Implementacao e validacao
 
 A migracao para C# esta concluida: autoloads, menu, seletor, componentes,
-fase, personagem, fita de DNA, danos, marcador e os dois puzzles usam C#.
+fase, personagem, fita de DNA, danos, marcador e os tres puzzles usam C#.
 Os scripts GDScript antigos e seus arquivos UID foram removidos; as cenas
 apontam para os scripts C# correspondentes. Nenhuma funcionalidade nova
-foi adicionada durante a migracao. Heredograma ainda nao esta implementado.
+foi adicionada durante a migracao. Heredograma implementado com tres modelos fixos.
 
-`PareamentoBases` e `Pergunta` oferecem `Setup(int dificuldade)` e o sinal
+`PareamentoBases`, `Pergunta` e `Heredograma` oferecem `Setup(int dificuldade)` e o sinal
 `PuzzleConcluido(bool sucesso)`, declarado com `[Signal]`. A fase abre o
 puzzle, pausa o personagem e recebe o resultado; so o sucesso repara o dano.
 O pareamento sorteia bases e seus complementos, embaralha os lados e aceita
@@ -62,17 +62,17 @@ nesta etapa.
 ## Estrutura e funcionalidades prontas
 
 - `scenes/`: menu, seletor, fase compartilhada, Cas9, marcador, trechos e componentes.
-- `scenes/puzzles/`: pareamento de bases e pergunta.
+- `scenes/puzzles/`: pareamento de bases, pergunta e heredograma.
 - `scripts/`: Menu, SeletorFases, Fase, Cas9, FitaDna, TrechoDanificado, MarcadorFim e Acoes.
-- `scripts/componentes/`: VisualSlot, BotaoVisual e BotaoBase.
-- `scripts/puzzles/`: PareamentoBases e Pergunta.
+- `scripts/componentes/`: VisualSlot, BotaoVisual, BotaoBase e PecaHeredograma.
+- `scripts/puzzles/`: PareamentoBases, Pergunta e Heredograma.
 - `scripts/autoload/`: GameState, SceneRouter e Assets.
-- `data/`: configuracao das dez fases, perguntas e ajustes opcionais dos visuais.
+- `data/`: configuracao das dez fases, perguntas, heredogramas e ajustes opcionais dos visuais.
 - `assets/sprites/` e `assets/audio/`: imagens e sons opcionais; `assets/LEIA-ME.md`: catalogo dos ids.
 - Raiz: `project.godot`, `Crispr-Puzzzle.csproj` e `Crispr-Puzzzle.sln`.
 
 Prontos: menu, seletor com progresso persistente, exploracao do DNA, reparos,
-puzzles de pareamento e perguntas, conclusao e desbloqueio da fase seguinte.
+puzzles de pareamento, perguntas e heredograma, conclusao e desbloqueio da fase seguinte.
 
 ## Seletor de fases
 
@@ -293,3 +293,33 @@ de importação e recarga.
    substituídos, mantendo os rótulos dos botões.
 
 Projeto consiste na criação de um jogo temático na disciplina de biologia. A ideia é que o player, que representa o Crispr-Cas9, técnica de edição gênica, vai passar pelo DNA e quando identificar "erros" irá concertá-los a partir de puzzles completados
+
+## Heredogramas fixos
+
+`data/heredogramas.json` contem tres familias validas de heranca autossomica
+recessiva, com genotipos explicitos e um, dois ou tres filhos. O modelo e fixo
+por dificuldade: 1-3, 4-6 e 7-10, respectivamente. Nao ha geracao nem
+embaralhamento dos heredogramas; o sorteio do tipo de puzzle pela fase permanece.
+A ordem dos individuos e indicada por I-1, I-2 e II-1 etc. A barra horizontal
+entre irmaos reutiliza `linha_uniao`; as linhas verticais indicam filiacao.
+
+Arraste as pecas da bandeja para os sinais +. Soltar sobre uma peca troca as
+posicoes; pecas do mesmo tipo sao intercambiaveis. **Verificar** confere todos
+os encaixes (sexo, estado afetado e ligacoes). Erros permitem novas tentativas;
+o acerto bloqueia a montagem e mostra uma explicacao. **Continuar** emite sucesso;
+**Sair do puzzle** emite falha. Cada tentativa emite o sinal uma unica vez.
+`Setup(int dificuldade)` tambem reinicia uma cena ja aberta.
+
+Para testar com **F5 no Godot .NET**, configure temporariamente a fase 1 com
+`"tipos_puzzle": ["heredograma"]` e dificuldades 1, 4 e 7. Confira montagem
+incompleta, pessoa trocada, ligacao errada, correcao e retorno ao DNA somente
+apos Continuar; sair deve manter o dano. Restaure o JSON depois do teste.
+Tambem e possivel abrir `scenes/puzzles/heredograma.tscn` com F6 e ajustar
+Dificuldade no Inspector. Todos os cinco ids de pecas usam VisualSlot e
+funcionam sem imagens. Pessoas afetadas combinam o simbolo de sexo com o
+VisualSlot `heredograma/afetado`.
+
+Validacao deste marco: build .NET sem erros ou avisos; testes headless nos
+tres modelos conferiram drop, montagem incompleta/incorreta, acerto, espera
+por Continuar, emissao unica, reinicio por Setup e cancelamento. A aparencia
+e o gesto de arrastar com mouse devem ser conferidos no editor com F5/F6.

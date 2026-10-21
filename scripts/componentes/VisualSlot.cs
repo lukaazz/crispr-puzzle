@@ -25,6 +25,8 @@ public partial class VisualSlot : Control
     [Export] public Vector2 TamanhoPadrao { get; set; } = new(64, 64);
     [Export] public Color CorPlaceholder { get; set; } = new(0.3f, 0.5f, 0.6f, 1.0f);
     [Export] public string TextoPlaceholder { get; set; } = "";
+    // Formas cientificas dos heredogramas, preservadas mesmo sem sprites.
+    [Export] public string FormaPlaceholder { get; set; } = "";
     // Vazio procura <id>_1, _2...; Cas9 tambem procura cas9_andando_1...
     [Export] public string IdAnimacao { get; set; } = "";
 
@@ -78,6 +80,8 @@ public partial class VisualSlot : Control
         _imagem.Visible = !_animacao.Visible && _imagem.Texture != null;
         _placeholder.Color = CorPlaceholder;
         _placeholder.Visible = !_imagem.Visible && !_animacao.Visible;
+        if (!string.IsNullOrEmpty(FormaPlaceholder)) _placeholder.Visible = false;
+        QueueRedraw();
         _legenda.Text = TextoPlaceholder;
         _legenda.Visible = _placeholder.Visible && !string.IsNullOrEmpty(TextoPlaceholder);
         AjustarImagem();
@@ -90,6 +94,18 @@ public partial class VisualSlot : Control
         if (_animacao.SpriteFrames == null) return;
         if (ativa) _animacao.Play(AnimacaoPadrao);
         else _animacao.Pause();
+    }
+
+    public override void _Draw()
+    {
+        if (_imagem == null || _imagem.Visible || _animacao.Visible) return;
+        Rect2 area = new(Vector2.One * 3, Size - Vector2.One * 6);
+        if (FormaPlaceholder == "quadrado") DrawRect(area, CorPlaceholder, false, 3);
+        else if (FormaPlaceholder == "circulo") DrawArc(Size / 2, Size.X / 2 - 3, 0, Mathf.Tau, 64, CorPlaceholder, 3, true);
+        else if (FormaPlaceholder == "quadrado_cheio") DrawRect(area, CorPlaceholder);
+        else if (FormaPlaceholder == "circulo_cheio") DrawCircle(Size / 2, Size.X / 2 - 3, CorPlaceholder);
+        else if (FormaPlaceholder == "horizontal") DrawLine(new(0, Size.Y / 2), new(Size.X, Size.Y / 2), CorPlaceholder, 4);
+        else if (FormaPlaceholder == "vertical") DrawLine(new(Size.X / 2, 0), new(Size.X / 2, Size.Y), CorPlaceholder, 4);
     }
 
     private void AjustarImagem()

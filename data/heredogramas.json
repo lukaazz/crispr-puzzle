@@ -1,0 +1,223 @@
+[
+  {
+    "titulo": "Heredograma 1 - familia com 1 filho(s)",
+    "enunciado": "Heranca autossomica recessiva: I-1 e homem nao afetado (Aa); I-2 e mulher nao afetada (Aa). A filha II-1 e afetada (aa). Monte as pessoas e suas ligacoes.",
+    "explicacao": "Aa x Aa pode produzir uma filha aa afetada. Nao afetado nao significa necessariamente ausencia do alelo recessivo.",
+    "encaixes": [
+      {
+        "tipo": "homem",
+        "x": 240,
+        "y": 240,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "I-1"
+      },
+      {
+        "tipo": "mulher",
+        "x": 480,
+        "y": 240,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "I-2"
+      },
+      {
+        "tipo": "linha_uniao",
+        "x": 296,
+        "y": 260,
+        "largura": 184,
+        "altura": 16,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 380,
+        "y": 276,
+        "largura": 16,
+        "altura": 140,
+        "rotulo": ""
+      },
+      {
+        "tipo": "mulher_afetado",
+        "x": 360,
+        "y": 416,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "II-1"
+      }
+    ]
+  },
+  {
+    "titulo": "Heredograma 2 - familia com 2 filho(s)",
+    "enunciado": "Heranca autossomica recessiva: I-1 e homem Aa e I-2 e mulher Aa, ambos nao afetados. II-1 e filho afetado (aa); II-2 e filha nao afetada (AA). Monte as ligacoes e respeite a ordem dos filhos.",
+    "explicacao": "Aa x Aa permite filhos AA, Aa ou aa.",
+    "encaixes": [
+      {
+        "tipo": "homem",
+        "x": 240,
+        "y": 240,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "I-1"
+      },
+      {
+        "tipo": "mulher",
+        "x": 480,
+        "y": 240,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "I-2"
+      },
+      {
+        "tipo": "linha_uniao",
+        "x": 296,
+        "y": 260,
+        "largura": 184,
+        "altura": 16,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 380,
+        "y": 276,
+        "largura": 16,
+        "altura": 74,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_uniao",
+        "x": 268,
+        "y": 342,
+        "largura": 240,
+        "altura": 16,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 260,
+        "y": 350,
+        "largura": 16,
+        "altura": 66,
+        "rotulo": ""
+      },
+      {
+        "tipo": "homem_afetado",
+        "x": 240,
+        "y": 416,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "II-1"
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 500,
+        "y": 350,
+        "largura": 16,
+        "altura": 66,
+        "rotulo": ""
+      },
+      {
+        "tipo": "mulher",
+        "x": 480,
+        "y": 416,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "II-2"
+      }
+    ]
+  },
+  {
+    "titulo": "Heredograma 3 - familia com 3 filho(s)",
+    "enunciado": "Heranca autossomica recessiva: I-1 e homem nao afetado (Aa); I-2 e mulher afetada (aa). II-1 e filho afetado (aa), II-2 e filha nao afetada (Aa) e II-3 e filha afetada (aa). Monte as ligacoes e respeite a ordem dos filhos.",
+    "explicacao": "Aa x aa permite filhos Aa nao afetados ou aa afetados. Cada nascimento e independente.",
+    "encaixes": [
+      {
+        "tipo": "homem",
+        "x": 240,
+        "y": 240,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "I-1"
+      },
+      {
+        "tipo": "mulher_afetado",
+        "x": 480,
+        "y": 240,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "I-2"
+      },
+      {
+        "tipo": "linha_uniao",
+        "x": 296,
+        "y": 260,
+        "largura": 184,
+        "altura": 16,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 380,
+        "y": 276,
+        "largura": 16,
+        "altura": 74,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_uniao",
+        "x": 208,
+        "y": 342,
+        "largura": 360,
+        "altura": 16,
+        "rotulo": ""
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 200,
+        "y": 350,
+        "largura": 16,
+        "altura": 66,
+        "rotulo": ""
+      },
+      {
+        "tipo": "homem_afetado",
+        "x": 180,
+        "y": 416,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "II-1"
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 380,
+        "y": 350,
+        "largura": 16,
+        "altura": 66,
+        "rotulo": ""
+      },
+      {
+        "tipo": "mulher",
+        "x": 360,
+        "y": 416,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "II-2"
+      },
+      {
+        "tipo": "linha_filiacao",
+        "x": 560,
+        "y": 350,
+        "largura": 16,
+        "altura": 66,
+        "rotulo": ""
+      },
+      {
+        "tipo": "mulher_afetado",
+        "x": 540,
+        "y": 416,
+        "largura": 56,
+        "altura": 56,
+        "rotulo": "II-3"
+      }
+    ]
+  }
+]
