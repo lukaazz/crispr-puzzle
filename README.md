@@ -34,7 +34,7 @@ com Godot.FileAccess e System.Text.Json.
 O acesso aos autoloads usa `GetNode<GameState>("/root/GameState")`, com o
 mesmo padrao para Assets e SceneRouter. Acoes centraliza os identificadores
 do Input Map como `static readonly StringName` (StringName nao pode ser
-const em C#). `Pausar` declara apenas o identificador, sem adicionar pausa.
+const em C#). `Pausar` aciona o menu de pausa pelo Input Map (Esc por padrao).
 O progresso continua em `user://save.cfg`, com formato preservado.
 
 VisualSlot e os botoes mantem placeholders sem imagens, proporcao das
@@ -61,7 +61,7 @@ nesta etapa.
 
 ## Estrutura e funcionalidades prontas
 
-- `scenes/`: menu, seletor, fase compartilhada, Cas9, marcador, trechos e componentes.
+- `scenes/`: menu, menu de pausa, seletor, fase compartilhada, Cas9, marcador, trechos e componentes.
 - `scenes/puzzles/`: pareamento de bases, pergunta e heredograma.
 - `scripts/`: Menu, SeletorFases, Fase, Cas9, FitaDna, TrechoDanificado, MarcadorFim e Acoes.
 - `scripts/componentes/`: VisualSlot, BotaoVisual, BotaoBase e PecaHeredograma.
@@ -424,3 +424,26 @@ Testes headless nos dez niveis confirmaram selecao, montagem incorreta/correta,
 conclusao unica, reinicio, cancelamento e acesso ao gabarito das 40 perguntas.
 As pecas e enunciados couberam nas areas reservadas. Confira a aparencia
 e o gesto de arrastar com F5/F6; a revisao cientifica continua pendente.
+
+## Menu de pausa
+
+Durante a fase ou qualquer puzzle, use a acao `pausar` (Esc por padrao) para
+abrir o menu. Esc novamente ou **Continuar** retoma exatamente a mesma visita,
+com a montagem/respostas do puzzle preservadas. A arvore fica pausada e apenas
+o menu processa entrada; a pausa cancela um arraste em andamento sem mover a
+peca e devolve o foco anterior ao continuar. Os botoes aceitam mouse e teclado.
+
+**Voltar ao seletor** e **Menu principal** usam SceneRouter e retiram a pausa
+antes de mostrar a tela de destino. Sair descarta reparos e puzzles da visita
+atual, mas preserva fases concluidas e desbloqueios salvos. Em caso de falha
+na troca de tela, o menu permanece disponivel para continuar ou tentar sair.
+O fundo `fundos/fundo_pausa` e opcional e os botoes reutilizam VisualSlot.
+
+Teste com F5 no Godot .NET: pause ao andar, confira que Cas9 para, continue;
+abra cada puzzle, faca parte da resolucao, pause e retome. Confira que nada
+muda sob o menu. Teste as duas saidas e confirme que a tela de destino responde.
+`project.godot` recebeu somente a acao `pausar` ligada a Esc no Input Map.
+
+Pausa validada com build sem erros/avisos e testes headless: Input Map,
+interrupcao do processamento, retomada e foco nos tres puzzles, saidas
+para seletor/menu e permanencia na pausa quando uma troca de tela falha.

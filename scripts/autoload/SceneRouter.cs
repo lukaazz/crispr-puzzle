@@ -13,7 +13,10 @@ public partial class SceneRouter : Node
     public Error TrocarCena(string caminho)
     {
         if (!ResourceLoader.Exists(caminho, "PackedScene")) return Error.FileNotFound;
-        return GetTree().ChangeSceneToFile(caminho);
+        SceneTree arvore = GetTree();
+        Error erro = arvore.ChangeSceneToFile(caminho);
+        if (erro == Error.Ok) arvore.Paused = false;
+        return erro;
     }
 
     public void Sair() => GetTree().Quit();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/Fase.cs" id="1"]
 [ext_resource type="PackedScene" path="res://scenes/cas9.tscn" id="2"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" path="res://scenes/componentes/botao_visual.tscn" id="4"]
 
 [ext_resource type="Script" path="res://scripts/FitaDna.cs" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/menu_pausa.tscn" id="6"]
 
 [node name="fase" type="Node2D"]
 script = ExtResource("1")
@@ -67,3 +68,5 @@ offset_top = 620.0
 offset_right = 300.0
 offset_bottom = 676.0
 Rotulo = "Voltar ao seletor"
+
+[node name="menu_pausa" parent="." instance=ExtResource("6")]

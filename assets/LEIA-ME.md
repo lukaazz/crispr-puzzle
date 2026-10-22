@@ -11,6 +11,7 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | Id | Onde aparece | Tamanho recomendado | Opcional |
 | --- | --- | --- | --- |
 | `fundos/fundo_menu` | Fundo do menu, via VisualSlot | 1280 × 720 | Sim |
+| `fundos/fundo_pausa` | Sobreposicao do menu de pausa, via VisualSlot | 1280 × 720 | Sim |
 | `fundos/fundo_seletor` | Fundo do seletor, via VisualSlot | 1280 × 720 | Sim |
 | `ui/botao_normal` | Menu e seletor, estado normal | 520 × 60 no menu; 180 × 130 nas fases; 220 × 56 em Voltar | Sim |
 | `ui/botao_hover` | Destaque dos botões; também foco por teclado no seletor | Mesmos tamanhos de `botao_normal` | Sim |
