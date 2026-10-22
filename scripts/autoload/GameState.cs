@@ -16,6 +16,15 @@ public partial class GameState : Node
     public int FaseAtual { get; set; } = NumeroPrimeiraFase;
     public Array<int> FasesLiberadas { get; set; } = new() { NumeroPrimeiraFase };
     public Array<int> FasesConcluidas { get; set; } = new();
+    public bool TodasFasesConcluidas
+    {
+        get
+        {
+            for (int numero = PrimeiraFase; numero <= TotalFases; numero++)
+                if (!FasesConcluidas.Contains(numero)) return false;
+            return true;
+        }
+    }
 
     public override void _Ready() => CarregarProgresso();
 

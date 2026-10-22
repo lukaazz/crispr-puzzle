@@ -103,7 +103,10 @@ public partial class Fase : Node2D
     {
         GameState estado = GetNode<GameState>("/root/GameState");
         estado.ConcluirFase(estado.FaseAtual);
-        if (GetNode<SceneRouter>("/root/SceneRouter").IrParaSeletorFases() != Error.Ok)
+        SceneRouter roteador = GetNode<SceneRouter>("/root/SceneRouter");
+        bool campanhaConcluida = estado.FaseAtual == estado.TotalFases && estado.TodasFasesConcluidas;
+        Error erro = campanhaConcluida ? roteador.IrParaTelaFinal() : roteador.IrParaSeletorFases();
+        if (erro != Error.Ok)
         {
             _aviso.Text = "Fase concluida. Use Voltar ao seletor para tentar retornar.";
             _jogador.DefinirMovimentoAtivo(true);

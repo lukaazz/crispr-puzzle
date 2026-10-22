@@ -12,6 +12,7 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | --- | --- | --- | --- |
 | `fundos/fundo_menu` | Fundo do menu, via VisualSlot | 1280 × 720 | Sim |
 | `fundos/fundo_pausa` | Sobreposicao do menu de pausa, via VisualSlot | 1280 × 720 | Sim |
+| `fundos/fundo_final` | Tela de conclusao das dez fases, via VisualSlot | 1280 × 720 | Sim |
 | `fundos/fundo_seletor` | Fundo do seletor, via VisualSlot | 1280 × 720 | Sim |
 | `ui/botao_normal` | Menu e seletor, estado normal | 520 × 60 no menu; 180 × 130 nas fases; 220 × 56 em Voltar | Sim |
 | `ui/botao_hover` | Destaque dos botões; também foco por teclado no seletor | Mesmos tamanhos de `botao_normal` | Sim |
@@ -42,6 +43,8 @@ Na fase, as letras A/T/G/C permanecem sobre as imagens para facilitar a
 leitura dos pares. A animação de Cas9 pausa ao parar, inclusive nas extremidades.
 O botão Voltar ao seletor usa os ids de botão existentes em 260 × 56.
 O botão Sair do puzzle reutiliza `ui/botao_normal` e `ui/botao_hover` em 280 × 56.
+Os menus de pausa e tela final reutilizam os ids de botao em 600 x 60,
+com VisualSlot e rotulos permanentes. Seus fundos sao opcionais.
 O puzzle de pergunta reutiliza esses ids nas alternativas (mínimo 1000 × 64)
 e em Continuar (280 × 56). Após responder, as alternativas usam
 `ui/botao_bloqueado`. Todos esses botões mantêm o placeholder via VisualSlot.

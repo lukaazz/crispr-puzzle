@@ -61,9 +61,9 @@ nesta etapa.
 
 ## Estrutura e funcionalidades prontas
 
-- `scenes/`: menu, menu de pausa, seletor, fase compartilhada, Cas9, marcador, trechos e componentes.
+- `scenes/`: menu, menu de pausa, tela final, seletor, fase compartilhada, Cas9, marcador, trechos e componentes.
 - `scenes/puzzles/`: pareamento de bases, pergunta e heredograma.
-- `scripts/`: Menu, SeletorFases, Fase, Cas9, FitaDna, TrechoDanificado, MarcadorFim e Acoes.
+- `scripts/`: Menu, MenuPausa, TelaFinal, SeletorFases, Fase, Cas9, FitaDna, TrechoDanificado, MarcadorFim e Acoes.
 - `scripts/componentes/`: VisualSlot, BotaoVisual, BotaoBase e PecaHeredograma.
 - `scripts/puzzles/`: PareamentoBases, Pergunta e Heredograma.
 - `scripts/autoload/`: GameState, SceneRouter e Assets.
@@ -71,8 +71,9 @@ nesta etapa.
 - `assets/sprites/` e `assets/audio/`: imagens e sons opcionais; `assets/LEIA-ME.md`: catalogo dos ids.
 - Raiz: `project.godot`, `Crispr-Puzzzle.csproj` e `Crispr-Puzzzle.sln`.
 
-Prontos: menu, seletor com progresso persistente, exploracao do DNA, reparos,
-puzzles de pareamento, perguntas e heredograma, conclusao e desbloqueio da fase seguinte.
+Prontos: menu, pausa, seletor com progresso persistente, exploracao do DNA, reparos,
+puzzles de pareamento, perguntas e heredograma, conclusao e desbloqueio da fase seguinte,
+e tela final ao completar as dez fases.
 
 ## Seletor de fases
 
@@ -107,9 +108,10 @@ não representa literalmente o mecanismo celular de reparo.
 
 Este marco permite explorar e reparar o caminho com pareamento ou pergunta.
 Depois de reparar todos os trechos, tocar o marcador **FIM** conclui a fase,
-salva o progresso, libera a seguinte e retorna automaticamente ao seletor.
-Não é necessário pressionar E no marcador. Na fase 10, a conclusão é salva
-sem criar uma fase 11. Rejogar uma fase concluída preserva os desbloqueios.
+salva o progresso, libera a seguinte e retorna automaticamente ao seletor nas fases 1-9.
+Não é necessário pressionar E no marcador. Ao concluir a fase 10 com todas
+as dez fases concluídas, abre a tela final, sem criar uma fase 11.
+Rejogar uma fase concluída preserva os desbloqueios.
 O JSON contém as dez configurações: número, dificuldade, tipos de puzzle
 (`pareamento_bases`, `pergunta` e `heredograma`), quantidade de trechos danificados (1 a 5), quantidade
 de pares e sequência repetida na fita superior. A fita inferior é gerada
@@ -447,3 +449,25 @@ muda sob o menu. Teste as duas saidas e confirme que a tela de destino responde.
 Pausa validada com build sem erros/avisos e testes headless: Input Map,
 interrupcao do processamento, retomada e foco nos tres puzzles, saidas
 para seletor/menu e permanencia na pausa quando uma troca de tela falha.
+
+## Tela final da campanha
+
+Ao reparar todos os danos e alcancar FIM na fase 10, o GameState salva a
+conclusao e a fase verifica `TodasFasesConcluidas`. Essa propriedade exige
+os numeros 1 a 10 no progresso; nao basta contar entradas. SceneRouter abre
+`scenes/tela_final.tscn`, que mostra a conclusao das dez fases e oferece
+**Voltar ao seletor** e **Menu principal**. O save continua em `user://save.cfg`,
+sem mudanca de formato nem reinicio de progresso.
+
+Fases 1-9 continuam voltando ao seletor. Rejogar e concluir a fase 10 mostra
+a tela final novamente; rejogar uma fase anterior volta ao seletor normalmente.
+O fundo opcional `fundos/fundo_final` e os botoes usam VisualSlot, funcionando
+com placeholders. F6 na cena final sem todas as conclusoes mostra uma mensagem
+de jornada em andamento, em vez de afirmar que a campanha foi concluida.
+
+Teste com F5 no Godot .NET: conclua as dez fases e confira a tela final;
+volte ao seletor, confirme as dez conclusoes e reinicie para conferir o save.
+Teste tambem o botao Menu principal. O build passou sem erros ou avisos.
+Testes headless com save isolado confirmaram bloqueio da conclusao com danos,
+retorno da fase 1 ao seletor, desbloqueio da fase 2, tela final apos a fase 10,
+recarga das dez conclusoes, ausencia de fase 11 e os dois botoes de navegacao.
