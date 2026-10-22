@@ -22,7 +22,7 @@ A migracao para C# esta concluida: autoloads, menu, seletor, componentes,
 fase, personagem, fita de DNA, danos, marcador e os tres puzzles usam C#.
 Os scripts GDScript antigos e seus arquivos UID foram removidos; as cenas
 apontam para os scripts C# correspondentes. Nenhuma funcionalidade nova
-foi adicionada durante a migracao. Heredograma implementado com tres modelos fixos.
+foi adicionada durante a migracao. Heredograma implementado com oito modelos fixos.
 
 `PareamentoBases`, `Pergunta` e `Heredograma` oferecem `Setup(int dificuldade)` e o sinal
 `PuzzleConcluido(bool sucesso)`, declarado com `[Signal]`. A fase abre o
@@ -179,7 +179,7 @@ Uma fase configurada sem danos pode ser concluída diretamente em FIM.
 ### Perguntas de múltipla escolha
 
 O script [`Pergunta.cs`](scripts/puzzles/Pergunta.cs) lê o arquivo por
-`Godot.FileAccess` e o interpreta com `System.Text.Json`. As 15 questões
+`Godot.FileAccess` e o interpreta com `System.Text.Json`. As 40 questões
 cobrem DNA/RNA, expressão gênica, herança mendeliana, mutações e CRISPR-Cas9,
 distribuídas entre as dificuldades 1 e 10. O JSON está formatado com um campo
 por linha para facilitar a edição.
@@ -200,13 +200,13 @@ O sinal é declarado com `[Signal]` e emitido uma única vez por tentativa.
 a resposta anterior. Responder exibe o resultado e a explicação; o sinal
 aguarda **Continuar**, permitindo a leitura antes de voltar à fase.
 
-Validação do banco: 15 enunciados distintos, quatro alternativas por questão,
-índices corretos dentro dos limites, explicações preenchidas e todos os níveis
-1–10 representados. Build conferido com zero erros e zero avisos.
+Validação estrutural do banco: 40 enunciados distintos, quatro alternativas por
+questão, índices corretos dentro dos limites e explicações preenchidas.
+Cada dificuldade de 1 a 10 tem quatro perguntas. O conteúdo precisa de revisão científica.
 
 `scenes/puzzles/pergunta.tscn` usa a mesma interface
 `Setup(int dificuldade)` e `PuzzleConcluido(bool sucesso)`.
-O conteúdo vem exclusivamente de `data/perguntas.json`, com 15 exemplos
+O conteúdo vem exclusivamente de `data/perguntas.json`, com 40 exemplos
 de biologia molecular e genética, em linguagem de ensino médio.
 
 Cada entrada tem:
@@ -296,9 +296,12 @@ Projeto consiste na criação de um jogo temático na disciplina de biologia. A 
 
 ## Heredogramas fixos
 
-`data/heredogramas.json` contem tres familias validas de heranca autossomica
-recessiva, com genotipos explicitos e um, dois ou tres filhos. O modelo e fixo
-por dificuldade: 1-3, 4-6 e 7-10, respectivamente. Nao ha geracao nem
+`data/heredogramas.json` contem oito familias de heranca autossomica
+recessiva, com genotipos explicitos e de um a oito filhos (3 a 10 pessoas).
+A caracteristica e ficticia, com penetrancia completa: somente aa e afetado.
+O puzzle escolhe o maior nivel do campo `dificuldade` que nao ultrapassa o
+nivel recebido em Setup. Sem candidato elegivel, mostra um aviso para sair.
+Em caso de empate, usa a primeira entrada do JSON. Nao ha geracao nem
 embaralhamento dos heredogramas; o sorteio do tipo de puzzle pela fase permanece.
 A ordem dos individuos e indicada por I-1, I-2 e II-1 etc. A barra horizontal
 entre irmaos reutiliza `linha_uniao`; as linhas verticais indicam filiacao.
@@ -311,7 +314,7 @@ o acerto bloqueia a montagem e mostra uma explicacao. **Continuar** emite sucess
 `Setup(int dificuldade)` tambem reinicia uma cena ja aberta.
 
 Para testar com **F5 no Godot .NET**, configure temporariamente a fase 1 com
-`"tipos_puzzle": ["heredograma"]` e dificuldades 1, 4 e 7. Confira montagem
+`"tipos_puzzle": ["heredograma"]` e dificuldades de 1 a 10. Confira montagem
 incompleta, pessoa trocada, ligacao errada, correcao e retorno ao DNA somente
 apos Continuar; sair deve manter o dano. Restaure o JSON depois do teste.
 Tambem e possivel abrir `scenes/puzzles/heredograma.tscn` com F6 e ajustar
@@ -319,10 +322,32 @@ Dificuldade no Inspector. Todos os cinco ids de pecas usam VisualSlot e
 funcionam sem imagens. Pessoas afetadas combinam o simbolo de sexo com o
 VisualSlot `heredograma/afetado`.
 
-Validacao deste marco: build .NET sem erros ou avisos; testes headless nos
-tres modelos conferiram drop, montagem incompleta/incorreta, acerto, espera
-por Continuar, emissao unica, reinicio por Setup e cancelamento. A aparencia
-e o gesto de arrastar com mouse devem ser conferidos no editor com F5/F6.
+Os campos `pessoas` (id, sexo, genotipo, afetado e pais), `heranca` e
+`penetrancia` documentam a solucao para auditoria. `encaixes` define as pecas
+e suas posicoes; `revisao_cientifica: "pendente"` registra a revisao ainda necessaria.
+A bandeja comporta ate 25 pecas em cinco colunas, com pecas de 48 x 48.
+O maior modelo usa 21 pecas. Os simbolos no diagrama continuam com 56 x 56.
+
+| Modelo | Dificuldade minima | Dificuldades que o selecionam | Pessoas | Pecas |
+| --- | --- | --- | --- | --- |
+| familia_01 | 1 | 1 | 3 | 5 |
+| familia_02 | 2 | 2 | 4 | 9 |
+| familia_03 | 3 | 3 | 5 | 11 |
+| familia_04 | 4 | 4 | 6 | 13 |
+| familia_05 | 5 | 5 | 7 | 15 |
+| familia_06 | 6 | 6-7 | 8 | 17 |
+| familia_07 | 8 | 8-9 | 9 | 19 |
+| familia_08 | 10 | 10 | 10 | 21 |
+
+A progressao das fases continua introduzindo heredograma na fase 5. Os
+modelos de niveis 1-4 podem ser testados com F6 e a propriedade Dificuldade,
+ou habilitados em `tipos_puzzle` das fases iniciais para uso pedagogico.
+
+**Conteudo precisa de revisao cientifica antes de uso didatico.** A verificacao
+dos genotipos e das solucoes nao substitui revisao dos enunciados, explicacoes
+e adequacao das dificuldades por um professor de biologia.
+Referencias de apoio: [heranca recessiva e probabilidades (MedlinePlus)](https://medlineplus.gov/genetics/understanding/inheritance/riskassessment/)
+e [funcionamento da edicao genomica (NHGRI)](https://www.genome.gov/about-genomics/policy-issues/Genome-Editing/How-genome-editing-works).
 
 ## Sorteio de puzzles e novas tentativas
 
@@ -391,3 +416,11 @@ adicione a imagem da fase desejada, aguarde a importacao e execute novamente.
 Validacao desta progressao: dotnet build sem erros ou avisos. Teste headless
 nas dez fases confirmou leitura do JSON, quantidade de danos, tipos de puzzle
 permitidos, reparo de todos os trechos e ids de fundo com fallback sem imagem.
+
+Validacao da expansao do conteudo: dotnet build sem erros ou avisos; 40
+enunciados distintos e quatro questoes por nivel. Conferencia dos oito modelos
+verificou genotipos possiveis, fenotipos e correspondencia com as pecas.
+Testes headless nos dez niveis confirmaram selecao, montagem incorreta/correta,
+conclusao unica, reinicio, cancelamento e acesso ao gabarito das 40 perguntas.
+As pecas e enunciados couberam nas areas reservadas. Confira a aparencia
+e o gesto de arrastar com F5/F6; a revisao cientifica continua pendente.

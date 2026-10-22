@@ -61,13 +61,15 @@ sao desenhados como quadrados, circulos, preenchimentos e linhas.
 | `heredograma/homem` | Pessoa masculina, contorno quadrado | 56 x 56 | Sim |
 | `heredograma/mulher` | Pessoa feminina, contorno circular | 56 x 56 | Sim |
 | `heredograma/afetado` | Sobreposicao nas pessoas afetadas | 56 x 56 | Sim |
-| `heredograma/linha_uniao` | Uniao dos pais e barra de irmaos | 184 x 16 (ate 360 x 16) | Sim |
-| `heredograma/linha_filiacao` | Descendencia vertical | 16 x 140 | Sim |
+| `heredograma/linha_uniao` | Uniao dos pais e barra de irmaos | 184 x 16 (ate 600 x 16) | Sim |
+| `heredograma/linha_filiacao` | Descendencia vertical | 16 x 148 | Sim |
 
 `afetado` deve ser uma marca central transparente que funcione sobre ambos
 os sexos sem esconder seu contorno (por exemplo, um disco central). Sem essa
 imagem, o preenchimento acompanha exatamente o quadrado ou circulo.
-As pecas da bandeja medem 56 x 56; ao encaixar, a imagem cabe no retangulo
+As pecas da bandeja medem 48 x 48; pessoas no diagrama medem 56 x 56.
+A bandeja tem cinco colunas para acomodar os oito modelos (ate 21 pecas).
+Ao encaixar, a imagem cabe no retangulo
 reservado mantendo proporcao. Linhas devem ser centradas na arte.
 O fundo reutiliza `fundos/fundo_puzzle`; Verificar, Continuar e Sair reutilizam
 os ids de botao existentes em 280 x 56.

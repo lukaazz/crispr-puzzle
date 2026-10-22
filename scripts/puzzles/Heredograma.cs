@@ -11,7 +11,9 @@ public partial class Heredograma : CanvasLayer
     private const string ArquivoDados = "res://data/heredogramas.json";
     private const string CenaPeca = "res://scenes/componentes/peca_heredograma.tscn";
     private const string CenaBotao = "res://scenes/componentes/botao_visual.tscn";
-    private const int TamanhoPeca = 56;
+    private const int TamanhoPeca = 48;
+    private const int ColunasBandeja = 5;
+    private const int PassoBandeja = 64;
     private readonly List<PecaHeredograma> _pecas = new();
     private readonly Dictionary<PecaHeredograma, string> _solucao = new();
     private Control _conteudo = null!;
@@ -42,8 +44,13 @@ public partial class Heredograma : CanvasLayer
         try
         {
             using JsonDocument documento = JsonDocument.Parse(FileAccess.GetFileAsString(ArquivoDados));
-            int indice = Dificuldade <= 3 ? 0 : Dificuldade <= 6 ? 1 : 2;
-            JsonElement modelo = documento.RootElement[indice];
+            JsonElement? escolhido = SelecionarModelo(documento.RootElement);
+            if (!escolhido.HasValue)
+            {
+                _mensagem.Text = "Nenhum heredograma disponivel para esta dificuldade. Saia do puzzle.";
+                return;
+            }
+            JsonElement modelo = escolhido.Value;
             Texto(modelo.GetProperty("titulo").GetString()!, new(40, 24), new(1180, 32));
             Texto(modelo.GetProperty("enunciado").GetString()!, new(40, 66), new(1180, 90));
             Texto("Arraste as pecas para os +. Soltar sobre outra peca troca suas posicoes.\nQuadrado: homem | Circulo: mulher | Preenchido: afetado", new(40, 158), new(1180, 52));
@@ -59,7 +66,8 @@ public partial class Heredograma : CanvasLayer
                 string rotulo = encaixe.GetProperty("rotulo").GetString()!;
                 if (rotulo.Length > 0) Texto(rotulo, posicao + new Vector2(-16, tamanho.Y + 2), new(100, 26));
                 // Bandeja em ordem fixa; nenhuma geracao ou distribuicao aleatoria.
-                CriarPeca(new(850 + numero % 4 * 88, 244 + numero / 4 * 88), new(TamanhoPeca, TamanhoPeca), tipo);
+                CriarPeca(new(850 + numero % ColunasBandeja * PassoBandeja,
+                    244 + numero / ColunasBandeja * PassoBandeja), new(TamanhoPeca, TamanhoPeca), tipo);
                 numero++;
             }
             Texto("PECAS", new(850, 212), new(330, 28));
@@ -71,6 +79,24 @@ public partial class Heredograma : CanvasLayer
             _mensagem.Text = "Nao foi possivel carregar o heredograma. Saia do puzzle.";
             GD.PushWarning($"Heredograma invalido: {erro.Message}");
         }
+    }
+
+    private JsonElement? SelecionarModelo(JsonElement modelos)
+    {
+        if (modelos.ValueKind != JsonValueKind.Array) return null;
+        JsonElement? escolhido = null;
+        int maiorNivel = 0;
+        int dificuldade = Mathf.Clamp(Dificuldade, 1, 10);
+        foreach (JsonElement modelo in modelos.EnumerateArray())
+        {
+            if (modelo.ValueKind != JsonValueKind.Object ||
+                !modelo.TryGetProperty("dificuldade", out JsonElement valor) ||
+                valor.ValueKind != JsonValueKind.Number || !valor.TryGetInt32(out int nivel) ||
+                nivel < 1 || nivel > dificuldade || nivel <= maiorNivel) continue;
+            escolhido = modelo;
+            maiorNivel = nivel;
+        }
+        return escolhido;
     }
 
     private Label Texto(string texto, Vector2 posicao, Vector2 tamanho)

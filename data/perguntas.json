@@ -24,6 +24,30 @@
     "explicacao": "O DNA armazena informação genética. Suas sequências podem orientar a produção de RNAs e, por meio deles, de proteínas."
   },
   {
+    "enunciado": "Qual base se emparelha com a guanina no DNA?",
+    "alternativas": [
+      "Adenina",
+      "Uracila",
+      "Timina",
+      "Citosina"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 1,
+    "explicacao": "No DNA, guanina (G) e citosina (C) formam um par complementar."
+  },
+  {
+    "enunciado": "Quais componentes formam um nucleotídeo de DNA?",
+    "alternativas": [
+      "Açúcar, fosfato e base nitrogenada",
+      "Três aminoácidos",
+      "Gordura e proteína",
+      "Apenas duas bases"
+    ],
+    "indice_correto": 0,
+    "dificuldade": 1,
+    "explicacao": "Cada nucleotídeo de DNA contém desoxirribose, um grupo fosfato e uma base nitrogenada."
+  },
+  {
     "enunciado": "Qual base é encontrada no RNA no lugar da timina?",
     "alternativas": [
       "Adenina",
@@ -46,6 +70,30 @@
     "indice_correto": 3,
     "dificuldade": 2,
     "explicacao": "Na transcrição, uma RNA polimerase utiliza uma fita de DNA como molde para sintetizar RNA."
+  },
+  {
+    "enunciado": "Qual açúcar faz parte dos nucleotídeos do RNA?",
+    "alternativas": [
+      "Glicose",
+      "Ribose",
+      "Sacarose",
+      "Desoxirribose"
+    ],
+    "indice_correto": 1,
+    "dificuldade": 2,
+    "explicacao": "O RNA contém ribose; o DNA contém desoxirribose."
+  },
+  {
+    "enunciado": "Em células humanas, onde se encontra a maior parte do DNA de uma célula nucleada?",
+    "alternativas": [
+      "No citoplasma, sem associação a estruturas",
+      "Nos lisossomos",
+      "No núcleo",
+      "Na membrana plasmática"
+    ],
+    "indice_correto": 2,
+    "dificuldade": 2,
+    "explicacao": "A maior parte do DNA de uma célula humana nucleada está no núcleo. As mitocôndrias também possuem DNA."
   },
   {
     "enunciado": "Em que estrutura celular ocorre a tradução do RNA mensageiro?",
@@ -72,6 +120,30 @@
     "explicacao": "Alelos são versões de um gene em um mesmo locus. Um indivíduo diploide pode ter alelos iguais ou diferentes nesse locus."
   },
   {
+    "enunciado": "Qual é o papel do RNA transportador na tradução?",
+    "alternativas": [
+      "Duplicar os cromossomos",
+      "Cortar o DNA",
+      "Armazenar lipídios",
+      "Transportar aminoácidos até o ribossomo"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 3,
+    "explicacao": "O RNA transportador leva um aminoácido ao ribossomo e reconhece um códon por meio de seu anticódon."
+  },
+  {
+    "enunciado": "Qual alternativa descreve o genótipo de um indivíduo em um locus?",
+    "alternativas": [
+      "A combinação de alelos que ele possui nesse locus",
+      "Somente sua aparência",
+      "A alimentação que recebeu",
+      "O número de proteínas no sangue"
+    ],
+    "indice_correto": 0,
+    "dificuldade": 3,
+    "explicacao": "O genótipo descreve a constituição genética. Em um locus autossômico diploide, exemplos são AA, Aa e aa."
+  },
+  {
     "enunciado": "O que caracteriza a replicação semiconservativa do DNA?",
     "alternativas": [
       "Cada molécula filha contém apenas fitas novas",
@@ -94,6 +166,30 @@
     "indice_correto": 3,
     "dificuldade": 4,
     "explicacao": "Um heterozigoto apresenta dois alelos diferentes para o gene, como Aa. AA e aa são exemplos de homozigose."
+  },
+  {
+    "enunciado": "Durante a meiose, o que acontece com os dois alelos de um locus autossômico em um indivíduo Aa?",
+    "alternativas": [
+      "Cada gameta recebe obrigatoriamente A e a",
+      "Eles se separam, e cada gameta recebe um deles",
+      "Ambos desaparecem",
+      "Todos os gametas recebem somente A"
+    ],
+    "indice_correto": 1,
+    "dificuldade": 4,
+    "explicacao": "Na segregação mendeliana, um gameta recebe um dos dois alelos; em Aa, A e a têm a mesma probabilidade de transmissão."
+  },
+  {
+    "enunciado": "O que significa dizer que um alelo tem dominância completa sobre outro?",
+    "alternativas": [
+      "Ele é sempre mais comum na população",
+      "Ele impede a transmissão do outro alelo",
+      "O heterozigoto apresenta o fenótipo associado ao alelo dominante",
+      "Ele sempre beneficia o organismo"
+    ],
+    "indice_correto": 2,
+    "dificuldade": 4,
+    "explicacao": "Dominância descreve a relação fenotípica entre alelos no heterozigoto, não sua frequência nem seu valor adaptativo."
   },
   {
     "enunciado": "Em Aa × Aa, qual é a probabilidade de um descendente ser aa, considerando segregação mendeliana?",
@@ -120,6 +216,30 @@
     "explicacao": "O RNA guia contém uma região complementar à sequência-alvo. O reconhecimento pela Cas9 também depende de uma sequência PAM compatível próxima ao alvo."
   },
   {
+    "enunciado": "Em AA × aa, quais genótipos são esperados nos descendentes para esse locus?",
+    "alternativas": [
+      "Todos AA",
+      "Todos aa",
+      "Metade AA e metade aa",
+      "Todos Aa"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 5,
+    "explicacao": "O genitor AA fornece A e o genitor aa fornece a; todos os descendentes recebem Aa, sob segregação mendeliana."
+  },
+  {
+    "enunciado": "Em um heredograma convencional, como se representa uma mulher afetada pela característica estudada?",
+    "alternativas": [
+      "Círculo preenchido",
+      "Quadrado vazio",
+      "Círculo vazio",
+      "Linha horizontal isolada"
+    ],
+    "indice_correto": 0,
+    "dificuldade": 5,
+    "explicacao": "O círculo representa uma mulher; seu preenchimento indica que ela apresenta a característica estudada."
+  },
+  {
     "enunciado": "Após o corte do DNA pela Cas9, quem realiza o reparo?",
     "alternativas": [
       "O RNA guia sozinho",
@@ -130,6 +250,42 @@
     "indice_correto": 2,
     "dificuldade": 6,
     "explicacao": "Cas9 corta o DNA no local-alvo. Os sistemas celulares reparam o corte, podendo gerar diferentes resultados conforme a via de reparo e os moldes disponíveis."
+  },
+  {
+    "enunciado": "Em Aa × aa, qual é a probabilidade de um descendente ser Aa?",
+    "alternativas": [
+      "25%",
+      "50%",
+      "75%",
+      "100%"
+    ],
+    "indice_correto": 1,
+    "dificuldade": 6,
+    "explicacao": "O genitor Aa transmite A ou a com igual probabilidade; o genitor aa transmite apenas a. Metade dos descendentes é esperada como Aa."
+  },
+  {
+    "enunciado": "Para uma característica autossômica recessiva com penetrância completa, como se classifica Aa?",
+    "alternativas": [
+      "Afetado por possuir um alelo a",
+      "Sem qualquer alelo recessivo",
+      "Portador não afetado",
+      "Obrigatoriamente AA"
+    ],
+    "indice_correto": 2,
+    "dificuldade": 6,
+    "explicacao": "Nesse modelo, aa é afetado e Aa é portador não afetado, podendo transmitir o alelo a."
+  },
+  {
+    "enunciado": "O que caracteriza uma mutação na sequência do DNA?",
+    "alternativas": [
+      "Qualquer movimento da célula",
+      "A tradução normal de um RNA",
+      "A formação de toda proteína",
+      "Uma alteração na sequência de nucleotídeos"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 6,
+    "explicacao": "Uma mutação é uma alteração na sequência do material genético. Seu efeito depende do local e do contexto."
   },
   {
     "enunciado": "O que é um códon no RNA mensageiro?",
@@ -144,6 +300,42 @@
     "explicacao": "Um códon é uma sequência de três nucleotídeos do RNA mensageiro. Códons especificam aminoácidos ou sinais de término durante a tradução."
   },
   {
+    "enunciado": "Dois genitores Aa tiveram um filho aa. Qual é a chance de o próximo filho ser aa, sob segregação mendeliana?",
+    "alternativas": [
+      "25%",
+      "0%",
+      "50%",
+      "100%"
+    ],
+    "indice_correto": 0,
+    "dificuldade": 7,
+    "explicacao": "Cada nascimento é um evento independente nesse modelo. O nascimento anterior não altera a probabilidade de 1/4."
+  },
+  {
+    "enunciado": "Por que uma mutação em uma célula da pele geralmente não é transmitida aos filhos?",
+    "alternativas": [
+      "Porque células da pele não possuem DNA",
+      "Porque essa célula somática não origina os gametas",
+      "Porque toda mutação é dominante",
+      "Porque o DNA da pele é RNA"
+    ],
+    "indice_correto": 1,
+    "dificuldade": 7,
+    "explicacao": "Mutações somáticas ficam na linhagem celular afetada. A transmissão aos descendentes depende de a alteração estar presente na linhagem que forma os gametas."
+  },
+  {
+    "enunciado": "Qual descrição corresponde a uma mutação que converte um códon de aminoácido em códon de parada?",
+    "alternativas": [
+      "Duplicação de todo o genoma",
+      "Mutação sempre sinônima",
+      "Mutação sem sentido, que pode encurtar a proteína",
+      "Reparo obrigatoriamente perfeito"
+    ],
+    "indice_correto": 2,
+    "dificuldade": 7,
+    "explicacao": "Uma mutação sem sentido introduz uma parada prematura na tradução, podendo gerar uma proteína truncada ou reduzir a quantidade do produto."
+  },
+  {
     "enunciado": "Por que uma substituição de base pode não alterar o aminoácido de uma proteína?",
     "alternativas": [
       "Códons diferentes podem especificar o mesmo aminoácido",
@@ -154,6 +346,42 @@
     "indice_correto": 0,
     "dificuldade": 8,
     "explicacao": "O código genético é degenerado: vários códons podem especificar o mesmo aminoácido. Uma substituição que mantém o aminoácido é chamada de sinônima."
+  },
+  {
+    "enunciado": "Em uma herança autossômica recessiva com penetrância completa, dois genitores não afetados tiveram um filho aa. Sem mutações novas, quais são seus genótipos?",
+    "alternativas": [
+      "AA e AA",
+      "AA e aa",
+      "aa e aa",
+      "Aa e Aa"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 8,
+    "explicacao": "Cada genitor precisa fornecer a. Como nenhum é afetado e aa seria afetado, ambos devem ser Aa nesse modelo."
+  },
+  {
+    "enunciado": "O que se entende por edição fora do alvo em uma aplicação de CRISPR-Cas9?",
+    "alternativas": [
+      "Uma alteração em uma região diferente do alvo pretendido",
+      "A ausência de qualquer DNA na célula",
+      "A tradução normal de uma proteína",
+      "A cópia exata e obrigatória de todo o genoma"
+    ],
+    "indice_correto": 0,
+    "dificuldade": 8,
+    "explicacao": "Uma edição fora do alvo ocorre em outra região do genoma. A especificidade precisa ser avaliada experimentalmente."
+  },
+  {
+    "enunciado": "Por que a mesma sequência de DNA pode estar presente em células que produzem proteínas diferentes?",
+    "alternativas": [
+      "Porque toda célula perde os genes que não usa",
+      "Porque a expressão dos genes pode ser regulada de modo diferente",
+      "Porque proteínas não dependem de informação genética",
+      "Porque todos os genes ficam ativos o tempo todo"
+    ],
+    "indice_correto": 1,
+    "dificuldade": 8,
+    "explicacao": "Células podem regular quais genes expressam e em que intensidade, contribuindo para sua especialização."
   },
   {
     "enunciado": "Qual alteração em uma região codificadora tende a deslocar o quadro de leitura?",
@@ -168,6 +396,42 @@
     "explicacao": "Inserções ou deleções de nucleotídeos em número não múltiplo de três podem deslocar o quadro de leitura, alterando os códons seguintes."
   },
   {
+    "enunciado": "Em Aa × Aa, sabendo que um descendente não é afetado por uma característica recessiva de penetrância completa, qual é a chance de ele ser Aa?",
+    "alternativas": [
+      "1/4",
+      "1/2",
+      "2/3",
+      "1"
+    ],
+    "indice_correto": 2,
+    "dificuldade": 9,
+    "explicacao": "Entre os descendentes não afetados, exclui-se aa. Restam AA, Aa e Aa em proporções mendelianas, de modo que dois dos três são portadores."
+  },
+  {
+    "enunciado": "Uma deleção de três nucleotídeos inteiramente dentro de uma região codificadora necessariamente mantém a função da proteína?",
+    "alternativas": [
+      "Sim, porque nenhuma base foi substituída",
+      "Sim, porque remove o gene inteiro",
+      "Sim, porque toda deleção é sinônima",
+      "Não; mesmo sem deslocar o quadro de leitura, pode alterar a proteína"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 9,
+    "explicacao": "Uma deleção de três nucleotídeos mantém o quadro de leitura a jusante, mas remove informação e pode comprometer a função da proteína."
+  },
+  {
+    "enunciado": "Por que um corte no DNA pela Cas9 não garante uma correção específica?",
+    "alternativas": [
+      "Porque diferentes resultados podem surgir durante o reparo celular",
+      "Porque Cas9 é um aminoácido livre",
+      "Porque o DNA não pode ser reparado",
+      "Porque o RNA guia substitui automaticamente todos os genes"
+    ],
+    "indice_correto": 0,
+    "dificuldade": 9,
+    "explicacao": "O corte é seguido pelo reparo celular, cujo resultado depende da via utilizada e das condições; cortar não equivale a corrigir precisamente."
+  },
+  {
     "enunciado": "Qual característica está associada ao reparo dirigido por homologia após um corte no DNA?",
     "alternativas": [
       "Não requer enzimas celulares",
@@ -178,5 +442,41 @@
     "indice_correto": 2,
     "dificuldade": 10,
     "explicacao": "O reparo dirigido por homologia pode usar uma sequência homóloga como molde. Um molde fornecido pode orientar uma alteração, mas o resultado e a eficiência não são garantidos."
+  },
+  {
+    "enunciado": "Em Aa × Aa, qual é a probabilidade de dois filhos serem ambos aa, considerando nascimentos independentes?",
+    "alternativas": [
+      "1/4",
+      "1/16",
+      "1/2",
+      "3/4"
+    ],
+    "indice_correto": 1,
+    "dificuldade": 10,
+    "explicacao": "Cada filho tem probabilidade 1/4 de ser aa. Para dois eventos independentes, multiplica-se 1/4 por 1/4, obtendo 1/16."
+  },
+  {
+    "enunciado": "Após uma tentativa de edição, por que é importante analisar a sequência do local-alvo?",
+    "alternativas": [
+      "Para substituir o RNA por lipídios",
+      "Para provar que todas as células têm a mesma edição sem medi-las",
+      "Para verificar qual alteração realmente ocorreu",
+      "Para tornar qualquer mutação hereditária"
+    ],
+    "indice_correto": 2,
+    "dificuldade": 10,
+    "explicacao": "A análise da sequência permite verificar o resultado no local-alvo. Ela não dispensa outras avaliações, como a investigação de alterações fora do alvo."
+  },
+  {
+    "enunciado": "Sob segregação mendeliana, AA × aa produz filhos Aa. Se esses filhos forem não afetados, qual conclusão é compatível com dominância completa?",
+    "alternativas": [
+      "O alelo a desapareceu",
+      "Todos os filhos são geneticamente AA",
+      "Nenhum filho pode transmitir a",
+      "O fenótipo associado a aa pode ser recessivo"
+    ],
+    "indice_correto": 3,
+    "dificuldade": 10,
+    "explicacao": "Os descendentes Aa preservam e podem transmitir a. Nesse modelo, a característica presente em aa e ausente em Aa é recessiva."
   }
 ]
