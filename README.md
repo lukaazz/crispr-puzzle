@@ -323,3 +323,31 @@ Validacao deste marco: build .NET sem erros ou avisos; testes headless nos
 tres modelos conferiram drop, montagem incompleta/incorreta, acerto, espera
 por Continuar, emissao unica, reinicio por Setup e cancelamento. A aparencia
 e o gesto de arrastar com mouse devem ser conferidos no editor com F5/F6.
+
+## Sorteio de puzzles e novas tentativas
+
+A cada interacao com um trecho danificado, `Fase.cs` sorteia um dos tipos
+validos de `tipos_puzzle` em `data/fases.json`: `pareamento_bases`, `pergunta`
+ou `heredograma`. Tipos repetidos contam uma vez; desconhecidos sao ignorados.
+Sem tipos validos, a fase mostra um aviso e permite voltar ao seletor, sem
+abrir um puzzle fora da configuracao.
+
+A instancia escolhida recebe `Setup(dificuldade)` antes de entrar na arvore.
+Enquanto o puzzle esta aberto, Cas9 fica parado. O sinal
+`PuzzleConcluido(false)` fecha o puzzle e devolve o controle sem reparar o
+trecho; a mensagem orienta a interagir novamente. Cada nova tentativa faz
+outro sorteio, que pode repetir o mesmo tipo. Nao ha limite de tentativas.
+Somente `PuzzleConcluido(true)` repara o DNA e libera a passagem.
+Erros corrigiveis dentro de pareamento e heredograma continuam permitindo
+corrigir a montagem na mesma tentativa.
+
+Teste com F5 no Godot .NET: interaja num dano, erre uma pergunta e clique em
+Continuar (ou saia de qualquer puzzle); confira que o dano permanece e tente
+novamente. Ao acertar, confira que a passagem abre. Para conferir cada tipo,
+use temporariamente apenas seu identificador em `tipos_puzzle` e depois
+restaure a lista desejada.
+
+Validacao deste marco: dotnet build com zero erros e avisos. Testes headless
+verificaram tipos individuais e mistos, listas vazias/invalidas/duplicadas,
+Setup com dificuldade 7 nos tres puzzles, pausa e retomada, novas tentativas
+apos falha e reparo somente no sucesso.

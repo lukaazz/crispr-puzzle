@@ -17,6 +17,7 @@ public partial class Fase : Node2D
     };
     private readonly List<string> _tiposPuzzle = new();
     private TrechoDanificado? _trechoEmReparo;
+    private TrechoDanificado? _trechoComFalha;
     private CanvasLayer? _puzzle;
     private int _dificuldade = 1;
     private bool _conclusaoIniciada;
@@ -49,9 +50,9 @@ public partial class Fase : Node2D
         _dificuldade = LerInteiro(dados, "dificuldade", 1);
         if (dados.TryGetProperty("tipos_puzzle", out JsonElement tipos) && tipos.ValueKind == JsonValueKind.Array)
             foreach (JsonElement tipo in tipos.EnumerateArray())
-                if (tipo.ValueKind == JsonValueKind.String && CenasPuzzle.ContainsKey(tipo.GetString()!))
+                if (tipo.ValueKind == JsonValueKind.String && CenasPuzzle.ContainsKey(tipo.GetString()!) &&
+                    !_tiposPuzzle.Contains(tipo.GetString()!))
                     _tiposPuzzle.Add(tipo.GetString()!);
-        if (_tiposPuzzle.Count == 0) _tiposPuzzle.Add("pareamento_bases");
         int numero = GetNode<GameState>("/root/GameState").FaseAtual;
         titulo.Text = $"Fase {numero} — Explore a fita de DNA";
         fundo.IdVisual = $"fundos/fundo_fase_{numero:00}";
@@ -69,11 +70,19 @@ public partial class Fase : Node2D
     public override void _Process(double delta)
     {
         if (_puzzle != null || _conclusaoIniciada) return;
-        if (_fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao) != null)
+        TrechoDanificado? trecho = _fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao);
+        if (trecho != null)
         {
+            if (_tiposPuzzle.Count == 0)
+            {
+                _aviso.Text = "Esta fase nao tem tipos de puzzle validos configurados. Volte ao seletor.";
+                return;
+            }
             Godot.Collections.Array<InputEvent> eventos = InputMap.ActionGetEvents(Acoes.Interagir);
             string tecla = eventos.Count > 0 ? eventos[0].AsText() : Acoes.Interagir.ToString();
-            _aviso.Text = $"Trecho danificado. Use {tecla} para abrir um puzzle.";
+            _aviso.Text = trecho == _trechoComFalha
+                ? $"O trecho continua danificado. Use {tecla} para tentar novamente."
+                : $"Trecho danificado. Use {tecla} para abrir um puzzle.";
         }
         else if (_marcador != null)
             _aviso.Text = _fita.TodosTrechosReparados()
@@ -105,7 +114,7 @@ public partial class Fase : Node2D
     {
         if (_puzzle != null || _conclusaoIniciada || !evento.IsActionPressed(Acoes.Interagir) || evento.IsEcho()) return;
         TrechoDanificado? trecho = _fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao);
-        if (trecho == null) return;
+        if (trecho == null || _tiposPuzzle.Count == 0) return;
         GetViewport().SetInputAsHandled();
         _trechoEmReparo = trecho;
         string tipo = _tiposPuzzle[GD.RandRange(0, _tiposPuzzle.Count - 1)];
@@ -133,6 +142,7 @@ public partial class Fase : Node2D
     private void AoPuzzleConcluido(bool sucesso)
     {
         if (_puzzle == null) return;
+        _trechoComFalha = sucesso ? null : _trechoEmReparo;
         if (sucesso && IsInstanceValid(_trechoEmReparo)) _trechoEmReparo!.Reparar();
         _puzzle.QueueFree();
         _puzzle = null;
