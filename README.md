@@ -111,7 +111,7 @@ salva o progresso, libera a seguinte e retorna automaticamente ao seletor.
 Não é necessário pressionar E no marcador. Na fase 10, a conclusão é salva
 sem criar uma fase 11. Rejogar uma fase concluída preserva os desbloqueios.
 O JSON contém as dez configurações: número, dificuldade, tipos de puzzle
-(`pareamento_bases` e `pergunta`), quantidade de trechos danificados (um por fase), quantidade
+(`pareamento_bases`, `pergunta` e `heredograma`), quantidade de trechos danificados (1 a 5), quantidade
 de pares e sequência repetida na fita superior. A fita inferior é gerada
 por complementaridade.
 
@@ -242,7 +242,7 @@ Para testar:
    clique em Continuar e confirme que a passagem continua bloqueada.
 3. Tente novamente e acerte: a explicação deve permanecer até Continuar;
    só então o trecho é reparado.
-4. Restaure os dois tipos no JSON para voltar ao sorteio entre puzzles.
+4. Restaure os tipos originais dessa fase no JSON para manter a progressao.
 
 ### Assets da fase
 
@@ -351,3 +351,43 @@ Validacao deste marco: dotnet build com zero erros e avisos. Testes headless
 verificaram tipos individuais e mistos, listas vazias/invalidas/duplicadas,
 Setup com dificuldade 7 nos tres puzzles, pausa e retomada, novas tentativas
 apos falha e reparo somente no sucesso.
+
+## Configuracao das dez fases
+
+`data/fases.json` define a progressao abaixo. A mesma `scenes/fase.tscn`
+le a entrada cujo `numero` corresponde a fase selecionada no GameState,
+usando Godot.FileAccess e System.Text.Json. Nao ha cenas duplicadas por fase.
+
+| Fase | Dificuldade | Tipos permitidos | Trechos danificados |
+| --- | --- | --- | --- |
+| 1 | 1 | Pareamento | 1 |
+| 2 | 2 | Pareamento | 1 |
+| 3 | 3 | Pareamento, pergunta | 2 |
+| 4 | 4 | Pareamento, pergunta | 2 |
+| 5 | 5 | Pareamento, pergunta, heredograma | 3 |
+| 6 | 6 | Pareamento, pergunta, heredograma | 3 |
+| 7 | 7 | Pareamento, pergunta, heredograma | 4 |
+| 8 | 8 | Pareamento, pergunta, heredograma | 4 |
+| 9 | 9 | Pareamento, pergunta, heredograma | 5 |
+| 10 | 10 | Pareamento, pergunta, heredograma | 5 |
+
+Campos: `numero`, `dificuldade`, `tipos_puzzle` e `trechos_danificados`.
+Os campos `quantidade_pares` e `sequencia` continuam definindo o comprimento
+e as bases da fita. Os danos sao distribuidos ao longo dela, e todos precisam
+ser reparados antes de concluir a fase. O sorteio por tentativa pode repetir
+tipos: permitir um tipo novo nao garante que ele apareca naquela visita.
+
+Cada fase configura o VisualSlot do fundo com `fundos/fundo_fase_NN`, de
+`fundos/fundo_fase_01` a `fundos/fundo_fase_10`. As imagens opcionais ficam em
+`assets/sprites/fundos/fundo_fase_NN.png`, com referencia de 1280 x 720.
+Sem imagem, aparece o placeholder. Overrides em `data/visuais.json` continuam
+funcionando; nenhum caminho de imagem foi inserido nas cenas.
+
+Teste com F5 no Godot .NET: avance pelas fases e confira a tabela, o bloqueio
+nos danos e a liberacao de FIM apenas depois de todos os reparos. As duas
+primeiras fases sempre abrem pareamento. Para testar o fundo opcional,
+adicione a imagem da fase desejada, aguarde a importacao e execute novamente.
+
+Validacao desta progressao: dotnet build sem erros ou avisos. Teste headless
+nas dez fases confirmou leitura do JSON, quantidade de danos, tipos de puzzle
+permitidos, reparo de todos os trechos e ids de fundo com fallback sem imagem.
