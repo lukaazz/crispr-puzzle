@@ -3,7 +3,19 @@ using Godot;
 
 public partial class PecaHeredograma : Control
 {
-    [Signal] public delegate void TrocadaEventHandler(PecaHeredograma origem, PecaHeredograma destino);
+    [Signal] public delegate void ClicadaEventHandler(PecaHeredograma peca);
+    [Signal] public delegate void ArrastoIniciadoEventHandler(PecaHeredograma peca);
+    [Signal] public delegate void SoltaEventHandler(PecaHeredograma peca, Vector2 posicao);
+    public const float AreaCliqueMinima = 48;
+    public const float LimiarArrasto = 8;
+    public Vector2 TamanhoDesenho { get; set; }
+    public bool Selecionada { get; set; }
+    public bool Destacada { get; set; }
+    private bool _pressionada;
+    private bool _arrastando;
+    private Vector2 _inicio;
+    private PecaHeredograma? _previa;
+    private double _tempo;
     private const string CenaVisual = "res://scenes/componentes/visual_slot.tscn";
     public string Tipo { get; private set; } = "";
     public bool Bloqueada { get; set; }
@@ -32,30 +44,72 @@ public partial class PecaHeredograma : Control
     {
         VisualSlot visual = GD.Load<PackedScene>(CenaVisual).Instantiate<VisualSlot>();
         visual.IdVisual = "heredograma/" + id;
-        visual.TamanhoPadrao = Size;
-        visual.Size = Size;
+        visual.TamanhoPadrao = TamanhoDesenho;
+        visual.Size = TamanhoDesenho;
+        visual.Position = (Size - TamanhoDesenho) / 2;
         visual.CorPlaceholder = Colors.White;
         visual.FormaPlaceholder = forma;
         AddChild(visual);
     }
 
-    public override Variant _GetDragData(Vector2 posicao)
+    public override void _GuiInput(InputEvent evento)
     {
-        if (Bloqueada || Tipo.Length == 0) return default;
-        PecaHeredograma previa = new() { Size = Size, MouseFilter = MouseFilterEnum.Ignore };
-        previa.DefinirTipo(Tipo);
-        SetDragPreview(previa);
-        return this;
+        if (Bloqueada) return;
+        if (evento is InputEventMouseButton botao && botao.ButtonIndex == MouseButton.Left && botao.Pressed)
+        {
+            _pressionada = true;
+            _inicio = GetGlobalMousePosition();
+            AcceptEvent();
+        }
     }
 
-    public override bool _CanDropData(Vector2 posicao, Variant dados)
+    public override void _Input(InputEvent evento)
     {
-        return !Bloqueada && dados.VariantType == Variant.Type.Object &&
-            dados.AsGodotObject() is PecaHeredograma origem && !origem.Bloqueada && origem != this;
+        if (!_pressionada) return;
+        if (Bloqueada) { CancelarGesto(); return; }
+        if (evento is InputEventMouseMotion && Tipo.Length > 0 &&
+            !_arrastando && GetGlobalMousePosition().DistanceTo(_inicio) >= LimiarArrasto)
+        {
+            _arrastando = true;
+            _previa = new PecaHeredograma { Size = Size, TamanhoDesenho = TamanhoDesenho,
+                MouseFilter = MouseFilterEnum.Ignore, ZIndex = 100 };
+            GetParent().AddChild(_previa);
+            _previa.DefinirTipo(Tipo);
+            EmitSignal(SignalName.ArrastoIniciado, this);
+        }
+        if (_previa != null) _previa.GlobalPosition = GetGlobalMousePosition() - Size / 2;
+        if (evento is InputEventMouseButton botao && botao.ButtonIndex == MouseButton.Left && !botao.Pressed)
+        {
+            bool arrastou = _arrastando;
+            Vector2 posicao = GetGlobalMousePosition();
+            CancelarGesto();
+            if (arrastou) EmitSignal(SignalName.Solta, this, posicao);
+            else if (GetGlobalRect().HasPoint(posicao)) EmitSignal(SignalName.Clicada, this);
+            GetViewport().SetInputAsHandled();
+        }
     }
 
-    public override void _DropData(Vector2 posicao, Variant dados)
+    public void CancelarGesto()
     {
-        if (_CanDropData(posicao, dados)) EmitSignal(SignalName.Trocada, dados.AsGodotObject(), this);
+        _pressionada = false;
+        _arrastando = false;
+        _previa?.QueueFree();
+        _previa = null;
+    }
+
+    public override void _Process(double delta)
+    {
+        _tempo += delta;
+        QueueRedraw();
+    }
+
+    public override void _Draw()
+    {
+        if (Selecionada || Destacada)
+        {
+            float alpha = Selecionada ? 1 : 0.55f + 0.25f * Mathf.Sin((float)_tempo * 5);
+            DrawRect(new Rect2(Vector2.One, Size - Vector2.One * 2),
+                new Color(0.3f, 0.9f, 1, alpha), false, 3);
+        }
     }
 }

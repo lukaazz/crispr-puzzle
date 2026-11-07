@@ -648,3 +648,9 @@ Os tres tipos estao habilitados em todas as fases. `pesos` usa `pareamento_bases
 Perguntas e heredogramas usam todos os itens do maior nivel disponivel ate a dificuldade da fase, sem repetir conteudo antes de esgotar esse pool. Tentativas abandonadas ou falhas tambem contam. Reentrar na fase limpa os historicos e restaura os defeitos.
 
 Teste com F5 no Godot .NET: reentre nas fases para variar os bloqueios; confira 2 ativos nas fases 1 a 5 e 3 nas demais, sempre nas duas fitas. Saia dos puzzles repetidamente para conferir a alternancia de tipos e os ciclos dos conteudos.
+
+### Controles do heredograma
+
+Clique numa pe?a do banco para selecion?-la e num encaixe para coloc?-la. Outro clique na mesma pe?a, Esc ou bot?o direito cancela. Uma pe?a diferente muda a sele??o; clicar numa pe?a colocada a devolve ao banco, ou a substitui pela selecionada. Encaixes livres recebem destaque pulsante. Todos aceitam qualquer pe?a, preservando o desafio e a verifica??o original.
+
+As ?reas transparentes de clique t?m 48 ? 48 pixels, centradas nos desenhos. Arrastar come?a ap?s 8 pixels; soltar atrai ao encaixe livre mais pr?ximo at? 64 pixels, ou devolve ao banco. O som sfx/clique ? opcional. Teste com F5 no Godot .NET: sele??o, cancelamento, substitui??o, arrasto pr?ximo/distante e Verificar.

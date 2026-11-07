@@ -12,6 +12,10 @@ public partial class Heredograma : CanvasLayer
     private const string CenaPeca = "res://scenes/componentes/peca_heredograma.tscn";
     private const string CenaBotao = "res://scenes/componentes/botao_visual.tscn";
     private const int TamanhoPeca = 48;
+    private const float RaioAtracao = 64;
+    private const float EspacamentoEncaixes = 8;
+    private PecaHeredograma? _selecionada;
+    private AudioStreamPlayer _somClique = null!;
     private const int ColunasBandeja = 5;
     private const int PassoBandeja = 64;
     private readonly List<PecaHeredograma> _pecas = new();
@@ -37,6 +41,9 @@ public partial class Heredograma : CanvasLayer
         if (_conteudo != null) { RemoveChild(_conteudo); _conteudo.QueueFree(); }
         _conteudo = new Control();
         AddChild(_conteudo);
+        _selecionada = null;
+        _somClique = new AudioStreamPlayer();
+        _conteudo.AddChild(_somClique);
         _pecas.Clear();
         _solucao.Clear();
         _resolvido = false;
@@ -55,7 +62,7 @@ public partial class Heredograma : CanvasLayer
             JsonElement modelo = escolhido.Value;
             Texto(modelo.GetProperty("titulo").GetString()!, new(40, 24), new(1180, 32));
             Texto(modelo.GetProperty("enunciado").GetString()!, new(40, 66), new(1180, 90));
-            Texto("Arraste as pecas para os +. Soltar sobre outra peca troca suas posicoes.\nQuadrado: homem | Circulo: mulher | Preenchido: afetado", new(40, 158), new(1180, 52));
+            Texto("Clique numa peca e depois num +. Clique numa peca colocada para devolver. Esc/direito cancela. Arrastar tambem funciona.\nQuadrado: homem | Circulo: mulher | Preenchido: afetado", new(40, 158), new(1180, 52));
             _explicacao = modelo.GetProperty("explicacao").GetString()!;
             int numero = 0;
             foreach (JsonElement encaixe in modelo.GetProperty("encaixes").EnumerateArray())
@@ -64,6 +71,21 @@ public partial class Heredograma : CanvasLayer
                 Vector2 posicao = new(encaixe.GetProperty("x").GetSingle(), encaixe.GetProperty("y").GetSingle());
                 Vector2 tamanho = new(encaixe.GetProperty("largura").GetSingle(), encaixe.GetProperty("altura").GetSingle());
                 PecaHeredograma destino = CriarPeca(posicao, tamanho, "");
+                // Reserva uma area exclusiva, inclusive para linhas estreitas.
+                bool sobreposto;
+                do
+                {
+                    sobreposto = false;
+                    foreach (PecaHeredograma anterior in _solucao.Keys)
+                    {
+                        if (!destino.GetRect().Grow(EspacamentoEncaixes / 2)
+                            .Intersects(anterior.GetRect().Grow(EspacamentoEncaixes / 2))) continue;
+                        destino.Position += new Vector2(PecaHeredograma.AreaCliqueMinima + EspacamentoEncaixes, 0);
+                        sobreposto = true;
+                        break;
+                    }
+                } while (sobreposto);
+                posicao += destino.Position - (posicao + (tamanho - destino.Size) / 2);
                 _solucao.Add(destino, tipo);
                 string rotulo = encaixe.GetProperty("rotulo").GetString()!;
                 if (rotulo.Length > 0) Texto(rotulo, posicao + new Vector2(-16, tamanho.Y + 2), new(100, 26));
@@ -124,22 +146,93 @@ public partial class Heredograma : CanvasLayer
     private PecaHeredograma CriarPeca(Vector2 posicao, Vector2 tamanho, string tipo)
     {
         PecaHeredograma peca = GD.Load<PackedScene>(CenaPeca).Instantiate<PecaHeredograma>();
-        peca.Position = posicao;
-        peca.Size = tamanho;
+        peca.TamanhoDesenho = tamanho;
+        peca.Size = new(PecaHeredograma.AreaCliqueMinima, PecaHeredograma.AreaCliqueMinima);
+        peca.Position = posicao + (tamanho - peca.Size) / 2;
         _conteudo.AddChild(peca);
         peca.DefinirTipo(tipo);
-        peca.Trocada += Trocar;
+        peca.Clicada += Clicar;
+        peca.ArrastoIniciado += origem => Selecionar(null);
+        peca.Solta += Soltar;
         _pecas.Add(peca);
         return peca;
     }
 
-    private void Trocar(PecaHeredograma origem, PecaHeredograma destino)
+    private void Selecionar(PecaHeredograma? peca)
     {
-        if (_resolvido || _concluido || !_pecas.Contains(origem) || !_pecas.Contains(destino)) return;
-        string anterior = destino.Tipo;
+        _selecionada = peca;
+        foreach (PecaHeredograma item in _pecas)
+        {
+            item.Selecionada = item == peca;
+            item.Destacada = peca != null && _solucao.ContainsKey(item) && item.Tipo.Length == 0;
+        }
+    }
+
+    private void TocarClique()
+    {
+        _somClique.Stream = GetNode<Assets>("/root/Assets").Som("sfx/clique");
+        if (_somClique.Stream != null) _somClique.Play();
+    }
+
+    public override void _Input(InputEvent evento)
+    {
+        if (evento.IsActionPressed(Acoes.Pausar) ||
+            evento is InputEventMouseButton { ButtonIndex: MouseButton.Right, Pressed: true })
+        {
+            Selecionar(null);
+            foreach (PecaHeredograma peca in _pecas) peca.CancelarGesto();
+            GetViewport().SetInputAsHandled();
+        }
+    }
+
+    private void Devolver(PecaHeredograma peca)
+    {
+        if (!_solucao.ContainsKey(peca) || peca.Tipo.Length == 0) return;
+        PecaHeredograma? livre = _pecas.Find(item => !_solucao.ContainsKey(item) && item.Tipo.Length == 0);
+        if (livre == null) return;
+        livre.DefinirTipo(peca.Tipo);
+        peca.DefinirTipo("");
+    }
+
+    private void Colocar(PecaHeredograma origem, PecaHeredograma destino)
+    {
+        Devolver(destino);
         destino.DefinirTipo(origem.Tipo);
-        origem.DefinirTipo(anterior);
+        origem.DefinirTipo("");
+        Selecionar(null);
         _mensagem.Text = "";
+        TocarClique();
+    }
+
+    private void Clicar(PecaHeredograma peca)
+    {
+        if (_resolvido || _concluido) return;
+        if (_solucao.ContainsKey(peca))
+        {
+            if (_selecionada != null) Colocar(_selecionada, peca);
+            else Devolver(peca);
+        }
+        else if (peca.Tipo.Length > 0)
+        {
+            Selecionar(_selecionada == peca ? null : peca);
+            if (_selecionada != null) TocarClique();
+        }
+    }
+
+    private void Soltar(PecaHeredograma origem, Vector2 posicao)
+    {
+        if (_resolvido || _concluido) return;
+        PecaHeredograma? destino = null;
+        float distancia = RaioAtracao;
+        foreach (PecaHeredograma encaixe in _solucao.Keys)
+        {
+            if (encaixe.Tipo.Length > 0 && encaixe != origem) continue;
+            float atual = posicao.DistanceTo(encaixe.GlobalPosition + encaixe.Size / 2);
+            if (atual <= distancia) { distancia = atual; destino = encaixe; }
+        }
+        if (destino == origem) return;
+        if (destino != null) Colocar(origem, destino);
+        else Devolver(origem);
     }
 
     private void Verificar()
@@ -152,6 +245,7 @@ public partial class Heredograma : CanvasLayer
                 return;
             }
         _resolvido = true;
+        Selecionar(null);
         foreach (PecaHeredograma peca in _pecas) peca.Bloqueada = true;
         _mensagem.Text = "Correto! " + _explicacao + " Clique em Continuar.";
     }
