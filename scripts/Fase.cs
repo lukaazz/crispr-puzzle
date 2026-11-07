@@ -6,7 +6,7 @@ using System.Text.Json;
 public partial class Fase : Node2D
 {
     private const string ArquivoFases = "res://data/fases.json";
-    private const string CenaMarcador = "res://scenes/marcador_fim.tscn";
+    private const int AlturaTela = 720;
     private const int LarguraTela = 1280;
     private const float DistanciaInteracao = 120.0f;
     private static readonly Dictionary<string, string> CenasPuzzle = new()
@@ -21,17 +21,19 @@ public partial class Fase : Node2D
     private CanvasLayer? _puzzle;
     private int _dificuldade = 1;
     private bool _conclusaoIniciada;
-    private MarcadorFim? _marcador;
-    private FitaDna _fita = null!;
+    private MarcadorFim? _marcador = null;
+    // Legado preservado para a etapa 4; nenhuma fita antiga e instanciada.
+    private FitaDna? _fita = null;
+    private MapaIsometrico _mapa = null!;
     private Cas9 _jogador = null!;
     private Control _conteudo = null!;
     private Label _aviso = null!;
 
     public override void _Ready()
     {
-        _fita = GetNode<FitaDna>("fita");
-        _jogador = GetNode<Cas9>("cas9");
-        Camera2D camera = GetNode<Camera2D>("cas9/camera");
+        _mapa = GetNode<MapaIsometrico>("mapa");
+        _jogador = GetNode<Cas9>("mapa/cas9");
+        Camera2D camera = GetNode<Camera2D>("mapa/cas9/camera");
         VisualSlot fundo = GetNode<VisualSlot>("fundo/tela");
         Label titulo = GetNode<Label>("interface/conteudo/titulo");
         _aviso = GetNode<Label>("interface/conteudo/aviso");
@@ -45,8 +47,6 @@ public partial class Fase : Node2D
             return;
         }
         JsonElement dados = configuracao.Value;
-        string sequencia = dados.GetProperty("sequencia").GetString()!;
-        int quantidade = LerInteiro(dados, "quantidade_pares", 0);
         _dificuldade = LerInteiro(dados, "dificuldade", 1);
         if (dados.TryGetProperty("tipos_puzzle", out JsonElement tipos) && tipos.ValueKind == JsonValueKind.Array)
             foreach (JsonElement tipo in tipos.EnumerateArray())
@@ -56,19 +56,39 @@ public partial class Fase : Node2D
         int numero = GetNode<GameState>("/root/GameState").FaseAtual;
         titulo.Text = $"Fase {numero} — Explore a fita de DNA";
         fundo.IdVisual = $"fundos/fundo_fase_{numero:00}";
-        float fim = _fita.Gerar(sequencia, quantidade, LerInteiro(dados, "trechos_danificados", 0));
-        _marcador = GD.Load<PackedScene>(CenaMarcador).Instantiate<MarcadorFim>();
-        _marcador.Position = new Vector2(fim, FitaDna.AlturaCaminho);
-        _marcador.CorpoChegou += AoEntrarNoFim;
-        AddChild(_marcador);
-        _jogador.ConfigurarCaminho(FitaDna.Margem, fim, FitaDna.AlturaCaminho);
-        camera.LimitLeft = 0;
-        camera.LimitRight = Mathf.Max(LarguraTela, (int)(fim + FitaDna.Margem));
-        camera.ResetSmoothing();
+        try
+        {
+            _mapa.Carregar(dados.GetProperty("mapa").GetString()!);
+            _jogador.ConfigurarMapa(_mapa);
+            Rect2 limites = _mapa.LimitesCamera;
+            // Se o mapa for menor que a viewport, centraliza a area disponivel.
+            Vector2 tamanho = limites.Size.Max(new Vector2(LarguraTela, AlturaTela));
+            Vector2 inicio = limites.GetCenter() - tamanho / 2;
+            camera.LimitLeft = Mathf.FloorToInt(inicio.X);
+            camera.LimitTop = Mathf.FloorToInt(inicio.Y);
+            camera.LimitRight = Mathf.CeilToInt(inicio.X + tamanho.X);
+            camera.LimitBottom = Mathf.CeilToInt(inicio.Y + tamanho.Y);
+            camera.ResetSmoothing();
+        }
+        catch (System.Exception erro)
+        {
+            GD.PushError($"Nao foi possivel carregar o mapa: {erro.Message}");
+            _jogador.DefinirMovimentoAtivo(false);
+            _aviso.Text = "Mapa indisponivel. Volte ao seletor.";
+        }
     }
 
     public override void _Process(double delta)
     {
+        if (_conclusaoIniciada || !_jogador.IsPhysicsProcessing()) return;
+        _aviso.Text = "Explore as fitas e alcance a plataforma com a bandeira.";
+        if (_mapa.TipoNaPosicao(_jogador.Position) == "plataforma_fim") AoEntrarNoFim(_jogador);
+    }
+
+    // Logica antiga sem uso nesta etapa; sera migrada para os defeitos do mapa.
+    private void ProcessarTrechosAntigos()
+    {
+        if (_fita == null) return;
         if (_puzzle != null || _conclusaoIniciada) return;
         TrechoDanificado? trecho = _fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao);
         if (trecho != null)
@@ -92,7 +112,7 @@ public partial class Fase : Node2D
 
     private void AoEntrarNoFim(Node2D corpo)
     {
-        if (corpo != _jogador || _puzzle != null || _conclusaoIniciada || !_fita.TodosTrechosReparados()) return;
+        if (corpo != _jogador || _puzzle != null || _conclusaoIniciada || (_fita != null && !_fita.TodosTrechosReparados())) return;
         _conclusaoIniciada = true;
         _jogador.DefinirMovimentoAtivo(false);
         // A troca de cena ocorre fora do callback de fisica da Area2D.
@@ -115,7 +135,7 @@ public partial class Fase : Node2D
 
     public override void _UnhandledInput(InputEvent evento)
     {
-        if (_puzzle != null || _conclusaoIniciada || !evento.IsActionPressed(Acoes.Interagir) || evento.IsEcho()) return;
+        if (_fita == null || _puzzle != null || _conclusaoIniciada || !evento.IsActionPressed(Acoes.Interagir) || evento.IsEcho()) return;
         TrechoDanificado? trecho = _fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao);
         if (trecho == null || _tiposPuzzle.Count == 0) return;
         GetViewport().SetInputAsHandled();
@@ -166,9 +186,8 @@ public partial class Fase : Node2D
             {
                 if (entrada.ValueKind != JsonValueKind.Object ||
                     LerInteiro(entrada, "numero", 0) != GetNode<GameState>("/root/GameState").FaseAtual) continue;
-                if (!entrada.TryGetProperty("sequencia", out JsonElement sequencia) ||
-                    sequencia.ValueKind != JsonValueKind.String || !FitaDna.SequenciaValida(sequencia.GetString()!) ||
-                    LerInteiro(entrada, "quantidade_pares", 0) < 2) return null;
+                if (!entrada.TryGetProperty("mapa", out JsonElement mapa) ||
+                    mapa.ValueKind != JsonValueKind.String || !FileAccess.FileExists(mapa.GetString()!)) return null;
                 return entrada.Clone();
             }
         }

@@ -1,5 +1,55 @@
 # crispr-puzzle
 
+## Etapa 3: mapa isometrico no jogo
+
+A cena compartilhada `scenes/fase.tscn` agora usa `MapaIsometrico.cs` no lugar
+da fita antiga. `data/fases.json` aponta explicitamente as dez fases para
+`res://data/mapas/fase_01.json` enquanto so existe este mapa. O numero da fase,
+o fundo, o progresso e o fluxo de conclusao continuam usando a fase selecionada.
+
+O mapa desenha os 275 pisos (fitas, plataformas em xadrez e 16 marcadores)
+com os ids de `data/isometrico.json`, preservando os offsets da referencia.
+Os vazios nao desenham piso e bloqueiam movimento. A bandeira e um objeto
+separado, apoiado pelos pes sobre o piso final. Os tiles usam Assets e
+Sprite2D com y-sort, sem VisualSlot; sem textura aparecem losangos coloridos.
+A bandeira tem um mastro e triangulo como placeholder. Recarregar Assets
+atualiza os pisos, a bandeira e o player sem reiniciar.
+
+Cas9 nasce na plataforma inicial. **WASD ou setas** movem em oito direcoes,
+com velocidade vertical pela metade e diagonais normalizadas. `Isometrico.cs`
+centraliza as conversoes entre tela e celula. O movimento consulta a grade,
+considera os offsets dos topos e usa a grade nominal nas emendas ocluidas da
+referencia. Subpassos de ate um pixel impedem saltos por vazios; nao depende
+de colisores fisicos. Marcadores continuam caminhaveis e sem logica de puzzle.
+
+O VisualSlot do player mede 48 x 48, com origem do jogador nos pes. Parado,
+usa `player/cas9`; andando, usa seis quadros de 32 x 32 do sheet, com
+espelhamento horizontal pela direcao. `data/visuais.json` registra colunas,
+linhas, tamanho, quantidade e 8 FPS (velocidade escolhida, nao medida do PNG).
+Sem sheet, quadros numerados continuam aceitos; sem imagens ha placeholder.
+
+A camera acompanha Cas9 e respeita os limites do mapa com margem de
+160 x 180 px configurada em `data/isometrico.json`, para manter as bordas
+e o player visiveis fora dos textos da interface. Chegar a plataforma final
+conclui a fase pelo GameState e SceneRouter: seletor nas fases 1-9, tela final
+ao concluir a campanha na fase 10. Pausa e retorno ao seletor permanecem.
+
+`FitaDna.cs`, `TrechoDanificado.cs`, os puzzles e os callbacks antigos foram
+preservados, mas a fase nao instancia danos nem abre puzzles neste marco.
+A migracao dos defeitos fica para a etapa 4; por enquanto basta chegar ao fim.
+`project.godot` recebeu somente as acoes `mover_cima` e `mover_baixo` no Input
+Map; `.csproj`, `.sln`, TargetFramework e mapas foram preservados.
+
+Teste: abra `project.godot` no **Godot 4.x .NET**, com **SDK .NET 8** instalado,
+pressione **F5**, entre na fase 1 e percorra ambas as fitas. Confira bordas,
+marcadores, animacao/parada/espelhamento, camera, pausa e chegada a bandeira.
+`dotnet build` passou com zero erros e avisos. O teste headless reproduzivel
+`python tools/validar_etapa3.py CAMINHO_GODOT` verificou os 275 pisos pelo
+movimento real, 16 marcadores, bloqueio de vazios, proporcao de velocidade,
+sheet, parada, espelhamento, limites da camera, placeholders, recarga e
+retorno ao seletor. O teste nao grava progresso e restaura os overrides
+temporarios de assets. A imagem real da fase tambem foi conferida no Godot.
+
 ## Etapa 2: mapa completo e previa
 
 `data/mapas/fase_01.json` completa a extracao da etapa 1 sem alterar as cenas

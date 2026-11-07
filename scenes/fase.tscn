@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://scenes/componentes/visual_slot.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://scenes/componentes/botao_visual.tscn" id="4"]
 
-[ext_resource type="Script" path="res://scripts/FitaDna.cs" id="5"]
+[ext_resource type="Script" path="res://scripts/MapaIsometrico.cs" id="5"]
 [ext_resource type="PackedScene" path="res://scenes/menu_pausa.tscn" id="6"]
 
 [node name="fase" type="Node2D"]
@@ -23,10 +23,11 @@ offset_bottom = 0.0
 TamanhoPadrao = Vector2(1280, 720)
 CorPlaceholder = Color(0.025, 0.055, 0.1, 1)
 
-[node name="fita" type="Node2D" parent="."]
+[node name="mapa" type="Node2D" parent="."]
+y_sort_enabled = true
 script = ExtResource("5")
 
-[node name="cas9" parent="." instance=ExtResource("2")]
+[node name="cas9" parent="mapa" instance=ExtResource("2")]
 
 [node name="interface" type="CanvasLayer" parent="."]
 
@@ -51,7 +52,7 @@ offset_top = 84.0
 offset_right = 1240.0
 offset_bottom = 160.0
 theme_override_font_sizes/font_size = 20
-text = "Mova Cas9 para a esquerda e para a direita pelo DNA.\nPares complementares: A–T e G–C. Cas9 e guiada por um RNA guia."
+text = "Mova Cas9 em oito direcoes pelas fitas de DNA.\nPares complementares: A-T e G-C. Cas9 e guiada por um RNA guia."
 
 [node name="aviso" type="Label" parent="interface/conteudo"]
 offset_left = 40.0
@@ -59,7 +60,7 @@ offset_top = 560.0
 offset_right = 1240.0
 offset_bottom = 600.0
 theme_override_font_sizes/font_size = 18
-text = "Encontre um trecho danificado e use a acao interagir para abrir o puzzle."
+text = "Explore as fitas e alcance a plataforma com a bandeira."
 
 [node name="voltar" parent="interface/conteudo" instance=ExtResource("4")]
 custom_minimum_size = Vector2(260, 56)

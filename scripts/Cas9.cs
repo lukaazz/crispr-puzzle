@@ -4,19 +4,16 @@ using Godot;
 public partial class Cas9 : CharacterBody2D
 {
     [Export] public float Velocidade { get; set; } = 280.0f;
-    public float LimiteEsquerdo { get; set; }
-    public float LimiteDireito { get; set; }
-    public float AlturaCaminho { get; set; }
+    private MapaIsometrico? _mapa;
     private VisualSlot _visual = null!;
 
     public override void _Ready() => _visual = GetNode<VisualSlot>("visual");
 
-    public void ConfigurarCaminho(float inicio, float fim, float altura)
+    public void ConfigurarMapa(MapaIsometrico mapa)
     {
-        LimiteEsquerdo = inicio;
-        LimiteDireito = fim;
-        AlturaCaminho = altura;
-        Position = new Vector2(inicio, altura);
+        _mapa = mapa;
+        Position = mapa.Spawn;
+        _visual.DefinirAnimacaoAtiva(false);
     }
 
     public void DefinirMovimentoAtivo(bool ativo)
@@ -28,11 +25,13 @@ public partial class Cas9 : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        float xAnterior = Position.X;
-        float direcao = Input.GetAxis(Acoes.MoverEsq, Acoes.MoverDir);
-        Velocity = new Vector2(direcao * Velocidade, 0);
-        MoveAndSlide();
-        Position = new Vector2(Mathf.Clamp(Position.X, LimiteEsquerdo, LimiteDireito), AlturaCaminho);
-        _visual.DefinirAnimacaoAtiva(!Mathf.IsEqualApprox(Position.X, xAnterior));
+        if (_mapa == null) return;
+        Vector2 anterior = Position;
+        Vector2 direcao = Input.GetVector(Acoes.MoverEsq, Acoes.MoverDir, Acoes.MoverCima, Acoes.MoverBaixo);
+        Velocity = new Vector2(direcao.X, direcao.Y * _mapa.ProporcaoVertical) * Velocidade;
+        Position = _mapa.Mover(Position, Velocity * (float)delta);
+        Vector2 movimento = Position - anterior;
+        _visual.DefinirAnimacaoAtiva(!movimento.IsZeroApprox());
+        if (!Mathf.IsZeroApprox(movimento.X)) _visual.DefinirEspelhamento(movimento.X < 0);
     }
 }

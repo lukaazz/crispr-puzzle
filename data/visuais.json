@@ -1,1 +1,12 @@
-{}
+{
+  "player/cas9_andando_sheet": {
+    "colunas": 6,
+    "linhas": 1,
+    "quantidade_quadros": 6,
+    "tamanho_quadro": [
+      32,
+      32
+    ],
+    "fps": 8
+  }
+}

@@ -51,6 +51,15 @@ interagir={
 ]
 }
 
+mover_cima={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":87), Object(InputEventKey,"physical_keycode":4194320)]
+}
+mover_baixo={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"physical_keycode":83), Object(InputEventKey,"physical_keycode":4194322)]
+}
+
 pausar={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"physical_keycode":4194305)]

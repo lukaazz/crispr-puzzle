@@ -29,6 +29,7 @@ public partial class VisualSlot : Control
     [Export] public string FormaPlaceholder { get; set; } = "";
     // Vazio procura <id>_1, _2...; Cas9 tambem procura cas9_andando_1...
     [Export] public string IdAnimacao { get; set; } = "";
+    [Export] public bool ImagemQuandoParado { get; set; }
 
     public override void _Ready()
     {
@@ -70,6 +71,29 @@ public partial class VisualSlot : Control
             if (quadro == null) break;
             quadros.AddFrame(AnimacaoPadrao, quadro);
         }
+        // Sheet configurada tem precedencia sobre quadros soltos para este estado.
+        string idSheet = prefixo + "_sheet";
+        Godot.Collections.Dictionary cfg = assets.ConfiguracaoVisual(idSheet);
+        Texture2D? sheet = assets.Textura(idSheet);
+        if (sheet != null && cfg.TryGetValue("colunas", out Variant colunasValor) &&
+            cfg.TryGetValue("linhas", out Variant linhasValor) && cfg.TryGetValue("tamanho_quadro", out Variant tamanhoValor))
+        {
+            int colunas = colunasValor.AsInt32();
+            int linhas = linhasValor.AsInt32();
+            Godot.Collections.Array dimensoes = tamanhoValor.AsGodotArray();
+            Vector2 tamanho = dimensoes.Count == 2 ? new Vector2(dimensoes[0].AsSingle(), dimensoes[1].AsSingle()) : Vector2.Zero;
+            int quantidade = cfg.TryGetValue("quantidade_quadros", out Variant total) ? total.AsInt32() : colunas * linhas;
+            if (colunas > 0 && linhas > 0 && tamanho.X > 0 && tamanho.Y > 0 && quantidade > 0 &&
+                quantidade <= colunas * linhas && colunas * tamanho.X <= sheet.GetWidth() && linhas * tamanho.Y <= sheet.GetHeight())
+            {
+                quadros.Clear(AnimacaoPadrao);
+                double fps = cfg.TryGetValue("fps", out Variant velocidade) ? velocidade.AsDouble() : QuadrosPorSegundo;
+                quadros.SetAnimationSpeed(AnimacaoPadrao, fps > 0 ? fps : QuadrosPorSegundo);
+                for (int i = 0; i < quantidade; i++)
+                    quadros.AddFrame(AnimacaoPadrao, new AtlasTexture { Atlas = sheet,
+                        Region = new Rect2(new Vector2(i % colunas, i / colunas) * tamanho, tamanho) });
+            }
+        }
         _animacao.Visible = quadros.GetFrameCount(AnimacaoPadrao) > 0;
         if (_animacao.Visible)
         {
@@ -78,6 +102,7 @@ public partial class VisualSlot : Control
             else _animacao.Animation = AnimacaoPadrao;
         }
         _imagem.Visible = !_animacao.Visible && _imagem.Texture != null;
+        AtualizarEstadoParado();
         _placeholder.Color = CorPlaceholder;
         _placeholder.Visible = !_imagem.Visible && !_animacao.Visible;
         if (!string.IsNullOrEmpty(FormaPlaceholder)) _placeholder.Visible = false;
@@ -94,6 +119,21 @@ public partial class VisualSlot : Control
         if (_animacao.SpriteFrames == null) return;
         if (ativa) _animacao.Play(AnimacaoPadrao);
         else _animacao.Pause();
+        AtualizarEstadoParado();
+        AjustarImagem();
+    }
+
+    private void AtualizarEstadoParado()
+    {
+        if (!ImagemQuandoParado || _animacao.SpriteFrames == null) return;
+        _animacao.Visible = _animacaoAtiva || _imagem.Texture == null;
+        _imagem.Visible = !_animacao.Visible && _imagem.Texture != null;
+    }
+
+    public void DefinirEspelhamento(bool espelhado)
+    {
+        _imagem.FlipH = espelhado;
+        _animacao.FlipH = espelhado;
     }
 
     public override void _Draw()

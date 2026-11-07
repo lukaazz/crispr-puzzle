@@ -1,5 +1,26 @@
 # Assets do CRISPR Puzzle
 
+## Integracao isometrica (etapa 3)
+
+Os ids `mapa/tiles/tile_015`, `tile_037`, `tile_082`, `tile_103`, `tile_059`
+e `tile_081` do catalogo abaixo agora aparecem na fase: verde, azul, carmim,
+roxo, turquesa e oliva respectivamente. Os pisos medem 48 x 39 px (topo
+48 x 24 e lateral 15), sem VisualSlot. As plataformas alternam 015/037.
+`mapa/tiles/tile_131` e a bandeira, 24 x 31 px, com origem [2,31] nos pes.
+Tudo e opcional: pisos sem imagem mostram losangos da cor correspondente;
+sem bandeira, aparecem mastro e triangulo. Assets.Recarregar atualiza o mapa.
+Tiles, medidas, escala/offset e margem da camera ficam em `data/isometrico.json`.
+
+`player/cas9` agora e a imagem parada em um VisualSlot de 48 x 48 px,
+alinhado aos pes. `player/cas9_andando_sheet` e usado durante o movimento,
+com seis quadros de 32 x 32 em uma linha. A configuracao em `data/visuais.json`
+define `colunas`, `linhas`, `quantidade_quadros`, `tamanho_quadro` e `fps: 8`.
+8 FPS e uma escolha de reproducao, pois o PNG nao informa velocidade.
+Ambos os visuais espelham horizontalmente para a esquerda. A imagem parada
+retorna quando o jogador para. Sem sheet, ha fallback para quadros numerados;
+sem animacao, imagem estatica; sem nenhuma imagem, placeholder Cas9.
+Os demais VisualSlots conservam o comportamento anterior.
+
 ## Previa do mapa completo (etapa 2)
 
 `sprites/mapa/_preview_fase_01.png` e gerada por `python tools/completar_mapa.py`.
@@ -34,7 +55,7 @@ Caminhos relativos a `assets/sprites/`. O id não inclui `.png`.
 | `ui/icone_cadeado` | Fases bloqueadas; placeholder X e texto Bloqueada | 36 × 36 | Sim |
 | `ui/icone_fase_concluida` | Fases concluídas; placeholder OK e texto Concluida | 36 × 36 | Sim |
 | `ui/marcador_fim` | Chegada na extremidade direita da fita; placeholder azul/FIM | 80 × 96 | Sim |
-| `player/cas9` | Personagem na fita; placeholder Cas9 | 96 × 96 | Sim |
+| `player/cas9` | Personagem parado, origem nos pes; placeholder Cas9 | 32 x 32 nativo; slot 48 x 48 | Sim |
 | `player/cas9_andando_1` … `player/cas9_andando_N` | Animação durante o movimento | 96 × 96 por quadro | Sim |
 | `dna/base_a` | Adenina na fita e no puzzle, verde, letra A | 64 × 64 | Sim |
 | `dna/base_t` | Timina na fita e no puzzle, laranja, letra T | 64 × 64 | Sim |
