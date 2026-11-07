@@ -1,5 +1,14 @@
 {
   "versao": 1,
+  "movimento": {
+    "velocidade_celulas_por_segundo": 8.249579,
+    "acoes": {
+      "mover_dir": [1, 0],
+      "mover_esq": [-1, 0],
+      "mover_baixo": [0, 1],
+      "mover_cima": [0, -1]
+    }
+  },
   "estado": "mapa da fase 01 completo para previa; ainda nao integrado ao jogo",
   "tile": {
     "largura_topo": 48,

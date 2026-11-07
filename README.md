@@ -15,12 +15,17 @@ Sprite2D com y-sort, sem VisualSlot; sem textura aparecem losangos coloridos.
 A bandeira tem um mastro e triangulo como placeholder. Recarregar Assets
 atualiza os pisos, a bandeira e o player sem reiniciar.
 
-Cas9 nasce na plataforma inicial. **WASD ou setas** movem em oito direcoes,
-com velocidade vertical pela metade e diagonais normalizadas. `Isometrico.cs`
-centraliza as conversoes entre tela e celula. O movimento consulta a grade,
-considera os offsets dos topos e usa a grade nominal nas emendas ocluidas da
-referencia. Subpassos de ate um pixel impedem saltos por vazios; nao depende
-de colisores fisicos. Marcadores continuam caminhaveis e sem logica de puzzle.
+Cas9 move em coordenadas continuas da grade: D=+x, A=-x, S=+y,
+W=-y. W+D vai para a direita, S+A para a esquerda, W+A para cima e
+S+D para baixo. Combinacoes sao normalizadas antes da projecao Isometrico.
+Em data/isometrico.json, movimento.acoes configura os vetores e
+velocidade_celulas_por_segundo configura a velocidade (8.249579 preserva
+os antigos 280 px/s no movimento horizontal combinado).
+EhCaminhavel consulta somente a grade; subpassos de 0.1 celula evitam
+saltar vazios e tentam os eixos separadamente para deslizar nas bordas.
+Offsets dos sprites sao visuais. Animacao e espelhamento usam movimento real.
+Teste com F5 no Godot .NET: confira as oito direcoes, bordas e animacao.
+O teste historico tools/validar_etapa3.py pressupoe o controle antigo.
 
 O VisualSlot do player mede 48 x 48, com origem do jogador nos pes. Parado,
 usa `player/cas9`; andando, usa seis quadros de 32 x 32 do sheet, com

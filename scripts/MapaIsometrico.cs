@@ -8,9 +8,7 @@ public partial class MapaIsometrico : Node2D
 {
     private sealed record Celula(Vector2I Coordenada, string Tipo, bool Caminhavel, Vector2 Offset);
     private const string ArquivoMedidas = "res://data/isometrico.json";
-    private const float PassoMaximo = 1.0f;
-    // Pequenas costuras da arte nao interrompem a caminhada.
-    private const float ToleranciaCostura = 0.08f;
+    private const float PassoMaximo = 0.1f;
     private readonly Dictionary<Vector2I, Celula> _celulas = new();
     private readonly List<Node2D> _visuais = new();
     private JsonElement _config;
@@ -27,7 +25,16 @@ public partial class MapaIsometrico : Node2D
             return Limites.GrowIndividual(margem.X, margem.Y, margem.X, margem.Y);
         }
     }
-    public float ProporcaoVertical => _tamanho.Y / _tamanho.X;
+    public Vector2 SpawnGrade { get; private set; }
+    public float VelocidadeGrade => _config.GetProperty("movimento").GetProperty("velocidade_celulas_por_segundo").GetSingle();
+    public Vector2 Projetar(Vector2 celula) => Isometrico.CelulaParaTela(celula, _origem, _tamanho);
+    public Vector2 DirecaoAcao(StringName acao) =>
+        Vetor(_config.GetProperty("movimento").GetProperty("acoes").GetProperty(acao.ToString()));
+    public bool EhCaminhavel(Vector2 celula)
+    {
+        Vector2I coordenada = new(Mathf.FloorToInt(celula.X + 0.5f), Mathf.FloorToInt(celula.Y + 0.5f));
+        return _celulas.TryGetValue(coordenada, out Celula? piso) && piso.Caminhavel && piso.Tipo != "vazio";
+    }
 
     public override void _Ready()
     {
@@ -63,7 +70,8 @@ public partial class MapaIsometrico : Node2D
         Vector2I inicio = Coordenada(_dados.GetProperty("spawn"));
         if (!_celulas.TryGetValue(inicio, out Celula? celula) || !celula.Caminhavel)
             throw new InvalidOperationException("Spawn fora do piso.");
-        Spawn = Centro(celula);
+        SpawnGrade = inicio;
+        Spawn = Projetar(SpawnGrade);
         Desenhar();
     }
 
@@ -73,29 +81,9 @@ public partial class MapaIsometrico : Node2D
 
     public string TipoNaPosicao(Vector2 posicao)
     {
-        Vector2 nominal = Isometrico.TelaParaCelula(posicao, _origem, _tamanho);
-        Vector2I centro = new(Mathf.RoundToInt(nominal.X), Mathf.RoundToInt(nominal.Y));
-        Celula? melhor = null;
-        float menorDistancia = float.MaxValue;
-        // Offsets da extracao podem deslocar um topo para a celula vizinha.
-        for (int y = centro.Y - 2; y <= centro.Y + 2; y++)
-            for (int x = centro.X - 2; x <= centro.X + 2; x++)
-            {
-                if (!_celulas.TryGetValue(new(x, y), out Celula? celula) || !celula.Caminhavel) continue;
-                Vector2 local = Isometrico.TelaParaCelula(posicao - celula.Offset, _origem, _tamanho) - (Vector2)celula.Coordenada;
-                float distancia = Mathf.Max(Mathf.Abs(local.X), Mathf.Abs(local.Y));
-                if (distancia <= 0.5f + ToleranciaCostura && distancia < menorDistancia)
-                {
-                    melhor = celula;
-                    menorDistancia = distancia;
-                }
-            }
-        if (melhor != null) return melhor.Tipo;
-        // Os centros dos marcadores parcialmente ocluidos da referencia nao
-        // descrevem um piso inteiro. A grade continua sendo a autoridade nas
-        // emendas entre esses recortes; nunca criamos uma celula caminhavel.
-        return _celulas.TryGetValue(centro, out Celula? nominalCelula) && nominalCelula.Caminhavel
-            ? nominalCelula.Tipo : "vazio";
+        Vector2 grade = Isometrico.TelaParaCelula(posicao, _origem, _tamanho);
+        Vector2I coordenada = new(Mathf.FloorToInt(grade.X + 0.5f), Mathf.FloorToInt(grade.Y + 0.5f));
+        return EhCaminhavel(grade) ? _celulas[coordenada].Tipo : "vazio";
     }
 
     public Vector2 Mover(Vector2 origem, Vector2 deslocamento)
@@ -106,9 +94,9 @@ public partial class MapaIsometrico : Node2D
         for (int i = 0; i < passos; i++)
         {
             Vector2 destino = posicao + passo;
-            bool podeX = TipoNaPosicao(posicao + new Vector2(passo.X, 0)) != "vazio";
-            bool podeY = TipoNaPosicao(posicao + new Vector2(0, passo.Y)) != "vazio";
-            if (TipoNaPosicao(destino) != "vazio" && (podeX || podeY)) posicao = destino;
+            bool podeX = EhCaminhavel(posicao + new Vector2(passo.X, 0));
+            bool podeY = EhCaminhavel(posicao + new Vector2(0, passo.Y));
+            if (EhCaminhavel(destino) && (podeX || podeY)) posicao = destino;
             else if (podeX) posicao.X += passo.X;
             else if (podeY) posicao.Y += passo.Y;
         }
