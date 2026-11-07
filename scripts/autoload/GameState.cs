@@ -48,6 +48,20 @@ public partial class GameState : Node
         EmitSignal(SignalName.ProgressoAlterado);
     }
 
+    public Error ResetarProgresso()
+    {
+        if (FileAccess.FileExists(CaminhoSave))
+        {
+            Error erro = DirAccess.RemoveAbsolute(CaminhoSave);
+            if (erro != Error.Ok) return erro;
+        }
+        FaseAtual = PrimeiraFase;
+        FasesLiberadas = new() { PrimeiraFase };
+        FasesConcluidas.Clear();
+        EmitSignal(SignalName.ProgressoAlterado);
+        return Error.Ok;
+    }
+
     public void SalvarProgresso()
     {
         using ConfigFile configuracao = new();

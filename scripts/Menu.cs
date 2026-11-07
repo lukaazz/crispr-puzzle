@@ -13,6 +13,8 @@ public partial class Menu : Control
     };
     private Button _botaoJogar = null!;
     private Button _botaoSair = null!;
+    private Button _botaoResetar = null!;
+    private ConfirmationDialog _confirmacaoResetar = null!;
     private Label _aviso = null!;
 
     public override void _Ready()
@@ -20,6 +22,15 @@ public partial class Menu : Control
         _botaoJogar = GetNode<Button>("centralizador/conteudo/jogar");
         _botaoSair = GetNode<Button>("centralizador/conteudo/sair");
         _aviso = GetNode<Label>("centralizador/conteudo/aviso");
+        _botaoResetar = GetNode<Button>("centralizador/conteudo/resetar");
+        _confirmacaoResetar = GetNode<ConfirmationDialog>("confirmacao_resetar");
+        _botaoResetar.Pressed += () =>
+        {
+            _confirmacaoResetar.PopupCentered();
+            _confirmacaoResetar.GetCancelButton().GrabFocus();
+        };
+        _confirmacaoResetar.Confirmed += AoResetarConfirmado;
+        _confirmacaoResetar.Canceled += () => _botaoResetar.GrabFocus();
         _botaoJogar.GrabFocus();
         GetNode<Assets>("/root/Assets").AssetsRecarregados += AtualizarBotoes;
         AtualizarBotoes();
@@ -34,7 +45,7 @@ public partial class Menu : Control
     private void AtualizarBotoes()
     {
         // O tema nativo permanece como placeholder de cada estado sem imagem.
-        foreach (Button botao in new[] { _botaoJogar, _botaoSair })
+        foreach (Button botao in new[] { _botaoJogar, _botaoSair, _botaoResetar, _confirmacaoResetar.GetOkButton(), _confirmacaoResetar.GetCancelButton() })
         {
             foreach (KeyValuePair<string, string> visual in VisuaisBotoes)
             {
@@ -57,6 +68,15 @@ public partial class Menu : Control
         Error erro = GetNode<SceneRouter>("/root/SceneRouter").IrParaSeletorFases();
         if (erro == Error.FileNotFound) _aviso.Text = "O seletor de fases ainda nao esta disponivel.";
         else if (erro != Error.Ok) _aviso.Text = "Nao foi possivel abrir o seletor de fases.";
+    }
+
+    private void AoResetarConfirmado()
+    {
+        Error erro = GetNode<GameState>("/root/GameState").ResetarProgresso();
+        _aviso.Text = erro == Error.Ok
+            ? "Progresso resetado. Somente a fase 1 esta liberada."
+            : "Nao foi possivel apagar o save. Seu progresso foi mantido.";
+        _botaoResetar.GrabFocus();
     }
 
     private void AoSairPressed() => GetNode<SceneRouter>("/root/SceneRouter").Sair();

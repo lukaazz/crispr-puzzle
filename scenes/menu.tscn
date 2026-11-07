@@ -59,6 +59,12 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 26
 text = "Jogar"
 
+[node name="resetar" type="Button" parent="centralizador/conteudo"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme_override_font_sizes/font_size = 26
+text = "Resetar progresso"
+
 [node name="sair" type="Button" parent="centralizador/conteudo"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
@@ -71,6 +77,15 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="confirmacao_resetar" type="ConfirmationDialog" parent="."]
+title = "Resetar progresso"
+size = Vector2i(480, 180)
+exclusive = true
+dialog_text = "Apagar todo o progresso? Apenas a fase 1 ficara liberada.
+Esta acao nao pode ser desfeita."
+ok_button_text = "Resetar progresso"
+cancel_button_text = "Cancelar"
 
 [connection signal="pressed" from="centralizador/conteudo/jogar" to="." method="AoJogarPressed"]
 [connection signal="pressed" from="centralizador/conteudo/sair" to="." method="AoSairPressed"]
