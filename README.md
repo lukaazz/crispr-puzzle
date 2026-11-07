@@ -1,5 +1,15 @@
 # crispr-puzzle
 
+## Portfólio de biologia
+
+O [Portfólio Digital para Mecanismo de Biotecnologia](PORTFOLIO_BIOLOGIA.md)
+apresenta o jogo para o trabalho de biologia, com foco em CRISPR-Cas9,
+DNA, complementaridade de bases, hereditariedade e reparo celular.
+Inclui a relação dos três puzzles com os conceitos, os limites da simulação,
+questões para debate e fontes científicas para consulta.
+Para acompanhar a apresentação com uma demonstração, abra `project.godot`
+na Godot 4.x edição .NET, com o SDK do .NET instalado, e pressione **F5**.
+
 ## Etapa 3: mapa isometrico no jogo
 
 A cena compartilhada `scenes/fase.tscn` agora usa `MapaIsometrico.cs` no lugar
