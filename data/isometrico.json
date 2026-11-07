@@ -3,7 +3,7 @@
   "pontes_decorativas": {"espacamento": 6, "inicio_x": 7, "fim_x": 43},
   "versao": 1,
   "movimento": {
-    "velocidade_celulas_por_segundo": 8.249579,
+    "velocidade_celulas_por_segundo": 5.4,
     "acoes": {
       "mover_dir": [1, 0],
       "mover_esq": [-1, 0],

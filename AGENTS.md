@@ -140,10 +140,11 @@
     VisualSlot (são centenas de nós).
     - **Ordem de desenho por Y (y-sort):** o player e os blocos ficam na frente
     ou atrás dos tiles corretos.
-    - **Movimento do player:** no espaço da tela, em 8 direções, com velocidade
-    vertical pela metade (proporção 2:1). O player só pode ficar sobre células
-    caminháveis (converta a posição para célula pela transformada inversa). A
-    restrição vem da grade, não da física.
+    - **Movimento do player:** em coordenadas contínuas da grade, projetadas para
+    a tela pela classe Isometrico. WASD seguem os eixos da grade (mapeamento e
+    velocidade em data/isometrico.json). O player só pode ficar sobre células
+    caminháveis, consultadas por uma única função EhCaminhavel(célula), com
+    deslize ao longo das bordas.
     - **Estrutura do mapa:** duas fitas (verde e azul) contínuas e caminháveis,
     unidas numa plataforma única no início (com o spawn) e no fim (com o
     marcador de fim de fase, usando a bandeira do tileset).
@@ -157,6 +158,11 @@
         "interagir" abre o puzzle sorteado pela fase. Sucesso repara o defeito;
         falha permite tentar de novo.
     - Scripts auxiliares (Python) ficam em tools/ e não fazem parte do jogo.
+    - **Pontes decorativas** ("pontes_decorativas" no JSON do mapa): ligam as
+    duas fitas só visualmente. Nunca caminháveis e sem lógica de jogo.
+    - **Defeitos por fase:** o mapa tem um pool de candidatos; data/fases.json
+    define "quantidade_defeitos" (2 ou 3) e "pesos" dos tipos de puzzle.
+    Sempre pelo menos um defeito ativo por fita.
 
     ## Arquitetura (siga esta divisão)
     - **SceneRouter (autoload):** única forma de trocar de tela. Nenhuma cena chama
