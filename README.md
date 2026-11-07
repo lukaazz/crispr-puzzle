@@ -1,5 +1,54 @@
 # crispr-puzzle
 
+## Etapa 1: analise dos assets isometricos
+
+Preparacao de dados concluida, sem alterar cenas, logica, configuracao do
+projeto ou integrar o mapa ao jogo. Os PNGs originais foram preservados.
+
+Execute `python -m pip install -r tools/requirements.txt` se necessario e
+`python tools/analisar_assets.py` para reproduzir a extracao e ver as medidas
+no terminal (Python com Pillow; ferramentas externas ao jogo).
+
+| Imagem | Dimensoes |
+| --- | --- |
+| `assets/sprites/mapa/tileset_full3.png` | 768 x 1008 px |
+| `assets/sprites/mapa/mapa_referencia.png` | 1024 x 768 px |
+| `assets/sprites/player/cas9_andando_sheet.png` | 192 x 32 px; 6 quadros de 32 x 32 |
+
+O topo do tile mede **48 x 24 px**, incluindo contorno; a cor interna ocupa
+45 x 23 px. A lateral mede **15 px**, totalizando 39 px sem mureta.
+Variantes com mureta chegam a 45 px. FPS nao pode ser obtido do PNG.
+
+- `assets/sprites/mapa/tiles/tile_001.png` a `tile_134.png`: todos os
+  componentes conexos de alpha > 0, com oito vizinhos, ordenados por y/x
+  do canto superior esquerdo. Incluem objetos pequenos, nao apenas pisos.
+- `assets/sprites/mapa/tiles/_indice.png`: folha de contato numerada.
+- `assets/sprites/mapa/tiles/_manifesto.json`: caixas de origem e tamanhos
+  para conferir os recortes sem perder suas posicoes no atlas.
+- `assets/sprites/mapa/tiles/_preview_extracao.png`: referencia com os ids
+  das celulas sobrepostos para conferencia visual.
+- `data/isometrico.json`: medidas, amostra usada, perfil alpha, tiles por cor,
+  escala/offset neutros, quadros do player e hashes dos originais.
+- `data/mapas/fase_01_extraido.json`: grade esparsa com 147 celulas observadas
+  (65 verdes, 66 azuis; 4 carmim, 4 roxas, 4 turquesa e 4 oliva).
+
+A extracao usa as seis cores exatas e erosao 5 x 5 para separar os topos
+que se tocam. Nucleos com menos de 21 pixels sao detalhes, nao celulas.
+A referencia tem sobreposicoes, desalinhamentos e corte na borda direita:
+as coordenadas da grade sao aproximadas pela inversa isometrica 2:1,
+com centro visivel, caixa do nucleo e offset observado preservados por celula.
+Topos parciais sao marcados; seus centros representam apenas a parte visivel.
+Nao houve preenchimento de lacunas nem inferencia de spawn, defeitos,
+plataformas ou conexoes. `spawn` e `defeitos` permanecem `null`.
+Este arquivo e uma extracao para revisao, ainda nao uma fase jogavel.
+
+O script verifica a preservacao de todos os pixels visiveis do tileset,
+os hashes dos originais, o encaixe dos seis quadros e a ausencia de
+coordenadas duplicadas. Confira o indice e a previa para revisar a arte.
+Validacao desta etapa: `dotnet build` aprovado, zero erros e zero avisos.
+F5 no Godot 4.x .NET, com o SDK .NET instalado, continua executando o
+jogo existente; esta etapa nao muda sua aparencia ou comportamento.
+
 Jogo 2D educativo sobre CRISPR-Cas9: explore o DNA, resolva puzzles e repare
 os trechos para concluir dez fases progressivas. Plataforma alvo: desktop Windows.
 

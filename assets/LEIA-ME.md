@@ -144,3 +144,161 @@ Uma exportação não importa arquivos soltos adicionados depois: inclua os
 assets antes de exportar. Inclua `data/*.json` no filtro de arquivos não
 recurso da exportação.
 Os `.gitkeep` mantêm as pastas vazias no Git e podem permanecer junto da arte.
+
+
+## Assets isometricos analisados (etapa 1)
+
+Arquivos de preparacao, ainda nao consumidos pelas cenas. Originais preservados.
+Reproduzir: `python tools/analisar_assets.py` (Pillow; dependencias em `tools/requirements.txt`).
+Topo 48 x 24 px com contorno, lateral 15 px; total 39 px sem mureta.
+O sheet tem 6 quadros de 32 x 32 px em uma linha; FPS nao informado pela imagem.
+A integracao do sheet ao jogo fica para outra etapa; a animacao existente usa quadros numerados.
+
+| Id / arquivo | Uso | Tamanho nativo recomendado | Opcional no jogo |
+| --- | --- | --- | --- |
+| `mapa/tileset_full3` | Atlas original, fonte dos recortes | 768 x 1008 | Sim |
+| `mapa/mapa_referencia` | Referencia visual da grade | 1024 x 768 | Sim |
+| `player/cas9_andando_sheet` | Sheet analisado, integracao futura | 192 x 32 (6 de 32 x 32) | Sim |
+| `mapa/tiles/tile_001` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_002` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_003` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_004` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_005` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_006` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_007` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_008` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_009` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_010` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_011` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_012` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_013` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_014` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_015` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_016` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_017` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_018` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_019` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_020` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_021` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_022` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_023` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_024` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_025` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_026` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_027` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_028` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_029` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_030` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_031` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_032` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_033` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_034` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_035` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_036` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_037` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_038` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_039` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_040` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_041` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_042` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_043` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_044` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_045` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_046` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_047` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_048` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_049` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_050` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_051` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_052` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_053` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_054` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_055` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_056` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_057` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_058` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_059` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_060` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_061` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_062` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_063` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_064` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_065` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_066` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_067` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_068` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_069` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_070` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_071` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_072` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_073` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_074` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_075` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_076` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_077` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_078` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_079` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_080` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_081` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_082` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_083` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_084` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_085` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_086` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_087` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_088` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_089` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_090` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_091` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_092` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_093` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_094` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_095` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_096` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_097` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_098` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_099` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_100` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_101` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_102` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_103` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_104` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_105` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_106` | Componente extraido do atlas | 48 x 45 | Sim |
+| `mapa/tiles/tile_107` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_108` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_109` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_110` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_111` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_112` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_113` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_114` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_115` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_116` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_117` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_118` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_119` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_120` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_121` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_122` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_123` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_124` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_125` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_126` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_127` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_128` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_129` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_130` | Componente extraido do atlas | 48 x 39 | Sim |
+| `mapa/tiles/tile_131` | Componente extraido do atlas | 24 x 31 | Sim |
+| `mapa/tiles/tile_132` | Componente extraido do atlas | 18 x 15 | Sim |
+| `mapa/tiles/tile_133` | Componente extraido do atlas | 6 x 7 | Sim |
+| `mapa/tiles/tile_134` | Componente extraido do atlas | 24 x 24 | Sim |
+
+`mapa/tiles/_indice.png` (800 x 1064): contato numerado, somente para consulta.
+`mapa/tiles/_manifesto.json`: caixas [x0,y0,x1,y1), tamanhos e quantidade de pixels visiveis.
+`mapa/tiles/_preview_extracao.png` (1024 x 768): ids das 147 celulas observadas na referencia.
+Os indices seguem y minimo, depois x minimo, e incluem bandeira e objetos pequenos.
+Nenhum componente visivel foi descartado por tamanho; recortes preservam os pixels de alpha > 0.
+Medidas e tiles por cor estao em `data/isometrico.json`. A grade esparsa em
+`data/mapas/fase_01_extraido.json` preserva as seis cores, os desalinhamentos
+e os topos parciais; nao completa lacunas nem define spawn ou defeitos.

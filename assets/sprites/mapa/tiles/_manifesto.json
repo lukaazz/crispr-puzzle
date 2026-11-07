@@ -1,0 +1,1882 @@
+{
+  "conectividade": 8,
+  "ordem": "y_min, x_min",
+  "tiles": [
+    {
+      "id": "mapa/tiles/tile_001",
+      "caixa_origem_px": [
+        23,
+        2,
+        71,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_002",
+      "caixa_origem_px": [
+        119,
+        2,
+        167,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_003",
+      "caixa_origem_px": [
+        311,
+        2,
+        359,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_004",
+      "caixa_origem_px": [
+        407,
+        2,
+        455,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_005",
+      "caixa_origem_px": [
+        503,
+        2,
+        551,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_006",
+      "caixa_origem_px": [
+        695,
+        2,
+        743,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_007",
+      "caixa_origem_px": [
+        215,
+        8,
+        263,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_008",
+      "caixa_origem_px": [
+        599,
+        8,
+        647,
+        47
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_009",
+      "caixa_origem_px": [
+        23,
+        50,
+        71,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_010",
+      "caixa_origem_px": [
+        119,
+        50,
+        167,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_011",
+      "caixa_origem_px": [
+        215,
+        50,
+        263,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_012",
+      "caixa_origem_px": [
+        407,
+        50,
+        455,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_013",
+      "caixa_origem_px": [
+        503,
+        50,
+        551,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_014",
+      "caixa_origem_px": [
+        599,
+        50,
+        647,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_015",
+      "caixa_origem_px": [
+        311,
+        56,
+        359,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_016",
+      "caixa_origem_px": [
+        695,
+        56,
+        743,
+        95
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_017",
+      "caixa_origem_px": [
+        215,
+        98,
+        263,
+        143
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_018",
+      "caixa_origem_px": [
+        599,
+        98,
+        647,
+        143
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_019",
+      "caixa_origem_px": [
+        23,
+        104,
+        71,
+        143
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_020",
+      "caixa_origem_px": [
+        119,
+        104,
+        167,
+        143
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_021",
+      "caixa_origem_px": [
+        407,
+        104,
+        455,
+        143
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_022",
+      "caixa_origem_px": [
+        503,
+        104,
+        551,
+        143
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_023",
+      "caixa_origem_px": [
+        23,
+        146,
+        71,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_024",
+      "caixa_origem_px": [
+        119,
+        146,
+        167,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_025",
+      "caixa_origem_px": [
+        311,
+        146,
+        359,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_026",
+      "caixa_origem_px": [
+        407,
+        146,
+        455,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_027",
+      "caixa_origem_px": [
+        503,
+        146,
+        551,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_028",
+      "caixa_origem_px": [
+        695,
+        146,
+        743,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_029",
+      "caixa_origem_px": [
+        215,
+        152,
+        263,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_030",
+      "caixa_origem_px": [
+        599,
+        152,
+        647,
+        191
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_031",
+      "caixa_origem_px": [
+        23,
+        194,
+        71,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_032",
+      "caixa_origem_px": [
+        119,
+        194,
+        167,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_033",
+      "caixa_origem_px": [
+        215,
+        194,
+        263,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_034",
+      "caixa_origem_px": [
+        407,
+        194,
+        455,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_035",
+      "caixa_origem_px": [
+        503,
+        194,
+        551,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_036",
+      "caixa_origem_px": [
+        599,
+        194,
+        647,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_037",
+      "caixa_origem_px": [
+        311,
+        200,
+        359,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_038",
+      "caixa_origem_px": [
+        695,
+        200,
+        743,
+        239
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_039",
+      "caixa_origem_px": [
+        215,
+        242,
+        263,
+        287
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_040",
+      "caixa_origem_px": [
+        599,
+        242,
+        647,
+        287
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_041",
+      "caixa_origem_px": [
+        23,
+        248,
+        71,
+        287
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_042",
+      "caixa_origem_px": [
+        119,
+        248,
+        167,
+        287
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_043",
+      "caixa_origem_px": [
+        407,
+        248,
+        455,
+        287
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_044",
+      "caixa_origem_px": [
+        503,
+        248,
+        551,
+        287
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_045",
+      "caixa_origem_px": [
+        23,
+        290,
+        71,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_046",
+      "caixa_origem_px": [
+        119,
+        290,
+        167,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_047",
+      "caixa_origem_px": [
+        311,
+        290,
+        359,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_048",
+      "caixa_origem_px": [
+        407,
+        290,
+        455,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_049",
+      "caixa_origem_px": [
+        503,
+        290,
+        551,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_050",
+      "caixa_origem_px": [
+        695,
+        290,
+        743,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_051",
+      "caixa_origem_px": [
+        215,
+        296,
+        263,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_052",
+      "caixa_origem_px": [
+        599,
+        296,
+        647,
+        335
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_053",
+      "caixa_origem_px": [
+        23,
+        338,
+        71,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_054",
+      "caixa_origem_px": [
+        119,
+        338,
+        167,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_055",
+      "caixa_origem_px": [
+        215,
+        338,
+        263,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_056",
+      "caixa_origem_px": [
+        407,
+        338,
+        455,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_057",
+      "caixa_origem_px": [
+        503,
+        338,
+        551,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_058",
+      "caixa_origem_px": [
+        599,
+        338,
+        647,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_059",
+      "caixa_origem_px": [
+        311,
+        344,
+        359,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_060",
+      "caixa_origem_px": [
+        695,
+        344,
+        743,
+        383
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_061",
+      "caixa_origem_px": [
+        215,
+        386,
+        263,
+        431
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_062",
+      "caixa_origem_px": [
+        599,
+        386,
+        647,
+        431
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_063",
+      "caixa_origem_px": [
+        23,
+        392,
+        71,
+        431
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_064",
+      "caixa_origem_px": [
+        119,
+        392,
+        167,
+        431
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_065",
+      "caixa_origem_px": [
+        407,
+        392,
+        455,
+        431
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_066",
+      "caixa_origem_px": [
+        503,
+        392,
+        551,
+        431
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_067",
+      "caixa_origem_px": [
+        23,
+        434,
+        71,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_068",
+      "caixa_origem_px": [
+        119,
+        434,
+        167,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_069",
+      "caixa_origem_px": [
+        311,
+        434,
+        359,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_070",
+      "caixa_origem_px": [
+        407,
+        434,
+        455,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_071",
+      "caixa_origem_px": [
+        503,
+        434,
+        551,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_072",
+      "caixa_origem_px": [
+        695,
+        434,
+        743,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_073",
+      "caixa_origem_px": [
+        215,
+        440,
+        263,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_074",
+      "caixa_origem_px": [
+        599,
+        440,
+        647,
+        479
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_075",
+      "caixa_origem_px": [
+        23,
+        482,
+        71,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_076",
+      "caixa_origem_px": [
+        119,
+        482,
+        167,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_077",
+      "caixa_origem_px": [
+        215,
+        482,
+        263,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_078",
+      "caixa_origem_px": [
+        407,
+        482,
+        455,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_079",
+      "caixa_origem_px": [
+        503,
+        482,
+        551,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_080",
+      "caixa_origem_px": [
+        599,
+        482,
+        647,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_081",
+      "caixa_origem_px": [
+        311,
+        488,
+        359,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_082",
+      "caixa_origem_px": [
+        695,
+        488,
+        743,
+        527
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_083",
+      "caixa_origem_px": [
+        215,
+        530,
+        263,
+        575
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_084",
+      "caixa_origem_px": [
+        599,
+        530,
+        647,
+        575
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_085",
+      "caixa_origem_px": [
+        23,
+        536,
+        71,
+        575
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_086",
+      "caixa_origem_px": [
+        119,
+        536,
+        167,
+        575
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_087",
+      "caixa_origem_px": [
+        407,
+        536,
+        455,
+        575
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_088",
+      "caixa_origem_px": [
+        503,
+        536,
+        551,
+        575
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_089",
+      "caixa_origem_px": [
+        23,
+        578,
+        71,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_090",
+      "caixa_origem_px": [
+        119,
+        578,
+        167,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_091",
+      "caixa_origem_px": [
+        311,
+        578,
+        359,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_092",
+      "caixa_origem_px": [
+        407,
+        578,
+        455,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_093",
+      "caixa_origem_px": [
+        503,
+        578,
+        551,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1517
+    },
+    {
+      "id": "mapa/tiles/tile_094",
+      "caixa_origem_px": [
+        695,
+        578,
+        743,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1423
+    },
+    {
+      "id": "mapa/tiles/tile_095",
+      "caixa_origem_px": [
+        215,
+        584,
+        263,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_096",
+      "caixa_origem_px": [
+        599,
+        584,
+        647,
+        623
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1328
+    },
+    {
+      "id": "mapa/tiles/tile_097",
+      "caixa_origem_px": [
+        23,
+        626,
+        71,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_098",
+      "caixa_origem_px": [
+        119,
+        626,
+        167,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_099",
+      "caixa_origem_px": [
+        215,
+        626,
+        263,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_100",
+      "caixa_origem_px": [
+        407,
+        626,
+        455,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_101",
+      "caixa_origem_px": [
+        503,
+        626,
+        551,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1409
+    },
+    {
+      "id": "mapa/tiles/tile_102",
+      "caixa_origem_px": [
+        599,
+        626,
+        647,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1407
+    },
+    {
+      "id": "mapa/tiles/tile_103",
+      "caixa_origem_px": [
+        311,
+        632,
+        359,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_104",
+      "caixa_origem_px": [
+        695,
+        632,
+        743,
+        671
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_105",
+      "caixa_origem_px": [
+        215,
+        674,
+        263,
+        719
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_106",
+      "caixa_origem_px": [
+        599,
+        674,
+        647,
+        719
+      ],
+      "tamanho_px": [
+        48,
+        45
+      ],
+      "pixels_visiveis": 1402
+    },
+    {
+      "id": "mapa/tiles/tile_107",
+      "caixa_origem_px": [
+        23,
+        680,
+        71,
+        719
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_108",
+      "caixa_origem_px": [
+        119,
+        680,
+        167,
+        719
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_109",
+      "caixa_origem_px": [
+        407,
+        680,
+        455,
+        719
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_110",
+      "caixa_origem_px": [
+        503,
+        680,
+        551,
+        719
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1307
+    },
+    {
+      "id": "mapa/tiles/tile_111",
+      "caixa_origem_px": [
+        23,
+        721,
+        71,
+        760
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_112",
+      "caixa_origem_px": [
+        119,
+        721,
+        167,
+        760
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_113",
+      "caixa_origem_px": [
+        215,
+        721,
+        263,
+        760
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_114",
+      "caixa_origem_px": [
+        311,
+        721,
+        359,
+        760
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_115",
+      "caixa_origem_px": [
+        407,
+        721,
+        455,
+        760
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_116",
+      "caixa_origem_px": [
+        23,
+        769,
+        71,
+        808
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_117",
+      "caixa_origem_px": [
+        119,
+        769,
+        167,
+        808
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_118",
+      "caixa_origem_px": [
+        215,
+        769,
+        263,
+        808
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_119",
+      "caixa_origem_px": [
+        311,
+        769,
+        359,
+        808
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_120",
+      "caixa_origem_px": [
+        407,
+        769,
+        455,
+        808
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_121",
+      "caixa_origem_px": [
+        23,
+        831,
+        71,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_122",
+      "caixa_origem_px": [
+        119,
+        831,
+        167,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_123",
+      "caixa_origem_px": [
+        215,
+        831,
+        263,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_124",
+      "caixa_origem_px": [
+        311,
+        831,
+        359,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_125",
+      "caixa_origem_px": [
+        407,
+        831,
+        455,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_126",
+      "caixa_origem_px": [
+        503,
+        831,
+        551,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_127",
+      "caixa_origem_px": [
+        599,
+        831,
+        647,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_128",
+      "caixa_origem_px": [
+        695,
+        831,
+        743,
+        870
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_129",
+      "caixa_origem_px": [
+        119,
+        927,
+        167,
+        966
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_130",
+      "caixa_origem_px": [
+        215,
+        927,
+        263,
+        966
+      ],
+      "tamanho_px": [
+        48,
+        39
+      ],
+      "pixels_visiveis": 1286
+    },
+    {
+      "id": "mapa/tiles/tile_131",
+      "caixa_origem_px": [
+        523,
+        967,
+        547,
+        998
+      ],
+      "tamanho_px": [
+        24,
+        31
+      ],
+      "pixels_visiveis": 311
+    },
+    {
+      "id": "mapa/tiles/tile_132",
+      "caixa_origem_px": [
+        730,
+        969,
+        748,
+        984
+      ],
+      "tamanho_px": [
+        18,
+        15
+      ],
+      "pixels_visiveis": 102
+    },
+    {
+      "id": "mapa/tiles/tile_133",
+      "caixa_origem_px": [
+        444,
+        970,
+        450,
+        977
+      ],
+      "tamanho_px": [
+        6,
+        7
+      ],
+      "pixels_visiveis": 34
+    },
+    {
+      "id": "mapa/tiles/tile_134",
+      "caixa_origem_px": [
+        611,
+        976,
+        635,
+        1000
+      ],
+      "tamanho_px": [
+        24,
+        24
+      ],
+      "pixels_visiveis": 440
+    }
+  ]
+}
