@@ -1,5 +1,56 @@
 # crispr-puzzle
 
+## Etapa 2: mapa completo e previa
+
+`data/mapas/fase_01.json` completa a extracao da etapa 1 sem alterar as cenas
+ou ligar o mapa ao jogo. Para gerar novamente os dados e a imagem, execute
+`python tools/completar_mapa.py`, usando Pillow (`tools/requirements.txt`).
+Abra `assets/sprites/mapa/_preview_fase_01.png` para conferir o mapa completo.
+
+| Elemento | Celulas | Adicionadas nesta etapa |
+| --- | --- | --- |
+| Fita verde | 99 | 34: 5 ligacoes, 2 acessos a marcadores, 27 de extensao |
+| Fita azul | 94 | 28: 2 ligacoes, 2 de acesso inicial, 24 de extensao |
+| Plataforma inicial | 33 | 33 |
+| Plataforma final | 33 | 33 |
+| Marcadores | 16 (4 por cor) | 0 |
+| Total caminhavel | 275 | 128 |
+
+As fitas seguem ate a coluna 48, ambas alem da borda direita da imagem.
+As plataformas ocupam x=-3..-1 e x=49..51, y=0..10. O **spawn fica em
+[-2, 5]** e a **bandeira em [50, 5]**, sobre o piso da plataforma final.
+O ponto branco e a legenda SPAWN aparecem somente na previa.
+
+O JSON tem `celulas` com x/y, tipo e `caminhavel` booleano (incluindo os
+vazios nao caminhaveis), `spawn`, `plataformas`, `marcadores` com cor/celula,
+`objetos` e `defeitos: []`. Fora dos limites, considere vazio nao caminhavel.
+Os marcadores sao pisos caminhaveis de suas proprias cores, sem logica de jogo.
+Nao fazem parte dos caminhos usados para validar a continuidade das fitas.
+
+Os 147 registros da referencia mantem todos os campos originais, inclusive
+x/y, centros e offsets em pixels. Os novos pisos recebem offsets interpolados
+entre a referencia e as plataformas regulares para suavizar as emendas;
+nenhuma celula original e reposicionada, substituida ou reclassificada.
+As irregularidades e sobreposicoes ja presentes na extracao permanecem.
+O arquivo `fase_01_extraido.json` nao foi alterado.
+
+`data/isometrico.json` configura `tiles_por_tipo`, `plataformas` e `objetos`:
+verde=015, azul=037, carmim=082, roxo=103, turquesa=059 e oliva=081.
+As duas plataformas alternam os tiles 015/037 por `(x+y) % 2`; altere
+`plataformas.tiles` para trocar os pisos. A bandeira 131 e um objeto separado,
+com origem [2,31] nos pes do mastro, apoiada no centro do topo da celula final.
+Medidas, escala e offsets sao lidos da configuracao; a previa usa ordem por Y.
+`completar_fase_01` permite ajustar a coluna final, largura das plataformas,
+offset inicial das novas celulas e margem da previa.
+
+O script valida continuidade cardinal de cada fita, acessos as duas
+plataformas, alcance de todos os pisos a partir do spawn, preservacao exata
+dos registros originais, marcadores, ausencia de coordenadas duplicadas,
+extensao alem da referencia e bandeira sobre piso final. O resumo sai no terminal.
+Validacao desta etapa: `dotnet build` aprovado, sem erros ou avisos.
+F5 no Godot 4.x .NET continua executando o jogo anterior; a revisao visual
+desta etapa e feita no PNG, antes de qualquer integracao com a fase.
+
 ## Etapa 1: analise dos assets isometricos
 
 Preparacao de dados concluida, sem alterar cenas, logica, configuracao do

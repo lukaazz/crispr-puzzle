@@ -1,5 +1,19 @@
 # Assets do CRISPR Puzzle
 
+## Previa do mapa completo (etapa 2)
+
+`sprites/mapa/_preview_fase_01.png` e gerada por `python tools/completar_mapa.py`.
+E uma imagem de consulta, nao um fundo ou asset carregado pelo jogo.
+Nenhum PNG original ou tile recortado foi alterado nesta etapa.
+
+Em `data/isometrico.json`, `tiles_por_tipo` associa fita_verde=tile_015,
+fita_azul=tile_037, marcador_carmim=tile_082, marcador_roxo=tile_103,
+marcador_turquesa=tile_059 e marcador_oliva=tile_081. Todos usam o prefixo
+`mapa/tiles/`. `plataformas.tiles` define o par 015/037 do piso em xadrez.
+`objetos.bandeira` usa tile_131 (24 x 31 px), com origem [2,31] nos pes
+do mastro. A bandeira e desenhada sobre o piso, nunca no lugar dele.
+Os ids ja constam no catalogo da etapa 1; continuam opcionais para o jogo.
+
 Todos os arquivos são opcionais. Sem imagens, o jogo usa placeholders; sem
 sons, `Assets.som()` retorna `null`. Use nomes em snake_case, sem acentos,
 e PNG com transparência quando apropriado. Os tamanhos são sugestões.

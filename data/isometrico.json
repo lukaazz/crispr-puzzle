@@ -1,6 +1,6 @@
 {
   "versao": 1,
-  "estado": "medidas extraidas; ainda nao integrado ao jogo",
+  "estado": "mapa da fase 01 completo para previa; ainda nao integrado ao jogo",
   "tile": {
     "largura_topo": 48,
     "altura_topo": 24,
@@ -127,5 +127,45 @@
     "mapa/tileset_full3.png": "9f697c6bb25e9cf18aa674474bc1aabda49919fd8430508106b171b3a3155562",
     "mapa/mapa_referencia.png": "779b3a480b53d64678df3dddc08bcc73537b57e0400ff9bb5b9969b21182caea",
     "player/cas9_andando_sheet.png": "df198d13d45a8a476a12a0456db7b92667aad26dfca26e119bc3d86f9f5a6b53"
+  },
+  "tiles_por_tipo": {
+    "fita_verde": "mapa/tiles/tile_015",
+    "fita_azul": "mapa/tiles/tile_037",
+    "marcador_carmim": "mapa/tiles/tile_082",
+    "marcador_roxo": "mapa/tiles/tile_103",
+    "marcador_turquesa": "mapa/tiles/tile_059",
+    "marcador_oliva": "mapa/tiles/tile_081"
+  },
+  "plataformas": {
+    "padrao": "xadrez",
+    "tiles": [
+      "mapa/tiles/tile_015",
+      "mapa/tiles/tile_037"
+    ],
+    "regra": "indice = (x + y) modulo 2"
+  },
+  "objetos": {
+    "bandeira": {
+      "id_visual": "mapa/tiles/tile_131",
+      "origem_px": [
+        2,
+        31
+      ],
+      "offset": [
+        0,
+        0
+      ],
+      "escala": 1.0,
+      "nota": "Origem nos pes do mastro, sobre o centro do topo do piso; nao ocupa uma celula de piso."
+    }
+  },
+  "completar_fase_01": {
+    "coluna_final_fitas": 48,
+    "largura_plataforma": 3,
+    "margem_previa_px": 48,
+    "offset_novas_celulas": [
+      0,
+      0
+    ]
   }
 }
