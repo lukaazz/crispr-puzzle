@@ -5,7 +5,6 @@
     "tipos_puzzle": [
       "pareamento_bases"
     ],
-    "trechos_danificados": 1,
     "quantidade_pares": 40,
     "sequencia": "ATGC",
     "mapa": "res://data/mapas/fase_01.json"
@@ -16,7 +15,6 @@
     "tipos_puzzle": [
       "pareamento_bases"
     ],
-    "trechos_danificados": 1,
     "quantidade_pares": 44,
     "sequencia": "GCTA",
     "mapa": "res://data/mapas/fase_01.json"
@@ -28,7 +26,6 @@
       "pareamento_bases",
       "pergunta"
     ],
-    "trechos_danificados": 2,
     "quantidade_pares": 48,
     "sequencia": "TAGC",
     "mapa": "res://data/mapas/fase_01.json"
@@ -40,7 +37,6 @@
       "pareamento_bases",
       "pergunta"
     ],
-    "trechos_danificados": 2,
     "quantidade_pares": 52,
     "sequencia": "CGAT",
     "mapa": "res://data/mapas/fase_01.json"
@@ -53,7 +49,6 @@
       "pergunta",
       "heredograma"
     ],
-    "trechos_danificados": 3,
     "quantidade_pares": 56,
     "sequencia": "AGTC",
     "mapa": "res://data/mapas/fase_01.json"
@@ -66,7 +61,6 @@
       "pergunta",
       "heredograma"
     ],
-    "trechos_danificados": 3,
     "quantidade_pares": 60,
     "sequencia": "TCGA",
     "mapa": "res://data/mapas/fase_01.json"
@@ -79,7 +73,6 @@
       "pergunta",
       "heredograma"
     ],
-    "trechos_danificados": 4,
     "quantidade_pares": 64,
     "sequencia": "GATC",
     "mapa": "res://data/mapas/fase_01.json"
@@ -92,7 +85,6 @@
       "pergunta",
       "heredograma"
     ],
-    "trechos_danificados": 4,
     "quantidade_pares": 68,
     "sequencia": "CTAG",
     "mapa": "res://data/mapas/fase_01.json"
@@ -105,7 +97,6 @@
       "pergunta",
       "heredograma"
     ],
-    "trechos_danificados": 5,
     "quantidade_pares": 72,
     "sequencia": "ACGT",
     "mapa": "res://data/mapas/fase_01.json"
@@ -118,7 +109,6 @@
       "pergunta",
       "heredograma"
     ],
-    "trechos_danificados": 5,
     "quantidade_pares": 76,
     "sequencia": "TGCA",
     "mapa": "res://data/mapas/fase_01.json"

@@ -626,3 +626,9 @@ Teste tambem o botao Menu principal. O build passou sem erros ou avisos.
 Testes headless com save isolado confirmaram bloqueio da conclusao com danos,
 retorno da fase 1 ao seletor, desbloqueio da fase 2, tela final apos a fase 10,
 recarga das dez conclusoes, ausencia de fase 11 e os dois botoes de navegacao.
+
+## Etapa 4 ? defeitos isom?tricos
+
+Defeitos em `data/mapas/fase_01.json` bloqueiam toda a largura das fitas: dois blocos carmim e dois buracos. A colis?o usa somente `EhCaminhavel`. A at? 1,5 c?lula aparece Interagir; o puzzle sorteado repara com fade e subida, mantendo a posi??o do jogador. Falhas permitem repetir. Reentrar na fase restaura os defeitos. Dist?ncia, anima??o e tile est?o em `data/isometrico.json`. Roxo, turquesa e oliva s?o decorativos. A fita e os trechos antigos foram removidos.
+
+Teste com F5 no Godot 4.x .NET: percorra ambas as fitas, tente atravessar cada defeito, erre e acerte puzzles e reentre na fase.

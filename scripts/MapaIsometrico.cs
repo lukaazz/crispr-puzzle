@@ -11,6 +11,50 @@ public partial class MapaIsometrico : Node2D
     private const float PassoMaximo = 0.1f;
     private readonly Dictionary<Vector2I, Celula> _celulas = new();
     private readonly List<Node2D> _visuais = new();
+    private sealed class Defeito
+    {
+        public string Id = "";
+        public string Tipo = "";
+        public readonly List<Vector2I> Celulas = new();
+        public bool Reparado;
+    }
+    private readonly List<Defeito> _defeitos = new();
+    private readonly Dictionary<Vector2I, Node2D> _pisos = new();
+    private readonly Dictionary<Vector2I, Node2D> _blocos = new();
+    private JsonElement ConfigDefeitos => _config.GetProperty("defeitos");
+    public string? DefeitoProximo(Vector2 tela)
+    {
+        Vector2 grade = Isometrico.TelaParaCelula(tela, _origem, _tamanho);
+        float distancia = ConfigDefeitos.GetProperty("distancia_interacao").GetSingle();
+        string? id = null;
+        foreach (Defeito defeito in _defeitos)
+            if (!defeito.Reparado)
+                foreach (Vector2I celula in defeito.Celulas)
+                    if (grade.DistanceTo(celula) <= distancia)
+                    { distancia = grade.DistanceTo(celula); id = defeito.Id; }
+        return id;
+    }
+
+    public void Reparar(string id)
+    {
+        Defeito? defeito = _defeitos.Find(d => d.Id == id);
+        if (defeito == null || defeito.Reparado) return;
+        defeito.Reparado = true;
+        float duracao = ConfigDefeitos.GetProperty("duracao_animacao").GetSingle();
+        float subida = ConfigDefeitos.GetProperty("subida_px").GetSingle();
+        foreach (Vector2I celula in defeito.Celulas)
+        {
+            Node2D visual = defeito.Tipo == "buraco" ? _pisos[celula] : _blocos[celula];
+            Vector2 destino = visual.Position;
+            visual.Visible = true;
+            if (defeito.Tipo == "buraco")
+            { visual.Modulate = new Color(1, 1, 1, 0); visual.Position += Vector2.Down * subida; }
+            else destino += Vector2.Up * subida;
+            Tween animacao = CreateTween().SetParallel();
+            animacao.TweenProperty(visual, "position", destino, duracao);
+            animacao.TweenProperty(visual, "modulate:a", defeito.Tipo == "buraco" ? 1f : 0f, duracao);
+        }
+    }
     private JsonElement _config;
     private JsonElement _dados;
     private Vector2 _origem;
@@ -33,6 +77,8 @@ public partial class MapaIsometrico : Node2D
     public bool EhCaminhavel(Vector2 celula)
     {
         Vector2I coordenada = new(Mathf.FloorToInt(celula.X + 0.5f), Mathf.FloorToInt(celula.Y + 0.5f));
+        foreach (Defeito defeito in _defeitos)
+            if (!defeito.Reparado && defeito.Celulas.Contains(coordenada)) return false;
         return _celulas.TryGetValue(coordenada, out Celula? piso) && piso.Caminhavel && piso.Tipo != "vazio";
     }
 
@@ -67,6 +113,20 @@ public partial class MapaIsometrico : Node2D
             _celulas.Add(coordenada, new(coordenada, entrada.GetProperty("tipo").GetString()!,
                 entrada.GetProperty("caminhavel").GetBoolean(), offset));
         }
+        _defeitos.Clear();
+        if (_dados.TryGetProperty("defeitos", out JsonElement defeitos))
+            foreach (JsonElement entrada in defeitos.EnumerateArray())
+            {
+                Defeito defeito = new() { Id = entrada.GetProperty("id").GetString()!, Tipo = entrada.GetProperty("tipo").GetString()! };
+                if (defeito.Tipo != "buraco" && defeito.Tipo != "bloco") throw new InvalidOperationException("Tipo de defeito invalido.");
+                foreach (JsonElement valor in entrada.GetProperty("celulas").EnumerateArray())
+                {
+                    Vector2I posicao = Coordenada(valor);
+                    if (!EhCaminhavel(posicao)) throw new InvalidOperationException("Defeito fora do piso ou sobreposto.");
+                    defeito.Celulas.Add(posicao);
+                }
+                _defeitos.Add(defeito);
+            }
         Vector2I inicio = Coordenada(_dados.GetProperty("spawn"));
         if (!_celulas.TryGetValue(inicio, out Celula? celula) || !celula.Caminhavel)
             throw new InvalidOperationException("Spawn fora do piso.");
@@ -108,6 +168,8 @@ public partial class MapaIsometrico : Node2D
         if (_config.ValueKind != JsonValueKind.Object) return;
         foreach (Node2D visual in _visuais) { RemoveChild(visual); visual.QueueFree(); }
         _visuais.Clear();
+        _pisos.Clear();
+        _blocos.Clear();
         Assets assets = GetNode<Assets>("/root/Assets");
         JsonElement tile = _config.GetProperty("tile");
         Vector2 origemImagem = Vetor(tile.GetProperty("origem_local_centro_topo"));
@@ -128,6 +190,7 @@ public partial class MapaIsometrico : Node2D
             Node2D suporte = new() { Position = centro };
             AddChild(suporte);
             _visuais.Add(suporte);
+            _pisos[celula.Coordenada] = suporte;
             Texture2D? textura = assets.Textura(id);
             if (textura != null)
                 suporte.AddChild(new Sprite2D { Texture = textura, Centered = false,
@@ -140,6 +203,24 @@ public partial class MapaIsometrico : Node2D
             Rect2 area = new(centro - origemImagem * escala + offset, dimensoes * escala);
             Limites = primeiro ? area : Limites.Merge(area);
             primeiro = false;
+        }
+        foreach (Defeito defeito in _defeitos)
+        {
+            if (defeito.Reparado) continue;
+            foreach (Vector2I coordenada in defeito.Celulas)
+            {
+                if (defeito.Tipo == "buraco") { _pisos[coordenada].Hide(); continue; }
+                Node2D bloco = new() { Position = Centro(_celulas[coordenada]) };
+                AddChild(bloco);
+                _visuais.Add(bloco);
+                _blocos[coordenada] = bloco;
+                Vector2 ajuste = offset + Vector2.Up * ConfigDefeitos.GetProperty("altura_bloco_px").GetSingle();
+                Texture2D? textura = assets.Textura(ConfigDefeitos.GetProperty("tile_bloco").GetString()!);
+                if (textura != null)
+                    bloco.AddChild(new Sprite2D { Texture = textura, Centered = false, Position = -origemImagem * escala + ajuste, Scale = Vector2.One * escala });
+                else
+                    bloco.AddChild(new Polygon2D { Polygon = new[] { new Vector2(0, -_tamanho.Y/2), new Vector2(_tamanho.X/2, 0), new Vector2(0, _tamanho.Y/2), new Vector2(-_tamanho.X/2, 0) }, Color = new Color("c32454"), Position = ajuste });
+            }
         }
         foreach (JsonElement objeto in _dados.GetProperty("objetos").EnumerateArray())
         {

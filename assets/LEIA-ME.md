@@ -337,3 +337,5 @@ Nenhum componente visivel foi descartado por tamanho; recortes preservam os pixe
 Medidas e tiles por cor estao em `data/isometrico.json`. A grade esparsa em
 `data/mapas/fase_01_extraido.json` preserva as seis cores, os desalinhamentos
 e os topos parciais; nao completa lacunas nem define spawn ou defeitos.
+
+| `mapa/tiles/tile_082` | Blocos de defeito empilhados nas fitas | 48 ? 39 px | Opcional; losango carmim sem imagem |

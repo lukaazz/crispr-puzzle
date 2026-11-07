@@ -1418,8 +1418,8 @@
         -23.0,
         -0.5
       ],
-      "tipo": "marcador_carmim",
-      "caminhavel": true,
+      "tipo": "vazio",
+      "caminhavel": false,
       "origem": "referencia"
     },
     {
@@ -2347,8 +2347,8 @@
         -15.0,
         -3.0
       ],
-      "tipo": "marcador_carmim",
-      "caminhavel": true,
+      "tipo": "vazio",
+      "caminhavel": false,
       "origem": "referencia"
     },
     {
@@ -2531,8 +2531,8 @@
         5.0,
         5.5
       ],
-      "tipo": "marcador_carmim",
-      "caminhavel": true,
+      "tipo": "vazio",
+      "caminhavel": false,
       "origem": "referencia"
     },
     {
@@ -3091,8 +3091,8 @@
         13.0,
         3.0
       ],
-      "tipo": "marcador_carmim",
-      "caminhavel": true,
+      "tipo": "vazio",
+      "caminhavel": false,
       "origem": "referencia"
     },
     {
@@ -7361,20 +7361,6 @@
   ],
   "marcadores": [
     {
-      "cor": "carmim",
-      "celula": [
-        2,
-        2
-      ]
-    },
-    {
-      "cor": "carmim",
-      "celula": [
-        2,
-        3
-      ]
-    },
-    {
       "cor": "roxo",
       "celula": [
         4,
@@ -7414,20 +7400,6 @@
       "celula": [
         4,
         7
-      ]
-    },
-    {
-      "cor": "carmim",
-      "celula": [
-        20,
-        3
-      ]
-    },
-    {
-      "cor": "carmim",
-      "celula": [
-        20,
-        4
       ]
     },
     {
@@ -7482,5 +7454,62 @@
       ]
     }
   ],
-  "defeitos": []
+  "defeitos": [
+    {
+      "id": "bloco_inicio",
+      "tipo": "bloco",
+      "celulas": [
+        [
+          2,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ]
+    },
+    {
+      "id": "bloco_meio",
+      "tipo": "bloco",
+      "celulas": [
+        [
+          20,
+          1
+        ],
+        [
+          20,
+          2
+        ]
+      ]
+    },
+    {
+      "id": "buraco_azul",
+      "tipo": "buraco",
+      "celulas": [
+        [
+          12,
+          7
+        ],
+        [
+          12,
+          8
+        ]
+      ]
+    },
+    {
+      "id": "buraco_verde",
+      "tipo": "buraco",
+      "celulas": [
+        [
+          32,
+          1
+        ],
+        [
+          32,
+          2
+        ]
+      ]
+    }
+  ]
 }

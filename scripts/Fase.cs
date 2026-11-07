@@ -8,7 +8,6 @@ public partial class Fase : Node2D
     private const string ArquivoFases = "res://data/fases.json";
     private const int AlturaTela = 720;
     private const int LarguraTela = 1280;
-    private const float DistanciaInteracao = 120.0f;
     private static readonly Dictionary<string, string> CenasPuzzle = new()
     {
         ["pareamento_bases"] = "res://scenes/puzzles/pareamento_bases.tscn",
@@ -16,14 +15,11 @@ public partial class Fase : Node2D
         ["heredograma"] = "res://scenes/puzzles/heredograma.tscn"
     };
     private readonly List<string> _tiposPuzzle = new();
-    private TrechoDanificado? _trechoEmReparo;
-    private TrechoDanificado? _trechoComFalha;
+    private string? _trechoEmReparo;
+    private string? _trechoComFalha;
     private CanvasLayer? _puzzle;
     private int _dificuldade = 1;
     private bool _conclusaoIniciada;
-    private MarcadorFim? _marcador = null;
-    // Legado preservado para a etapa 4; nenhuma fita antiga e instanciada.
-    private FitaDna? _fita = null;
     private MapaIsometrico _mapa = null!;
     private Cas9 _jogador = null!;
     private Control _conteudo = null!;
@@ -82,37 +78,14 @@ public partial class Fase : Node2D
     {
         if (_conclusaoIniciada || !_jogador.IsPhysicsProcessing()) return;
         _aviso.Text = "Explore as fitas e alcance a plataforma com a bandeira.";
+        string? proximo = _mapa.DefeitoProximo(_jogador.Position);
+        if (proximo != null) _aviso.Text = proximo == _trechoComFalha ? "Interagir ? tentar novamente" : "Interagir ? reparar DNA";
         if (_mapa.TipoNaPosicao(_jogador.Position) == "plataforma_fim") AoEntrarNoFim(_jogador);
-    }
-
-    // Logica antiga sem uso nesta etapa; sera migrada para os defeitos do mapa.
-    private void ProcessarTrechosAntigos()
-    {
-        if (_fita == null) return;
-        if (_puzzle != null || _conclusaoIniciada) return;
-        TrechoDanificado? trecho = _fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao);
-        if (trecho != null)
-        {
-            if (_tiposPuzzle.Count == 0)
-            {
-                _aviso.Text = "Esta fase nao tem tipos de puzzle validos configurados. Volte ao seletor.";
-                return;
-            }
-            Godot.Collections.Array<InputEvent> eventos = InputMap.ActionGetEvents(Acoes.Interagir);
-            string tecla = eventos.Count > 0 ? eventos[0].AsText() : Acoes.Interagir.ToString();
-            _aviso.Text = trecho == _trechoComFalha
-                ? $"O trecho continua danificado. Use {tecla} para tentar novamente."
-                : $"Trecho danificado. Use {tecla} para abrir um puzzle.";
-        }
-        else if (_marcador != null)
-            _aviso.Text = _fita.TodosTrechosReparados()
-                ? "Caminho liberado! Alcance o marcador FIM para concluir a fase."
-                : "Repare todos os trechos antes de alcancar o marcador FIM.";
     }
 
     private void AoEntrarNoFim(Node2D corpo)
     {
-        if (corpo != _jogador || _puzzle != null || _conclusaoIniciada || (_fita != null && !_fita.TodosTrechosReparados())) return;
+        if (corpo != _jogador || _puzzle != null || _conclusaoIniciada) return;
         _conclusaoIniciada = true;
         _jogador.DefinirMovimentoAtivo(false);
         // A troca de cena ocorre fora do callback de fisica da Area2D.
@@ -135,8 +108,8 @@ public partial class Fase : Node2D
 
     public override void _UnhandledInput(InputEvent evento)
     {
-        if (_fita == null || _puzzle != null || _conclusaoIniciada || !evento.IsActionPressed(Acoes.Interagir) || evento.IsEcho()) return;
-        TrechoDanificado? trecho = _fita.TrechoProximo(_jogador.Position.X, DistanciaInteracao);
+        if (_puzzle != null || _conclusaoIniciada || !evento.IsActionPressed(Acoes.Interagir) || evento.IsEcho()) return;
+        string? trecho = _mapa.DefeitoProximo(_jogador.Position);
         if (trecho == null || _tiposPuzzle.Count == 0) return;
         GetViewport().SetInputAsHandled();
         _trechoEmReparo = trecho;
@@ -166,13 +139,12 @@ public partial class Fase : Node2D
     {
         if (_puzzle == null) return;
         _trechoComFalha = sucesso ? null : _trechoEmReparo;
-        if (sucesso && IsInstanceValid(_trechoEmReparo)) _trechoEmReparo!.Reparar();
+        if (sucesso && _trechoEmReparo != null) _mapa.Reparar(_trechoEmReparo);
         _puzzle.QueueFree();
         _puzzle = null;
         _trechoEmReparo = null;
         _conteudo.Show();
         _jogador.DefinirMovimentoAtivo(true);
-        if (_marcador != null && _marcador.OverlapsBody(_jogador)) AoEntrarNoFim(_jogador);
     }
 
     private JsonElement? CarregarConfiguracao()
