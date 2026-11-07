@@ -648,11 +648,3 @@ Os tres tipos estao habilitados em todas as fases. `pesos` usa `pareamento_bases
 Perguntas e heredogramas usam todos os itens do maior nivel disponivel ate a dificuldade da fase, sem repetir conteudo antes de esgotar esse pool. Tentativas abandonadas ou falhas tambem contam. Reentrar na fase limpa os historicos e restaura os defeitos.
 
 Teste com F5 no Godot .NET: reentre nas fases para variar os bloqueios; confira 2 ativos nas fases 1 a 5 e 3 nas demais, sempre nas duas fitas. Saia dos puzzles repetidamente para conferir a alternancia de tipos e os ciclos dos conteudos.
-
-## Pontes decorativas
-
-Sete ligacoes visuais atravessam o vazio entre as fitas no eixo y, sem permitir passagem. `pontes_decorativas` no mapa guarda as celulas separadas da colisao. Renderizacao com y-sort e placeholder oliva, sem alterar defeitos ou pisos.
-
-Em `data/isometrico.json`, `tiles_por_tipo.ponte_decorativa` escolhe a imagem (provisoriamente `mapa/tiles/tile_081`); `pontes_decorativas` define `espacamento` (6 celulas), `inicio_x` (7) e `fim_x` (43). Depois de mudar a distribuicao, execute `python tools/gerar_pontes.py` (Pillow instalado) para atualizar a lista e `assets/sprites/mapa/_preview_fase_01.png`. Colunas protegidas sao puladas. A previa mostra o piso base, sem sortear defeitos ativos.
-
-Teste com F5 no Godot .NET: veja as ligacoes e tente entrar nelas pela borda das fitas; o jogador deve continuar restrito aos pisos originais.

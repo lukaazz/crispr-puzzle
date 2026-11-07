@@ -1,6 +1,5 @@
 {
   "defeitos": {"distancia_interacao": 1.5, "duracao_animacao": 0.3, "subida_px": 8, "altura_bloco_px": 15, "tile_bloco": "mapa/tiles/tile_082"},
-  "pontes_decorativas": {"espacamento": 6, "inicio_x": 7, "fim_x": 43},
   "versao": 1,
   "movimento": {
     "velocidade_celulas_por_segundo": 5.4,
@@ -140,7 +139,6 @@
     "player/cas9_andando_sheet.png": "df198d13d45a8a476a12a0456db7b92667aad26dfca26e119bc3d86f9f5a6b53"
   },
   "tiles_por_tipo": {
-    "ponte_decorativa": "mapa/tiles/tile_081",
     "fita_verde": "mapa/tiles/tile_015",
     "fita_azul": "mapa/tiles/tile_037",
     "marcador_carmim": "mapa/tiles/tile_082",
