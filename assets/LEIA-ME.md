@@ -339,3 +339,5 @@ Medidas e tiles por cor estao em `data/isometrico.json`. A grade esparsa em
 e os topos parciais; nao completa lacunas nem define spawn ou defeitos.
 
 | `mapa/tiles/tile_082` | Blocos de defeito empilhados nas fitas | 48 ? 39 px | Opcional; losango carmim sem imagem |
+
+| `mapa/tiles/tile_081` | Pontes decorativas (configuravel por `ponte_decorativa`) | 48 x 39 px | Opcional; placeholder oliva |

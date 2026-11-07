@@ -233,8 +233,12 @@ def renderizar(mapa, config):
         return imagens[id_visual]
 
     pisos, comandos = {}, []
-    for c in mapa['celulas']:
-        if not c['caminhavel']:
+    celulas_visuais = list(mapa['celulas'])
+    for ponte in mapa.get('pontes_decorativas', []):
+        celulas_visuais.extend({'x': x, 'y': y, 'tipo': 'ponte_decorativa', 'offset_observado_px': [0, 0]}
+                               for x, y in ponte['celulas'])
+    for c in celulas_visuais:
+        if c['tipo'] == 'vazio':
             continue
         ponto = (c['x'], c['y'])
         cx, cy = iso.tela(ponto, c['offset_observado_px'])

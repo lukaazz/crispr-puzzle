@@ -194,7 +194,17 @@ public partial class MapaIsometrico : Node2D
         Vector2 offset = Vetor(tile.GetProperty("offset"));
         float escala = tile.GetProperty("escala").GetSingle();
         bool primeiro = true;
-        foreach (Celula celula in _celulas.Values)
+        // Pontes pertencem somente ao desenho; nunca entram no indice de colisao.
+        List<Celula> celulasVisuais = new(_celulas.Values);
+        if (_dados.TryGetProperty("pontes_decorativas", out JsonElement pontes))
+            foreach (JsonElement ponte in pontes.EnumerateArray())
+                foreach (JsonElement ponto in ponte.GetProperty("celulas").EnumerateArray())
+                {
+                    Vector2I coordenada = Coordenada(ponto);
+                    if (_celulas.TryGetValue(coordenada, out Celula? existente) && existente.Tipo != "vazio") continue;
+                    celulasVisuais.Add(new(coordenada, "ponte_decorativa", false, Vector2.Zero));
+                }
+        foreach (Celula celula in celulasVisuais)
         {
             if (celula.Tipo == "vazio") continue;
             string id;
@@ -268,6 +278,7 @@ public partial class MapaIsometrico : Node2D
         "fita_verde" => new Color("1ebc73"), "fita_azul" => new Color("4d9be6"),
         "marcador_carmim" => new Color("c32454"), "marcador_roxo" => new Color("a884f3"),
         "marcador_turquesa" => new Color("30e1b9"), "marcador_oliva" => new Color("92a984"),
+        "ponte_decorativa" => new Color("92a984"),
         _ => (celula.X + celula.Y) % 2 == 0 ? new Color("1ebc73") : new Color("4d9be6")
     };
 }
