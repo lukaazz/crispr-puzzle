@@ -6,7 +6,7 @@
 
     ## O jogo
     O jogador controla o CRISPR (Cas9) e caminha ao longo de uma fita de DNA.
-    O caminho é feito do próprio DNA, e trechos danificados bloqueiam a passagem.
+    O caminho é feito do próprio DNA, e defeitos do mapa (buraco ou bloco vermelho) bloqueiam a passagem.
     Para avançar, o jogador deve "consertar" o trecho, o que abre um puzzle.
     Resolver o puzzle repara o DNA e libera o caminho até o fim da fase.
 
@@ -38,6 +38,9 @@
     - assets/sprites/<categoria>/ e assets/audio/{sfx,musica}/
     - assets/LEIA-ME.md: lista de todos os nomes de arquivo esperados (ver abaixo)
     - project.godot, o .csproj e o .sln ficam na raiz do repositório.
+    - data/mapas/ (.json): mapas isométricos das fases
+    - data/isometrico.json: medidas do tile e tiles por tipo de célula
+    - tools/: scripts auxiliares em Python (fora do jogo)
 
     ## Regras de código (C#)
     - C# do Godot .NET. Não mude o TargetFramework nem edite .csproj/.sln
@@ -85,8 +88,9 @@
         TamanhoPadrao (mantendo a proporção).
     - Se não existir, mostra um ColorRect/Polygon2D com a cor do placeholder
         e, quando útil, um Label (ex.: a letra "A" na base nitrogenada).
-    - Todo elemento visual do jogo (player, bases, trechos, peças de heredograma,
-        fundos, ícones, botões) usa VisualSlot ou o mesmo mecanismo. Sem exceção.
+    - Todo elemento visual do jogo (player, bases, peças de heredograma,
+        fundos, ícones, botões) usa VisualSlot ou o mesmo mecanismo.
+        ÚNICA EXCEÇÃO: os tiles do mapa isométrico (ver "Visual isométrico").
     - **Override opcional em data/visuais.json:** mapeia um id para outro arquivo,
     escala e deslocamento, para eu usar nomes diferentes ou ajustar a imagem
     sem mexer no código. Formato:
@@ -94,16 +98,19 @@
         "offset": [0, -8] } }
     Sem entrada no JSON, vale a convenção id = caminho do arquivo.
     - **Convenção de nomes (snake_case, sem acentos, PNG com fundo transparente):**
-    - player/cas9, player/cas9_andando_1..N (animação opcional por quadros)
-    - dna/base_a, base_t, base_g, base_c
-    - dna/trecho_saudavel, trecho_danificado, trecho_reparado
+    - player/cas9 (parado), player/cas9_andando_sheet (spritesheet de andar) e,
+        opcionalmente, player/cas9_andando_1..N (quadros numerados)
+    - dna/base_a, base_t, base_g, base_c (usadas nos puzzles)
+    - mapa/tileset_full3 (original), mapa/mapa_referencia (planta do mapa) e
+        mapa/tiles/tile_NNN (tiles fatiados, derivados)
     - heredograma/homem, mulher, afetado, linha_uniao, linha_filiacao
     - fundos/fundo_menu, fundo_seletor, fundo_fase_01 ... fundo_fase_10, fundo_puzzle
     - ui/botao_normal, botao_hover, botao_bloqueado, icone_fase_concluida, icone_cadeado
     - audio/sfx/acerto, erro, reparo, clique; audio/musica/menu, fase, puzzle
-    - **Animações:** se existir uma sequência numerada (cas9_andando_1, _2, ...),
-    monte um AnimatedSprite2D automaticamente. Se só existir uma imagem,
-    use estática. Sem imagem, use o placeholder.
+    - **Animações:** cada estado do player (parado, andando, interagindo) aceita
+    (a) quadros numerados (cas9_andando_1, _2, ...) ou (b) spritesheet descrita
+    em data/visuais.json (colunas, linhas, fps, tamanho do quadro). Se só existir
+    uma imagem para o estado, use estática. Sem imagem, use o placeholder.
     - **Tamanho padrão:** cada VisualSlot declara seu tamanho em pixels; qualquer
     imagem que eu colocar é escalada para caber, sem distorcer a proporção.
     - **Filtro de textura:** use "Nearest" por padrão (pixel art). Ajuste no
@@ -113,6 +120,43 @@
     Sempre que criar um novo id, adicione uma linha.
     - Ao adicionar um novo elemento visual, crie o id, o placeholder e a linha
     no LEIA-ME. Nunca dependa de uma imagem existir.
+    - Nunca altere as imagens originais em assets/. Arquivos derivados
+    (tiles fatiados, prévias) vão para assets/sprites/mapa/tiles/ ou usam
+    o prefixo _preview no nome.
+
+    ## Visual isométrico
+    - Projeção isométrica 2:1. As medidas do tile (largura e altura do losango
+    do topo, altura da lateral) e o tile usado para cada tipo de célula ficam em
+    data/isometrico.json, nunca fixas no código. Ajustes de alinhamento
+    (deslocamentos, escala) também ficam nesse arquivo.
+    - Conversão célula <-> tela (e a inversa) em funções únicas numa classe
+    estática Isometrico. Nenhum outro código reimplementa essa conta.
+    - **Mapas em data/mapas/*.json:** grade de células com o tipo de cada uma
+    (fita_verde, fita_azul, plataforma_inicio, plataforma_fim, vazio),
+    ponto de spawn e lista de defeitos. A cena de fase só lê esses dados e
+    não tem mapa desenhado à mão.
+    - **Renderização:** TileMapLayer isométrico ou Sprite2D com y-sort. Os tiles
+    usam Assets.Textura com um losango colorido como placeholder; NÃO usam
+    VisualSlot (são centenas de nós).
+    - **Ordem de desenho por Y (y-sort):** o player e os blocos ficam na frente
+    ou atrás dos tiles corretos.
+    - **Movimento do player:** no espaço da tela, em 8 direções, com velocidade
+    vertical pela metade (proporção 2:1). O player só pode ficar sobre células
+    caminháveis (converta a posição para célula pela transformada inversa). A
+    restrição vem da grade, não da física.
+    - **Estrutura do mapa:** duas fitas (verde e azul) contínuas e caminháveis,
+    unidas numa plataforma única no início (com o spawn) e no fim (com o
+    marcador de fim de fase, usando a bandeira do tileset).
+    - **Defeitos** (array "defeitos" no JSON do mapa:
+    { id, tipo, celulas: [[x,y],...] }):
+    - tipo "buraco": as células ficam sem tile e não caminháveis. Ao resolver
+        o puzzle, os tiles reaparecem com uma animação curta e viram caminháveis.
+    - tipo "bloco": um bloco carmim empilhado sobre a célula tampa o caminho e
+        impede a passagem. Ao resolver o puzzle, o bloco some.
+    - Interação: com o player a até 1,5 célula do defeito (constante), o botão
+        "interagir" abre o puzzle sorteado pela fase. Sucesso repara o defeito;
+        falha permite tentar de novo.
+    - Scripts auxiliares (Python) ficam em tools/ e não fazem parte do jogo.
 
     ## Arquitetura (siga esta divisão)
     - **SceneRouter (autoload):** única forma de trocar de tela. Nenhuma cena chama
@@ -122,13 +166,13 @@
     - **Acesso a autoloads:** por GetNode<T>("/root/Nome") ou por uma propriedade
     estática Instance definida em _EnterTree. Escolha um padrão e use sempre o mesmo.
     - **Fases configuradas por dados:** cada fase lê sua configuração de
-    data/fases.json (número, dificuldade, tipos de puzzle permitidos, quantidade
-    de trechos danificados). Não crie uma cena duplicada por fase sem necessidade.
+    data/fases.json (número, dificuldade, tipos de puzzle permitidos, arquivo de
+    mapa em data/mapas/). Não crie uma cena duplicada por fase sem necessidade.
     - **Puzzles com interface comum:** todo puzzle é uma cena cujo script tem
     Setup(int dificuldade) e emite o signal PuzzleConcluido(bool sucesso).
     Quem abre o puzzle é a fase, e não o contrário.
-    - **Player:** CharacterBody2D que anda ao longo do DNA. Ao tocar um trecho
-    danificado, a fase abre o puzzle correspondente.
+    - **Player:** anda pelo mapa isométrico conforme "Visual isométrico".
+    Ao interagir com um defeito, a fase abre o puzzle correspondente.
 
     ## Fidelidade científica
     - Conteúdo de biologia deve ser correto: A-T e G-C; o Cas9 é guiado por um
