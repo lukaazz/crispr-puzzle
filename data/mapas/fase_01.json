@@ -7510,6 +7510,34 @@
           2
         ]
       ]
+    },
+    {
+      "id": "bloco_azul",
+      "tipo": "bloco",
+      "celulas": [
+        [
+          20,
+          9
+        ],
+        [
+          20,
+          10
+        ]
+      ]
+    },
+    {
+      "id": "buraco_azul_final",
+      "tipo": "buraco",
+      "celulas": [
+        [
+          36,
+          9
+        ],
+        [
+          36,
+          10
+        ]
+      ]
     }
   ]
 }

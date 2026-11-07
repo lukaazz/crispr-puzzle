@@ -95,7 +95,7 @@ public partial class MapaIsometrico : Node2D
         if (assets != null) assets.AssetsRecarregados -= Desenhar;
     }
 
-    public void Carregar(string arquivo)
+    public void Carregar(string arquivo, int quantidadeDefeitos)
     {
         using JsonDocument medidas = JsonDocument.Parse(FileAccess.GetFileAsString(ArquivoMedidas));
         using JsonDocument mapa = JsonDocument.Parse(FileAccess.GetFileAsString(arquivo));
@@ -127,6 +127,24 @@ public partial class MapaIsometrico : Node2D
                 }
                 _defeitos.Add(defeito);
             }
+        List<Defeito> candidatos = new(_defeitos);
+        if (quantidadeDefeitos < 2 || quantidadeDefeitos > candidatos.Count)
+            throw new InvalidOperationException("Quantidade de defeitos deve cobrir as duas fitas e caber no pool.");
+        _defeitos.Clear();
+        foreach (string fita in new[] { "fita_verde", "fita_azul" })
+        {
+            List<Defeito> opcoes = candidatos.FindAll(d => d.Celulas.Count > 0 && d.Celulas.TrueForAll(c => _celulas[c].Tipo == fita));
+            if (opcoes.Count == 0) throw new InvalidOperationException("Pool sem defeitos para " + fita);
+            Defeito escolhido = opcoes[GD.RandRange(0, opcoes.Count - 1)];
+            _defeitos.Add(escolhido);
+            candidatos.Remove(escolhido);
+        }
+        while (_defeitos.Count < quantidadeDefeitos)
+        {
+            int indice = GD.RandRange(0, candidatos.Count - 1);
+            _defeitos.Add(candidatos[indice]);
+            candidatos.RemoveAt(indice);
+        }
         Vector2I inicio = Coordenada(_dados.GetProperty("spawn"));
         if (!_celulas.TryGetValue(inicio, out Celula? celula) || !celula.Caminhavel)
             throw new InvalidOperationException("Spawn fora do piso.");

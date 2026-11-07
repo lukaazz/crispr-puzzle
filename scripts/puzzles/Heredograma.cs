@@ -22,6 +22,8 @@ public partial class Heredograma : CanvasLayer
     private bool _resolvido;
     private bool _concluido;
 
+    public Func<List<JsonElement>, JsonElement>? SelecionarConteudo { get; set; }
+
     public void Setup(int dificuldade)
     {
         Dificuldade = Mathf.Clamp(dificuldade, 1, 10);
@@ -84,7 +86,7 @@ public partial class Heredograma : CanvasLayer
     private JsonElement? SelecionarModelo(JsonElement modelos)
     {
         if (modelos.ValueKind != JsonValueKind.Array) return null;
-        JsonElement? escolhido = null;
+        List<JsonElement> candidatos = new();
         int maiorNivel = 0;
         int dificuldade = Mathf.Clamp(Dificuldade, 1, 10);
         foreach (JsonElement modelo in modelos.EnumerateArray())
@@ -92,11 +94,13 @@ public partial class Heredograma : CanvasLayer
             if (modelo.ValueKind != JsonValueKind.Object ||
                 !modelo.TryGetProperty("dificuldade", out JsonElement valor) ||
                 valor.ValueKind != JsonValueKind.Number || !valor.TryGetInt32(out int nivel) ||
-                nivel < 1 || nivel > dificuldade || nivel <= maiorNivel) continue;
-            escolhido = modelo;
+                nivel < 1 || nivel > dificuldade || nivel < maiorNivel) continue;
+            if (nivel > maiorNivel) candidatos.Clear();
+            candidatos.Add(modelo.Clone());
             maiorNivel = nivel;
         }
-        return escolhido;
+        if (candidatos.Count == 0) return null;
+        return SelecionarConteudo != null ? SelecionarConteudo(candidatos) : candidatos[GD.RandRange(0, candidatos.Count - 1)];
     }
 
     private Label Texto(string texto, Vector2 posicao, Vector2 tamanho)

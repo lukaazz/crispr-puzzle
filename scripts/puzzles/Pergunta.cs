@@ -23,6 +23,8 @@ public partial class Pergunta : CanvasLayer
     private BotaoVisual _sair = null!;
     private ScrollContainer _rolagem = null!;
 
+    public Func<List<JsonElement>, JsonElement>? SelecionarConteudo { get; set; }
+
     public void Setup(int dificuldade)
     {
         _dificuldade = Mathf.Clamp(dificuldade, 1, DificuldadeMaxima);
@@ -63,7 +65,7 @@ public partial class Pergunta : CanvasLayer
             _sair.GrabFocus();
             return;
         }
-        _pergunta = candidatas[GD.RandRange(0, candidatas.Count - 1)];
+        _pergunta = SelecionarConteudo != null ? SelecionarConteudo(candidatas) : candidatas[GD.RandRange(0, candidatas.Count - 1)];
         _enunciado.Text = _pergunta.GetProperty("enunciado").GetString()!;
         JsonElement opcoes = _pergunta.GetProperty("alternativas");
         for (int indice = 0; indice < opcoes.GetArrayLength(); indice++)

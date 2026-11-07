@@ -15,6 +15,9 @@ public partial class Fase : Node2D
         ["heredograma"] = "res://scenes/puzzles/heredograma.tscn"
     };
     private readonly List<string> _tiposPuzzle = new();
+    private readonly Dictionary<string, double> _pesos = new();
+    private readonly Dictionary<string, HashSet<string>> _historicos = new();
+    private string? _ultimoTipo;
     private string? _trechoEmReparo;
     private string? _trechoComFalha;
     private CanvasLayer? _puzzle;
@@ -49,12 +52,18 @@ public partial class Fase : Node2D
                 if (tipo.ValueKind == JsonValueKind.String && CenasPuzzle.ContainsKey(tipo.GetString()!) &&
                     !_tiposPuzzle.Contains(tipo.GetString()!))
                     _tiposPuzzle.Add(tipo.GetString()!);
+        foreach (string tipo in _tiposPuzzle.ToArray())
+        {
+            double peso = dados.GetProperty("pesos").GetProperty(tipo).GetDouble();
+            if (double.IsFinite(peso) && peso > 0) _pesos[tipo] = peso;
+            else _tiposPuzzle.Remove(tipo);
+        }
         int numero = GetNode<GameState>("/root/GameState").FaseAtual;
         titulo.Text = $"Fase {numero} — Explore a fita de DNA";
         fundo.IdVisual = $"fundos/fundo_fase_{numero:00}";
         try
         {
-            _mapa.Carregar(dados.GetProperty("mapa").GetString()!);
+            _mapa.Carregar(dados.GetProperty("mapa").GetString()!, dados.GetProperty("quantidade_defeitos").GetInt32());
             _jogador.ConfigurarMapa(_mapa);
             Rect2 limites = _mapa.LimitesCamera;
             // Se o mapa for menor que a viewport, centraliza a area disponivel.
@@ -113,7 +122,7 @@ public partial class Fase : Node2D
         if (trecho == null || _tiposPuzzle.Count == 0) return;
         GetViewport().SetInputAsHandled();
         _trechoEmReparo = trecho;
-        string tipo = _tiposPuzzle[GD.RandRange(0, _tiposPuzzle.Count - 1)];
+        string tipo = SortearTipo();
         _puzzle = GD.Load<PackedScene>(CenasPuzzle[tipo]).Instantiate<CanvasLayer>();
         if (_puzzle is PareamentoBases pareamento)
         {
@@ -122,17 +131,47 @@ public partial class Fase : Node2D
         }
         else if (_puzzle is Pergunta pergunta)
         {
+            pergunta.SelecionarConteudo = opcoes => SortearConteudo("pergunta", opcoes);
             pergunta.Setup(_dificuldade);
             pergunta.PuzzleConcluido += AoPuzzleConcluido;
         }
         else if (_puzzle is Heredograma heredograma)
         {
+            heredograma.SelecionarConteudo = opcoes => SortearConteudo("heredograma", opcoes);
             heredograma.Setup(_dificuldade);
             heredograma.PuzzleConcluido += AoPuzzleConcluido;
         }
         _jogador.DefinirMovimentoAtivo(false);
         _conteudo.Hide();
         AddChild(_puzzle);
+    }
+
+    private string SortearTipo()
+    {
+        List<string> opcoes = _tiposPuzzle.FindAll(t => _tiposPuzzle.Count == 1 || t != _ultimoTipo);
+        double total = 0;
+        foreach (string tipo in opcoes) total += _pesos[tipo];
+        double sorteio = GD.Randf() * total;
+        string escolhido = opcoes[opcoes.Count - 1];
+        foreach (string tipo in opcoes)
+        {
+            sorteio -= _pesos[tipo];
+            if (sorteio < 0) { escolhido = tipo; break; }
+        }
+        _ultimoTipo = escolhido;
+        return escolhido;
+    }
+
+    private JsonElement SortearConteudo(string tipo, List<JsonElement> candidatos)
+    {
+        string chave = tipo + ":" + _dificuldade;
+        if (!_historicos.TryGetValue(chave, out HashSet<string>? usados))
+            _historicos[chave] = usados = new();
+        List<JsonElement> disponiveis = candidatos.FindAll(c => !usados.Contains(c.GetRawText()));
+        if (disponiveis.Count == 0) { usados.Clear(); disponiveis = candidatos; }
+        JsonElement escolhido = disponiveis[GD.RandRange(0, disponiveis.Count - 1)];
+        usados.Add(escolhido.GetRawText());
+        return escolhido;
     }
 
     private void AoPuzzleConcluido(bool sucesso)

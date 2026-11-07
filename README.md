@@ -629,7 +629,7 @@ recarga das dez conclusoes, ausencia de fase 11 e os dois botoes de navegacao.
 
 ## Etapa 4 ? defeitos isom?tricos
 
-Defeitos em `data/mapas/fase_01.json` bloqueiam toda a largura das fitas: dois blocos carmim e dois buracos. A colis?o usa somente `EhCaminhavel`. A at? 1,5 c?lula aparece Interagir; o puzzle sorteado repara com fade e subida, mantendo a posi??o do jogador. Falhas permitem repetir. Reentrar na fase restaura os defeitos. Dist?ncia, anima??o e tile est?o em `data/isometrico.json`. Roxo, turquesa e oliva s?o decorativos. A fita e os trechos antigos foram removidos.
+Defeitos em `data/mapas/fase_01.json` bloqueiam toda a largura das fitas: um pool de seis candidatos, tres em cada fita. A colis?o usa somente `EhCaminhavel`. A at? 1,5 c?lula aparece Interagir; o puzzle sorteado repara com fade e subida, mantendo a posi??o do jogador. Falhas permitem repetir. Reentrar na fase restaura os defeitos. Dist?ncia, anima??o e tile est?o em `data/isometrico.json`. Roxo, turquesa e oliva s?o decorativos. A fita e os trechos antigos foram removidos.
 
 Teste com F5 no Godot 4.x .NET: percorra ambas as fitas, tente atravessar cada defeito, erre e acerte puzzles e reentre na fase.
 
@@ -638,3 +638,13 @@ Teste com F5 no Godot 4.x .NET: percorra ambas as fitas, tente atravessar cada d
 No menu, **Resetar progresso** abre uma confirma??o, com Cancelar selecionado inicialmente. Confirmar apaga `user://save.cfg`, limpa as fases conclu?das e deixa apenas a fase 1 liberada e selecionada no GameState. Cancelar mant?m tudo; falhas ao apagar o arquivo tamb?m preservam o estado e mostram um aviso.
 
 Para testar, abra `project.godot` na Godot 4.x edi??o .NET (SDK do .NET instalado), pressione F5 e teste cancelar e confirmar ap?s avan?ar uma fase. Abra o seletor e reinicie o jogo para verificar que s? a fase 1 est? liberada.
+
+## Quantidade e sorteio de puzzles
+
+`data/fases.json` controla `quantidade_defeitos`: 2 nas fases 1 a 5 e 3 nas fases 6 a 10. Cada entrada sorteia candidatos distintos do mapa, garantindo um em cada fita. Os demais ficam livres e invisiveis. A quantidade deve ser pelo menos 2 e nao superar o pool.
+
+Os tres tipos estao habilitados em todas as fases. `pesos` usa `pareamento_bases`, `pergunta` e `heredograma`: 30/40/30 nas fases 1 a 3 e 15/40/45 nas demais. Peso zero desabilita o tipo; mantenha ao menos um peso positivo em `tipos_puzzle`. O tipo anterior e excluido quando ha alternativa; os pesos se aplicam aos restantes, portanto as frequencias finais nao sao porcentagens fixas.
+
+Perguntas e heredogramas usam todos os itens do maior nivel disponivel ate a dificuldade da fase, sem repetir conteudo antes de esgotar esse pool. Tentativas abandonadas ou falhas tambem contam. Reentrar na fase limpa os historicos e restaura os defeitos.
+
+Teste com F5 no Godot .NET: reentre nas fases para variar os bloqueios; confira 2 ativos nas fases 1 a 5 e 3 nas demais, sempre nas duas fitas. Saia dos puzzles repetidamente para conferir a alternancia de tipos e os ciclos dos conteudos.
