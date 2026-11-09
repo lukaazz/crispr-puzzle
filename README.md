@@ -7,6 +7,9 @@ apresenta o jogo para o trabalho de biologia, com foco em CRISPR-Cas9,
 DNA, complementaridade de bases, hereditariedade e reparo celular.
 Inclui a relação dos três puzzles com os conceitos, os limites da simulação,
 questões para debate e fontes científicas para consulta.
+O [roteiro de apresentação](ROTEIRO_APRESENTACAO_BIOLOGIA.txt) organiza tópicos
+de fala sobre introdução ao CRISPR, aplicações, funcionamento do jogo e
+biotecnologia, incluindo a relação do projeto com a disciplina de biologia.
 Para acompanhar a apresentação com uma demonstração, abra `project.godot`
 na Godot 4.x edição .NET, com o SDK do .NET instalado, e pressione **F5**.
 

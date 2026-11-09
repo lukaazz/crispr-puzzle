@@ -1,0 +1,112 @@
+ROTEIRO DE FALA — APRESENTAÇÃO DO CRISPR PUZZLE
+Base: PORTFOLIO_BIOLOGIA.md
+
+Os tópicos abaixo servem de apoio à fala. Nos slides, podem aparecer apenas
+as palavras-chave; as explicações ficam para a apresentação oral.
+
+1. INTRODUÇÃO AO CRISPR
+
+- Começar lembrando que o DNA armazena a informação genética e que a ordem
+  de suas bases é importante para o funcionamento das células.
+- Apresentar o CRISPR-Cas9 como uma ferramenta de edição genética: permite
+  direcionar uma intervenção para uma sequência escolhida do DNA.
+- Comentar sua origem: foi adaptado de um sistema natural de defesa de
+  bactérias contra invasores, como vírus.
+- Explicar o mecanismo em três passos simples:
+  • RNA guia: ajuda a reconhecer a sequência-alvo pela complementaridade.
+  • Cas9: proteína que atua como uma “tesoura molecular”, cortando o DNA.
+  • Reparo celular: a própria célula repara o corte, podendo gerar mudanças
+    na sequência do DNA.
+- Destacar a ideia principal: a Cas9 corta; quem repara é a célula.
+- Explicar que o corte não garante uma correção. O resultado pode incluir
+  pequenas alterações que interrompem a função de um gene.
+- Se for necessário aprofundar, mencionar que o reconhecimento também
+  depende de uma sequência próxima ao alvo, chamada PAM.
+
+Sugestão de transição:
+“A possibilidade de direcionar esse corte permite estudar genes e pensar
+em aplicações em diferentes áreas.”
+
+2. APLICAÇÕES DO CRISPR
+
+- Pesquisa científica: modificar um gene e observar os efeitos ajuda a
+  investigar sua função e sua relação com processos celulares.
+- Saúde: estudar alterações associadas a doenças e desenvolver estratégias
+  de tratamento por edição genética. Não apresentar a técnica como uma
+  cura universal ou como garantia de corrigir qualquer doença.
+- Agricultura: investigar alterações que possam favorecer características
+  de interesse, como resistência a doenças nas plantas.
+- Explicar que as aplicações dependem do organismo, do alvo escolhido e
+  da avaliação dos resultados de cada intervenção.
+- Comentar um limite técnico: podem ocorrer alterações fora do alvo;
+  por isso, é necessário verificar se a edição teve o resultado esperado.
+- Levantar brevemente questões de responsabilidade: segurança, impactos
+  sobre os organismos e acesso aos benefícios da tecnologia.
+- Lembrar que nem toda edição é transmitida aos descendentes: alterações
+  em células do corpo, em geral, não passam aos filhos pela reprodução;
+  alterações na linhagem que origina os gametas podem ser transmitidas.
+
+Sugestão de transição:
+“Para aproximar esses conceitos do conteúdo da disciplina, desenvolvemos
+uma representação educativa em forma de jogo.”
+
+3. EXPLICAÇÃO DO JOGO
+
+- Apresentar o nome e a proposta: CRISPR Puzzle é um jogo educativo que
+  transforma conteúdos de biologia molecular e genética em desafios.
+- Explicar o personagem: o jogador controla uma representação da Cas9.
+- Explicar o cenário: os caminhos verde e azul remetem às duas fitas do DNA.
+- Descrever o objetivo: percorrer o mapa, interagir com trechos bloqueados,
+  resolver puzzles e liberar a passagem até o fim da fase.
+- Resumir a progressão: são dez fases liberadas aos poucos, com dificuldade
+  crescente. Uma tentativa malsucedida permite tentar novamente.
+- Apresentar os três tipos de puzzle e o que cada um exercita:
+  • Pareamento de bases: ligar adenina com timina (A–T) e guanina com
+    citosina (G–C), reforçando a complementaridade das bases do DNA.
+  • Heredograma: montar diagramas familiares para trabalhar relações de
+    parentesco e transmissão de características entre gerações.
+  • Perguntas: responder questões de biologia molecular e genética,
+    retomando assuntos como DNA, RNA, mutações, herança e edição genética.
+- Se houver demonstração, mostrar esta sequência: caminhar até um
+  obstáculo → abrir o puzzle → resolver → observar a passagem liberada.
+- Explicar os limites da representação: buracos e blocos são metáforas;
+  não correspondem a uma doença ou mutação específica.
+- Ressaltar que resolver puzzles não é uma etapa molecular do CRISPR.
+  O jogo reúne o processo em uma ação simplificada para apoiar o ensino.
+- Distinguir o puzzle do mecanismo real: o pareamento mostra DNA com DNA;
+  o RNA guia é RNA e utiliza uracila (U) no lugar de timina (T).
+
+Sugestão de transição:
+“O jogo conecta esses conhecimentos a um exemplo de biotecnologia,
+transformando o conteúdo estudado em uma atividade participativa.”
+
+4. O QUE É BIOTECNOLOGIA E COMO O JOGO SE RELACIONA COM A MATÉRIA
+
+- Definir superficialmente: biotecnologia é o uso de organismos, células
+  ou componentes biológicos para desenvolver produtos e processos.
+- Relacionar ao tema: o CRISPR-Cas9 é uma ferramenta biotecnológica porque
+  utiliza componentes biológicos para realizar intervenções no DNA.
+- Explicar a relação com a disciplina de biologia:
+  • DNA e RNA: ajudam a compreender a informação genética e o RNA guia.
+  • Complementaridade de bases: fundamenta o reconhecimento de sequências.
+  • Genes, alelos e hereditariedade: ajudam a discutir características e
+    sua transmissão, conteúdos retomados nos heredogramas.
+  • Mutações e reparo celular: ajudam a compreender os possíveis efeitos
+    de uma mudança no DNA.
+- Destacar que mutação não é sinônimo de doença e que nem toda variante
+  genética precisa ser corrigida.
+- Apresentar o papel do projeto: o jogo é um recurso educativo sobre
+  biotecnologia; ele não realiza edição genética de verdade.
+- Explicar a contribuição esperada: estimular a participação, a revisão
+  dos conceitos e a discussão sobre possibilidades e limites da ciência.
+
+Sugestão de encerramento:
+“Com o CRISPR Puzzle, buscamos aproximar genética e biotecnologia de quem
+está aprendendo. A ideia central é entender que o RNA guia direciona,
+a Cas9 corta e a célula repara, reconhecendo as simplificações do jogo.”
+
+MATERIAL DE APOIO
+
+- PORTFOLIO_BIOLOGIA.md: texto-base com explicações e referências científicas.
+- Para a demonstração: abrir project.godot na Godot 4.x edição .NET,
+  com o SDK do .NET instalado, e pressionar F5.
