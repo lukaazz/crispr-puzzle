@@ -1,30 +1,35 @@
 ﻿1. INTRODUÇÃO AO CRISPR
 
-- Ferramenta de edição genética adaptada da defesa de bactérias contra vírus.
-- O RNA guia direciona a Cas9 até a sequência-alvo do DNA.
-- A Cas9 corta o DNA, e a célula repara o corte.
-- Esse processo pode alterar a sequência ou interromper a função de um gene.
+- O DNA armazena a informação genética que participa do funcionamento das células.
+- O CRISPR-Cas9 é uma ferramenta de edição genética adaptada da defesa de bactérias contra vírus.
+- O RNA guia reconhece uma sequência-alvo e direciona a proteína Cas9 até ela.
+- A Cas9 atua como uma “tesoura molecular”: corta o DNA, e a própria célula repara o corte.
+- Durante o reparo, podem ocorrer mudanças na sequência do DNA, alterando a função de um gene.
+- O corte não garante uma correção: o resultado depende de como o DNA é reparado.
 
 2. APLICAÇÕES DO CRISPR
 
-- Pesquisa: estudar a função dos genes.
-- Saúde: desenvolver tratamentos por edição genética.
-- Agricultura: desenvolver características como resistência a doenças.
-- Limites: alterações fora do alvo e resultados que precisam ser verificados.
+- Pesquisa: modificar genes e observar os efeitos para entender suas funções.
+- Saúde: estudar doenças genéticas e desenvolver estratégias de tratamento por edição do DNA.
+- Agricultura: desenvolver plantas com características de interesse, como resistência a doenças.
+- Limites: podem ocorrer alterações fora do alvo ou resultados diferentes do esperado.
+- Segurança e ética: verificar os efeitos da edição e discutir seus impactos e o acesso à tecnologia.
 
 3. CRISPR PUZZLE: O JOGO
 
-- O jogador controla a Cas9 em um cenário inspirado no DNA.
-- Para liberar o caminho, precisa resolver desafios de genética.
-- Pareamento de bases: A–T e G–C.
-- Heredogramas: transmissão de características entre gerações.
-- Perguntas: conceitos de biologia molecular e genética.
-- Dez fases com dificuldade crescente.
-- O reparo no jogo é uma simplificação do processo biológico.
+- O jogador controla uma representação da Cas9 em um cenário inspirado nas duas fitas do DNA.
+- Buracos e blocos impedem a passagem. Para avançar, é preciso interagir com eles e resolver desafios.
+- Pareamento de bases: ligar adenina à timina (A–T) e guanina à citosina (G–C).
+- Heredogramas: montar diagramas familiares e analisar a transmissão de características entre gerações.
+- Perguntas: responder questões sobre DNA, RNA, mutações, herança e edição genética.
+- São dez fases com dificuldade crescente. Acertar libera o caminho; errar permite tentar novamente.
+- O reparo no jogo é uma simplificação: na célula, quem repara o DNA são os mecanismos celulares, e não a Cas9.
 
 4. BIOTECNOLOGIA E RELAÇÃO COM A MATÉRIA
 
 - Biotecnologia: uso de organismos, células ou componentes biológicos para criar produtos e processos.
-- O CRISPR-Cas9 usa RNA e uma proteína para modificar o DNA.
-- O jogo retoma conteúdos da disciplina: DNA, RNA, bases nitrogenadas e hereditariedade.
-- Os desafios ajudam a revisar esses conceitos e entender sua relação com a edição genética.
+- O CRISPR-Cas9 é um exemplo de biotecnologia: utiliza RNA e uma proteína para realizar uma intervenção no DNA.
+- O jogo retoma conteúdos da disciplina: DNA, RNA, bases nitrogenadas, genes e hereditariedade.
+- O pareamento trabalha a complementaridade das bases; os heredogramas retomam padrões de herança.
+- As perguntas relacionam esses conteúdos ao funcionamento e aos limites da edição genética.
+- A proposta é aprender e revisar biologia por meio dos desafios, conectando o conteúdo da aula a uma aplicação científica.
