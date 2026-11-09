@@ -127,9 +127,12 @@ public partial class Heredograma : CanvasLayer
 
     private Label Texto(string texto, Vector2 posicao, Vector2 tamanho)
     {
-        Label legenda = new() { Text = texto, Position = posicao, Size = tamanho,
-            AutowrapMode = TextServer.AutowrapMode.WordSmart, MouseFilter = Control.MouseFilterEnum.Ignore };
+        // Ativa a quebra antes de definir o texto e a largura: sem isso,
+        // o tamanho minimo da linha inteira pode ampliar o Label para fora da tela.
+        Label legenda = new() { AutowrapMode = TextServer.AutowrapMode.WordSmart,
+            Text = texto, Position = posicao, MouseFilter = Control.MouseFilterEnum.Ignore };
         _conteudo.AddChild(legenda);
+        legenda.Size = tamanho;
         return legenda;
     }
 

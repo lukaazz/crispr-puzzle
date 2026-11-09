@@ -664,6 +664,11 @@ Teste com F5 no Godot .NET: reentre nas fases para variar os bloqueios; confira 
 
 ### Controles do heredograma
 
+Os textos do heredograma quebram linha conforme a largura disponível. A quebra
+é configurada antes do dimensionamento para evitar que textos longos ampliem
+os rótulos para fora da tela. Para conferir, abra o puzzle com F5 no Godot .NET
+e verifique o enunciado, as instruções e a explicação após acertar.
+
 Clique numa pe?a do banco para selecion?-la e num encaixe para coloc?-la. Outro clique na mesma pe?a, Esc ou bot?o direito cancela. Uma pe?a diferente muda a sele??o; clicar numa pe?a colocada a devolve ao banco, ou a substitui pela selecionada. Encaixes livres recebem destaque pulsante. Todos aceitam qualquer pe?a, preservando o desafio e a verifica??o original.
 
 As ?reas transparentes de clique t?m 48 ? 48 pixels, centradas nos desenhos. Arrastar come?a ap?s 8 pixels; soltar atrai ao encaixe livre mais pr?ximo at? 64 pixels, ou devolve ao banco. O som sfx/clique ? opcional. Teste com F5 no Godot .NET: sele??o, cancelamento, substitui??o, arrasto pr?ximo/distante e Verificar.
